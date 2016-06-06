@@ -1,0 +1,14 @@
+---
+port: <%= p("bps.port") %>
+store_dir: /var/vcap/store/baremetal-provision-server/
+default_image: <%= p("bps.default_image") %>
+credentials:
+  user: <%= p("bps.user") %>
+  password: <%= p("bps.password") %>
+softlayer:
+  user: <%= p("bps.sl_user") %>
+  key: <%= p("bps.sl_key") %>
+redis:
+  address: <%= p("bps.redis.address") %>
+  port: <%= p("bps.redis.port") %>
+  password: <%= p("bps.redis.password") %>

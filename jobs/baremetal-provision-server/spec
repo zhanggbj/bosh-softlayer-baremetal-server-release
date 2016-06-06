@@ -1,0 +1,43 @@
+---
+name: baremetal-provision-server
+templates:
+  baremetal-provision-server_ctl.erb: bin/baremetal-provision-server_ctl
+  baremetal-provision-worker_ctl.erb: bin/baremetal-provision-worker_ctl
+  utils.sh.erb: bin/utils.sh
+  config.yml.erb: config/config.yml
+
+packages:
+  - ruby-2.2
+  - libyaml
+  - baremetal-provision-server
+
+properties:
+  bps.sl_user:
+    description: "The SoftLayer username"
+  bps.sl_key:
+    description: "The SoftLayer API Key"
+  bps.user:
+    descript: "The user to login this server"
+  bps.password:
+    descript: "The user password to login this server"
+  bps.default_image:
+    description: "The default netboot image name, this can be customized for each resource pool"
+    default: default_image
+  bps.port:
+    default: 8080
+    descript: "The server port"
+  bps.workers:
+    default: 6
+    descript: "The worker number"
+  bps.nfs:
+    default: ""
+    descript: "The  address of  NFS"
+  bps.redis.address:
+    default: 127.0.0.1
+    descript: "The Redis server IP"
+  bps.redis.port:
+    default: 25255
+    description: Port that the redis server listens on
+  bps.redis.password:
+    description: Password of the redis server
+

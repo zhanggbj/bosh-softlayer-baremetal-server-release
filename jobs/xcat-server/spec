@@ -1,0 +1,13 @@
+---
+name: xcat-server
+templates:
+  xcat_ctl.erb: bin/xcat_ctl
+
+packages:
+  - xcat
+
+properties:
+  bps.sl_user:
+    description: "The SoftLayer username"
+  bps.sl_key:
+    description: "The SoftLayer API Key"

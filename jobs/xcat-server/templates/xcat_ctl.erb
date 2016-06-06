@@ -1,0 +1,89 @@
+#!/bin/bash -ex
+
+RUN_DIR=/var/vcap/sys/run/xcat
+LOG_DIR=/var/vcap/sys/log/xcat
+JOB_DIR=/var/vcap/jobs/xcat
+XCAT_PKG_FOLDER=/var/vcap/packages/xcat/
+PIDFILE=$RUN_DIR/xcat.pid
+
+mkdir -p $RUN_DIR $LOG_DIR
+exec 1>> $LOG_DIR/xcat.stdout.log
+exec 2>> $LOG_DIR/xcat.stderr.log
+
+case $1 in
+
+  start)
+
+
+    if ! service xcatd status ; then
+      set +e
+      # xCAT is not installed, install it now.
+      cd $XCAT_PKG_FOLDER
+
+      tar jxvf xcat-core-*.tar.bz2
+      tar jxvf xcat-dep-*.tar.bz
+
+      xcat-core/mklocalrepo.sh
+      xcat-dep/mklocalrepo.sh
+
+      apt-get -y --force-yes update
+      apt-get -y --force-yes install xcat
+      apt-get -y --force-yes install alien
+      apt-get -y --force-yes install cpanminus
+
+      alien -i xCAT-SoftLayer-*.rpm
+
+      export PERL_MM_USE_DEFAULT=1 # Disable the prompt in cpan
+#      perl -MCPAN -e 'install App::cpanminus'
+#      perl -MCPAN -e 'install Test::Pod::Coverage'
+#      perl -MCPAN -e 'install XML::Hash::LX'
+       cpanm App::cpanminus
+       cpanm XML::Hash::LX
+
+      service isc-dhcp-server restart
+      service xcatd restart
+
+      source /etc/profile.d/xcat.sh
+      private_ip=`ifconfig eth0 | grep "inet addr" | cut -d ":" -f 2 | cut -d " " -f 1`
+      chdef -t site master=$private_ip nameservers=$private_ip forwarders=$private_ip domain=softlayer.com
+      chdef -t site  useflowcontrol=no
+      makedns -n
+      makehosts
+      makedhcp -n
+      copycds ubuntu-14.04.3-server-amd64.iso
+      (
+        genimage ubuntu14.04.3-x86_64-netboot-compute
+        packimage ubuntu14.04.3-x86_64-netboot-compute
+      ) & #this takes about few of minutes, so run it in background
+      set -e
+    fi
+
+    cat << EOF > /home/vcap/.slconfig
+userid = <%= p("bps.sl_user") %>
+apikey = <%= p("bps.sl_key") %>
+apidir = /var/vcap/packages/xcat/softlayer-api-perl-client
+EOF
+
+    service isc-dhcp-server restart
+    source /etc/profile.d/xcat.sh
+    service xcatd restart 
+
+    netv6=`lsdef -t network | grep ":.*/64" | cut -d " " -f 1`
+    if [ -n "$netv6" ] ; then rmdef -t network $netv6 ; fi
+
+    cat /var/run/xcatd.pid > $PIDFILE
+
+    ;;
+
+  stop)
+     service xcatd stop
+#    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: admin_ui_v2_ctl {start|stop}"
+
+    ;;
+
+esac
