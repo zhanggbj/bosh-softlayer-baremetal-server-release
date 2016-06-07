@@ -16,7 +16,7 @@ pushd baremetal-server-release
 #  source .envrc
 
   echo "installing bosh CLI"
-  gem install bosh_cli --no-ri --no-rdoc
+  gem install bosh_cli --no-ri --no-rdoc --force
 
   echo "using bosh CLI version..."
   bosh version
