@@ -3,6 +3,7 @@ resources:
   type: git
   source:
     uri: https://github.com/zhanggbj/bosh-softlayer-baremetal-server-release.git
+    branch: pipeline
     ignore_paths:
         - .final_builds/**/*.yml
         - releases/**/*.yml
@@ -98,7 +99,7 @@ jobs:
   - put: version-semver
     params: {file: version-semver/number}
 
-  - task: build-candicate
+  - task: build-candidate
     file: baremetal-server-release/ci/tasks/build-candidate.yml
 
   - put: baremetal-server-dev-artifacts
