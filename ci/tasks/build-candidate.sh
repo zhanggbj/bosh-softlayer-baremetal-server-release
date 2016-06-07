@@ -16,14 +16,14 @@ pushd baremetal-server-release
 #  source .envrc
 
   echo "installing bosh CLI"
-  gem install bosh_cli --no-ri --no-rdoc --force
+  gem install bosh_cli --no-ri --no-rdoc
 
   echo "using bosh CLI version..."
   bosh version
 
   bms_release_name="baremetal-server-release"
   echo "building baremetal server dev release..."
-  bosh create release --name $bms_release_name --version $semver --with-tarball
+  bosh create release --name $bms_release_name --version $semver --with-tarball --force
 
 popd
 
