@@ -56,14 +56,6 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
-- name: bosh-softlayer-tools
-  type: s3
-  source:
-    bucket: bosh-softlayer-tools
-    regexp: bosh-softlayer-tools-*\.tgz
-    access_key_id: {{s3_access_key_id}}
-    secret_access_key: {{s3_secret_access_key}}
-
 - name:  baremetal-server-release-out
   type: git
   source:
@@ -111,7 +103,6 @@ jobs:
     - {trigger: true,  passed: [build-candidate], get: baremetal-server-dev-artifacts}
     - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false, get: baremetal-server-release, resource: baremetal-server-release-in}
-    - {trigger: false, get: bosh-softlayer-tools, resource: bosh-softlayer-tools}
     - {trigger: false, get: bosh-softlayer-cpi, resource: bosh-softlayer-cpi}
     - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
