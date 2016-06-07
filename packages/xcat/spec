@@ -4,5 +4,5 @@ name: xcat
 dependencies:
 
 files:
-  - xcat/*
+  - **/*
   - softlayer-api-perl-client/**/*

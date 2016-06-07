@@ -12,7 +12,6 @@ wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-dep-
 wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm/download -O xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm -P blobs/xcat/
 
 ls blobs/xcat
-cat packages/xcat/spec
 
 pushd baremetal-server-release
 
