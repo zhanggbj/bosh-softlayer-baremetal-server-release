@@ -6,7 +6,7 @@ semver=`cat version-semver/number`
 echo "pwd is "$PWD
 ls
 
-mkdir -p /blobs/xcat/
+mkdir -p blobs/xcat/
 cp bosh-softlayer-tools/xcat-* blobs/xcat/
 
 pushd baremetal-server-release
