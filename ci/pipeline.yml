@@ -19,8 +19,8 @@ resources:
 - name: baremetal-server-dev-artifacts
   type: s3
   source:
-    regexp: bosh-baremetal-server\.tgz
-    bucket: {{s3_pipeline_bucket}}
+    regexp: baremetal-server-dev-release-*\.tgz
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
@@ -97,7 +97,7 @@ jobs:
   - put: baremetal-server-dev-artifacts
     params: {from: candidate/.*\.tgz}
 
-- name: verify-baremetal-server-release
+- name: verify-baremetal-server-dev-release
   plan:
   - aggregate:
     - {trigger: true,  passed: [build-candidate], get: baremetal-server-dev-artifacts}

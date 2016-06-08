@@ -19,7 +19,7 @@ pushd baremetal-server-release
   echo "using bosh CLI version..."
   bosh version
 
-  bms_release_name="baremetal-server-release"
+  bms_release_name="baremetal-server-dev-release"
 
   cat packages/xcat/spec
   echo "building baremetal server dev release..."
