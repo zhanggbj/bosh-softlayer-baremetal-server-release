@@ -2,8 +2,9 @@
 
 set -e -x
 
-semver=`cat version-semver/number`
-baremetal_server_release_name=baremetal-server-release
+#semver=`cat version-semver/number`
+semver=0.0.167
+baremetal_server_release_name=baremetal-server-dev-release
 
 deployment_dir="${PWD}/bmp-deployment"
 manifest_filename="bmp-manifest.yml"
