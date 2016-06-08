@@ -24,7 +24,7 @@ pushd baremetal-server-release
   bosh version
 
   bms_release_name="baremetal-server-release"
-  tree ./
+
   echo "building baremetal server dev release..."
   bosh create release --name $bms_release_name --version $semver --with-tarball --force
 
