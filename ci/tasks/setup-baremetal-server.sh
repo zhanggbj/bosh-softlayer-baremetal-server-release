@@ -109,7 +109,7 @@ cloud_provider:
 
 EOF
 
-cp ./bosh-baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/${baremetal_server_release_name}.tgz
+cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/${baremetal_server_release_name}.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
 cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
