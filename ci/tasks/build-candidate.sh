@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-semver=`cat version-semver/number`
-
+#semver=`cat version-semver/number`
+semver=0.0.167
 echo "pwd is "$PWD
 
-#pushd baremetal-server-release
+pushd baremetal-server-release
 #  mkdir -p blobs/xcat/
 #  wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-core-2.11-ubuntu.tar.bz2 -P blobs/xcat/
 #  wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-dep-ubuntu-2.11.tar.bz -P blobs/xcat/
@@ -19,12 +19,15 @@ echo "pwd is "$PWD
 #  echo "using bosh CLI version..."
 #  bosh version
 #
-#  bms_release_name="baremetal-server-dev-release"
+  bms_release_name="baremetal-server-dev-release"
 #
 #  cat packages/xcat/spec
 #  echo "building baremetal server dev release..."
 #  bosh create release --name $bms_release_name --version $semver --with-tarball --force
 #
-#popd
-#
-#mv baremetal-server-release/dev_releases/$bms_release_name/$bms_release_name-$semver.tgz candidate/
+#  for debug
+  mkdir dev_releases/$bms_release_name/
+  wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.167.tgz dev_releases/$bms_release_name/
+popd
+
+mv baremetal-server-release/dev_releases/$bms_release_name/$bms_release_name-$semver.tgz candidate/
