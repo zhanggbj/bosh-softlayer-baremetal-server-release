@@ -13,8 +13,6 @@ wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLay
 
 ls blobs/xcat
 
-cat packages/xcat/spec
-
 pushd baremetal-server-release
 
   echo "installing bosh CLI"
@@ -25,6 +23,7 @@ pushd baremetal-server-release
 
   bms_release_name="baremetal-server-release"
 
+  cat packages/xcat/spec
   echo "building baremetal server dev release..."
   bosh create release --name $bms_release_name --version $semver --with-tarball --force
 
