@@ -27,7 +27,7 @@ pushd baremetal-server-release
 #
 #  for debug
   mkdir -p dev_releases/$bms_release_name/
-  wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.167.tgz dev_releases/$bms_release_name/
+  wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.167.tgz -P dev_releases/$bms_release_name/
 popd
 
 mv baremetal-server-release/dev_releases/$bms_release_name/$bms_release_name-$semver.tgz candidate/
