@@ -111,7 +111,7 @@ EOF
 
 cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/baremetal-server-dev-release.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
-wget https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-2.1.0.tgz -P ${deployment_dir}/bosh-softlayer-cpi.tgz
+#wget https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-2.1.0.tgz -P ${deployment_dir}/bosh-softlayer-cpi.tgz
 #cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
 pushd ${deployment_dir}

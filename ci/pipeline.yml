@@ -48,13 +48,13 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
-#- name: bosh-softlayer-cpi
-#  type: s3
-#  source:
-#    bucket: bosh-softlayer-cpi-pipeline
-#    regexp: bosh-softlayer-cpi-*\.tgz
-#    access_key_id: {{s3_access_key_id}}
-#    secret_access_key: {{s3_secret_access_key}}
+- name: bosh-softlayer-cpi
+  type: s3
+  source:
+    bucket: bosh-softlayer-cpi-pipeline
+    regexp: bosh-softlayer-cpi-*\.tgz
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
 
 - name: release-version-semver
   type: semver
@@ -96,7 +96,7 @@ jobs:
     - {trigger: true,  passed: [build-candidate], get: baremetal-server-dev-artifacts}
     - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false, get: baremetal-server-release, resource: baremetal-server-release-in}
-#    - {trigger: false, get: bosh-softlayer-cpi}
+    - {trigger: false, get: bosh-softlayer-cpi}
     - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: false, get: bosh-release}
