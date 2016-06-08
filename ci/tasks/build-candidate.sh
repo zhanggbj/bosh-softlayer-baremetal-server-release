@@ -13,9 +13,9 @@ wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLay
 
 ls blobs/xcat
 
-pushd baremetal-server-release
+cat packages/xcat/spec
 
-#  source .envrc
+pushd baremetal-server-release
 
   echo "installing bosh CLI"
   gem install bosh_cli --no-ri --no-rdoc
