@@ -97,7 +97,7 @@ jobs:
   - put: baremetal-server-dev-artifacts
     params: {from: candidate/.*\.tgz}
 
-- name: verify-baremetal-server-dev-release
+- name: verify-dev-release
   plan:
   - aggregate:
     - {trigger: true,  passed: [build-candidate], get: baremetal-server-dev-artifacts}
@@ -106,7 +106,7 @@ jobs:
     - {trigger: false, get: bosh-softlayer-cpi, resource: bosh-softlayer-cpi}
     - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
-    - {trigger: false,  get: bosh-release}
+    - {trigger: false, get: bosh-release}
 
   - task: setup-baremetal-server
     file: baremetal-server-release/ci/tasks/setup-baremetal-server.yml

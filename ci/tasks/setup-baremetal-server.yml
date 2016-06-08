@@ -2,16 +2,16 @@
 platform: linux
 image: docker:///boshcpi/azure-cpi-release
 inputs:
-  - name: bosh-baremetal-server-dev-artifacts
+  - name: baremetal-server-dev-artifacts
   - name: version-semver
-  - name: bosh-baremetal-server-release
+  - name: baremetal-server-release
   - name: bosh-init
   - name: bosh-release
   - name: stemcell
 outputs:
   - name: deployment
 run:
-  path: bosh-baremetal-server-release/ci/tasks/setup-baremetal-server.sh
+  path: baremetal-server-release/ci/tasks/setup-baremetal-server.sh
 params:
   BASE_OS:                    replace-me
   SL_USERNAME:                replace-me
