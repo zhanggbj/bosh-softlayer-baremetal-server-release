@@ -26,7 +26,7 @@ pushd baremetal-server-release
 #  bosh create release --name $bms_release_name --version $semver --with-tarball --force
 #
 #  for debug
-  mkdir dev_releases/$bms_release_name/
+  mkdir -p dev_releases/$bms_release_name/
   wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.167.tgz dev_releases/$bms_release_name/
 popd
 
