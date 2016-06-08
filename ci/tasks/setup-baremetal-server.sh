@@ -17,15 +17,15 @@ name: bps
 
 releases:
 - name: baremetal-provision-server
-  url: file://./baremetal-provision-server-0+dev.2.tgz
+  url: file://./baremetal-server-dev-release.tgz
 - name: bosh-softlayer-cpi
-  url: file://./bosh-softlayer-cpi-2.1.0.tgz
+  url: file://./bosh-softlayer-cpi.tgz
 
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3215-softlayer-esxi-ubuntu-trusty-go_agent.tgz
+    url: file://./stemcell.tgz
   cloud_properties:
     Domain: $SL_VM_DOMAIN
     VmNamePrefix: $SL_VM_NAME_PREFIX
@@ -109,9 +109,9 @@ cloud_provider:
 
 EOF
 
-cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/${baremetal_server_release_name}.tgz
+cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/baremetal-server-dev-release.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
-cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
+#cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
 pushd ${deployment_dir}
 

@@ -8,6 +8,7 @@ inputs:
   - name: bosh-init
   - name: bosh-release
   - name: stemcell
+  - name: bosh-softlayer-cpi
 outputs:
   - name: deployment
 run:
