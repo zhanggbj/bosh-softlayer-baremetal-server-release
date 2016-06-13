@@ -34,9 +34,6 @@ case $1 in
       alien -i xCAT-SoftLayer-*.rpm
 
       export PERL_MM_USE_DEFAULT=1 # Disable the prompt in cpan
-#      perl -MCPAN -e 'install App::cpanminus'
-#      perl -MCPAN -e 'install Test::Pod::Coverage'
-#      perl -MCPAN -e 'install XML::Hash::LX'
        cpanm App::cpanminus
        cpanm XML::Hash::LX
 
@@ -77,7 +74,6 @@ EOF
 
   stop)
      service xcatd stop
-#    kill_and_wait $PIDFILE
 
     ;;
 
