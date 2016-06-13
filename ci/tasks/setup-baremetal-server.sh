@@ -7,7 +7,7 @@ semver=0.0.167
 baremetal_server_release_name=baremetal-server-dev-release
 
 deployment_dir="${PWD}/bmp-deployment"
-manifest_filename="bmp-manifest.yml"
+manifest_filename="baremetal-provision-server.yml"
 
 mkdir -p $deployment_dir
 
@@ -16,7 +16,7 @@ cat > "${deployment_dir}/${manifest_filename}"<<EOF
 name: bps
 
 releases:
-- name: baremetal-provision-server
+- name: baremetal-server-dev-release
   url: file://./baremetal-server-dev-release.tgz
 - name: bosh-softlayer-cpi
   url: file://./bosh-softlayer-cpi.tgz
@@ -60,11 +60,11 @@ jobs:
 
   templates:
   - name: xcat-server
-    release: baremetal-provision-server
+    release: baremetal-server-dev-release
   - name: redis
-    release: baremetal-provision-server
+    release: baremetal-server-dev-release
   - name: baremetal-provision-server
-    release: baremetal-provision-server
+    release: baremetal-server-dev-release
 
   resource_pool: vms
 
@@ -118,7 +118,7 @@ pushd ${deployment_dir}
   function finish {
     echo "Final state of baremetal server deployment:"
     echo "=========================================="
-    cat baremetal-server-state.json
+    cat baremetal-provision-server-state.json
     echo "=========================================="
 
     echo "Director:"
