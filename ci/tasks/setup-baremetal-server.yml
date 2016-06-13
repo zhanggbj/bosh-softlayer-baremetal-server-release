@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///boshcpi/azure-cpi-release
+image: docker:///boshcpi/openstack-cpi-release
 inputs:
   - name: baremetal-server-dev-artifacts
   - name: version-semver
