@@ -115,6 +115,8 @@ cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.t
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
 cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/bosh-softlayer-cpi.tgz
 
+ruby -v
+sudo apt-get install ruby-full
 pushd ${deployment_dir}
 
   function finish {
@@ -123,7 +125,7 @@ pushd ${deployment_dir}
     cat baremetal-provision-server-state.json
     echo "=========================================="
 
-    echo "Director:"
+    echo "Baremetal Server:"
     echo "=========================================="
     cat /etc/hosts | grep "$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN" | awk '{print $1}' | tee baremetal-server-info
     echo "=========================================="

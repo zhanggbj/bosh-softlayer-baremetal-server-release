@@ -6,7 +6,6 @@ inputs:
   - name: version-semver
   - name: baremetal-server-release
   - name: bosh-init
-  - name: bosh-release
   - name: stemcell
   - name: bosh-softlayer-cpi
 outputs:
