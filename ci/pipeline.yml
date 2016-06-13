@@ -52,7 +52,7 @@ resources:
   type: s3
   source:
     bucket: bosh-softlayer-cpi-pipeline
-    regexp: bosh-softlayer-cpi-*\.tgz
+    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
@@ -121,33 +121,29 @@ jobs:
         SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
 
   - task: run-dummy-jobs
-    file: bosh-baremetal-server-release/ci/tasks/run-dummy-jobs.yml
+    file: baremetal-server-release/ci/tasks/run-dummy-jobs.yml
 
   - task: teardown-baremetal-server
-    file: bosh-baremetal-server-release/ci/tasks/teardown-baremetal-server.yml
+    file: baremetal-server-release/ci/tasks/teardown-baremetal-server.yml
 
   - task: teardown-director
-    file: bosh-baremetal-server-release/ci/tasks/teardown-director.yml
+    file: baremetal-server-release/ci/tasks/teardown-director.yml
 
-#- name: promote-candidate
-#  plan:
-#  - aggregate:
-#    - {trigger: true,  get: bosh-baremetal-server-dev-artifacts, passed: [bats-ubuntu]}
-#    - {trigger: false, get: bosh-baremetal-server-release, resource: bosh-baremetal-server-release-out}
-#    - {trigger: false, get: release-version-semver, params: {bump: major}}
-#
-#  - task: promote
-#    file: bosh-baremetal-server-release/ci/tasks/promote-candidate.yml
-#    config:
-#      params:
-#        S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
-#        S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
-#
-#  - put: baremetal-server-release-out
-#    params: {repository: promoted/repo, rebase: true, tag_prefix: "v", tag: promoted/integer_version}
-#
-#  - put: release-version-semver
-#    params: {file: release-version-semver/number}
-#
-#  - put: baremetal-server-final-artifacts
-#    params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
+- name: promote-candidate
+  plan:
+  - aggregate:
+    - {trigger: true,  get: baremetal-server-dev-artifacts, passed: [verify-dev-release]}
+    - {trigger: false, get: release-version-semver, params: {bump: major}}
+
+  - task: promote
+    file: baremetal-server-release/ci/tasks/promote-candidate.yml
+    config:
+      params:
+        S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
+        S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
+
+  - put: release-version-semver
+    params: {file: release-version-semver/number}
+
+  - put: baremetal-server-final-artifacts
+    params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
