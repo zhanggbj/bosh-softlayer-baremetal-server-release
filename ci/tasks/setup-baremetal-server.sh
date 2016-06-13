@@ -109,9 +109,11 @@ cloud_provider:
 
 EOF
 
+echo "current files..."
+ls
 cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/baremetal-server-dev-release.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
-#cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
+cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/bosh-softlayer-cpi.tgz
 
 pushd ${deployment_dir}
 
