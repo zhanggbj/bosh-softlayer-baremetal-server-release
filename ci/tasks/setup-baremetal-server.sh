@@ -115,8 +115,8 @@ cp ./baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.t
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
 cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/bosh-softlayer-cpi.tgz
 
-ruby -v
 sudo apt-get install ruby-full
+
 pushd ${deployment_dir}
 
   function finish {
