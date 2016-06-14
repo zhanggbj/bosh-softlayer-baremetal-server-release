@@ -1,0 +1,9 @@
+---
+name: baremetal-provision-server
+
+dependencies:
+  - ruby-2.2
+  - libyaml
+
+files:
+  - baremetal-provision-server/**/*
