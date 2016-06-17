@@ -7,6 +7,7 @@ inputs:
   - name: bosh-init
   - name: bosh-release
   - name: stemcell
+  - name: baremetal-server-release
 outputs:
   - name: deployment
 run:
