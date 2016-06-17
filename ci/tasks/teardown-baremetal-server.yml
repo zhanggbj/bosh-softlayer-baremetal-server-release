@@ -6,6 +6,6 @@ inputs:
   - name: bosh-init
   - name: deployment
 run:
-  path: bosh-baremetal-server-release/ci/tasks/teardown-director.sh
+  path: baremetal-server-release/ci/tasks/teardown-director.sh
 params:
   BOSH_INIT_LOG_LEVEL: warn

@@ -10,7 +10,7 @@ inputs:
 outputs:
   - name: deployment
 run:
-  path: bosh-baremetal-server-release/ci/tasks/setup-director.sh
+  path: baremetal-server-release/ci/tasks/setup-director.sh
 params:
   BASE_OS:                    replace-me
   SL_USERNAME:                replace-me

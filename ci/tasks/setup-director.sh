@@ -2,7 +2,7 @@
 
 set -e
 
-source bosh-baremetal-server-release/ci/tasks/utils.sh
+source baremetal-server-release/ci/tasks/utils.sh
 
 check_param BASE_OS
 check_param SL_USERNAME

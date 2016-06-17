@@ -109,7 +109,7 @@ jobs:
 #        S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
 
   - task: setup-director
-    file: bosh-baremetal-server-release/ci/tasks/setup-director.yml
+    file: baremetal-server-release/ci/tasks/setup-director.yml
     config:
       params:
         BASE_OS:                    ubuntu
