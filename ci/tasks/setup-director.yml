@@ -2,9 +2,8 @@
 platform: linux
 image: docker:///boshcpi/azure-cpi-release
 inputs:
-  - name: bosh-baremetal-server-dev-artifacts
   - name: version-semver
-  - name: bosh-baremetal-server-release
+  - name: bosh-softlayer-cpi
   - name: bosh-init
   - name: bosh-release
   - name: stemcell

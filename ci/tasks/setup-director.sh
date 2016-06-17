@@ -18,7 +18,6 @@ source /etc/profile.d/chruby.sh
 chruby 2.1.2
 
 semver=`cat version-semver/number`
-baremetal_server_release_name=bosh-softlayer-baremetal-server
 
 deployment_dir="${PWD}/deployment"
 manifest_filename="director-manifest.yml"
@@ -161,6 +160,10 @@ jobs:
     softlayer: &softlayer
       username: $SL_USERNAME
       apiKey: $SL_API_KEY
+    baremetal: &baremetal
+      username: &BMP_USERNAME
+      password: &BMP_PASSWORD
+      endpoint: &TARGET_URL
 
     # Tells agents how to contact nats
     agent: {mbus: "nats://nats:nats@127.0.0.1:4222"}
@@ -175,6 +178,7 @@ cloud_provider:
 
   properties:
     softlayer: *softlayer
+    baremetal: *baremetal
 
     # Tells CPI how agent should listen for bosh-init requests
     agent: {mbus: "https://admin:admin@$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN:6868"}
@@ -184,8 +188,7 @@ cloud_provider:
     ntp: *ntp
 EOF
 
-#cp ./bosh-cpi-dev-artifacts/${cpi_release_name}-${semver}.tgz ${deployment_dir}/${cpi_release_name}.tgz
-cp ./bosh-baremetal-server-dev-artifacts/${baremetal_server_release_name}-${semver}.tgz ${deployment_dir}/${baremetal_server_release_name}.tgz
+cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/$bosh-softlayer-cpi.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
 cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
