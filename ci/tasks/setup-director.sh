@@ -188,7 +188,7 @@ cloud_provider:
     ntp: *ntp
 EOF
 
-cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/$bosh-softlayer-cpi.tgz
+cp ./bosh-softlayer-cpi/*.tgz ${deployment_dir}/bosh-softlayer-cpi.tgz
 cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
 cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
