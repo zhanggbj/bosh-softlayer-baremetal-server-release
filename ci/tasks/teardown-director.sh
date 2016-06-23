@@ -2,7 +2,7 @@
 
 set -e -x
 
-source bosh-cpi-release/ci/tasks/utils.sh
+source baremetal-server-release/ci/tasks/utils.sh
 
 source /etc/profile.d/chruby.sh
 chruby 2.1.2
