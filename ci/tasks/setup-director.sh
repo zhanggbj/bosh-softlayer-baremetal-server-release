@@ -203,7 +203,7 @@ pushd ${deployment_dir}
     echo "Director:"
     echo "=========================================="
     cat /etc/hosts | grep "$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN" | awk '{print $1}' | tee director-info
-    DIRECTOR=`cat ${PWD}/deployment/director-info`
+    DIRECTOR=`cat director-info`
     bosh target http://$DIRECTOR:25555
     bosh login admin admin
     bosh status | grep "UUID" | awk '{print $2}'| tee -a director-info

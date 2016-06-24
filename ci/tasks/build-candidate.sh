@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
-#semver=`cat version-semver/number`
-semver=0.0.167
+semver=`cat version-semver/number`
+#semver=0.0.167
 echo "pwd is "$PWD
 
 pushd baremetal-server-release
   mkdir -p blobs/xcat/
-  wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-core-2.11-ubuntu.tar.bz2 -P blobs/xcat/
-  wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-dep-ubuntu-2.11.tar.bz -P blobs/xcat/
-  wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm/download -O xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm -P blobs/xcat/
-  wget https://s3.amazonaws.com/bosh-softlayer-tools/ubuntu-14.04.3-server-amd64.iso -P blobs/xcat/
+  pushd blobs/xcat/
+    wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-core-2.11-ubuntu.tar.bz2
+    wget https://github.com/xcat2/xcat-core/releases/download/2.11_release/xcat-dep-ubuntu-2.11.tar.bz
+    wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm/download -O xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm
+    wget https://s3.amazonaws.com/bosh-softlayer-tools/ubuntu-14.04.3-server-amd64.iso
+  popd
   git submodule update --init --recursive --force
 
   echo "installing bosh CLI"

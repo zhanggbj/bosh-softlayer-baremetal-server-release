@@ -13,3 +13,4 @@ wget wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-So
 #wget http://ftp.usf.edu/pub/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-netinstall.iso
 wget http://releases.ubuntu.com/14.04.3/ubuntu-14.04.3-server-amd64.iso
 
+d
