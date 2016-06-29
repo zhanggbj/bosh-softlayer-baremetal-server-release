@@ -72,6 +72,22 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
+- name: bosh-softlayer-cpi
+  type: s3
+  source:
+    bucket: bosh-softlayer-cpi-pipeline
+    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-softlayer-tools
+  type: s3
+  source:
+    bucket: bosh-softlayer-tools
+    regexp: bosh-softlayer-tools-([0-9.]+)\.tgz
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
 
 jobs:
 - name: build-candidate
@@ -112,6 +128,12 @@ jobs:
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
+
+  - task: deploy-baremetal-server
+    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
+
+  - task: verify-baremetal-server
+    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
 
   - task: teardown-director
     file: baremetal-server-release/ci/tasks/teardown-director.yml

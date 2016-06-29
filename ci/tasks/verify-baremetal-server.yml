@@ -2,13 +2,9 @@
 platform: linux
 image: docker:///boshcpi/azure-cpi-release
 inputs:
-  - name: stemcell
-  - name: baremetal-server-release
-  - name: baremetal-server-dev-artifacts
-outputs:
-  - name: deployment
+  - name: bosh-softlayer-tools
 run:
-  path: baremetal-server-release/ci/tasks/setup-director.sh
+  path: baremetal-server-release/ci/tasks/verify-baremetal-server.sh
 params:
   BASE_OS:                    replace-me
   SL_USERNAME:                replace-me

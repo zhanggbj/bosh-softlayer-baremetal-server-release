@@ -22,10 +22,17 @@ mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-name: bps-deployment
+<%
+name="bps"
+bosh_ip=$DIRECTOR
+public_vlan_id=$SL_VLAN_PUBLIC
+private_vlan_id=$SL_VLAN_PRIVATE
+data_center=$SL_DATACENTER
+%>
+name: <%=name%>
 director_uuid: $DIRECTOR_UUID
 releases:
-- name: baremetal-provision-server
+- name: baremetal-server-dev-release
   version: latest
 
 compilation:
@@ -33,18 +40,18 @@ compilation:
   network: default
   reuse_compilation_vms: true
   stemcell:
-    name: light-bosh-stemcell-3232.6-softlayer-esxi-ubuntu-trusty-go_agent
+    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip:  $DIRECTOR
+    Bosh_ip:  <%=bosh_ip%>
     StartCpus:  4
     MaxMemory:  8192
     EphemeralDiskSize: 25
     HourlyBillingFlag: true
-    Datacenter: $SL_DATACENTER
-    PrimaryNetworkComponent: $SL_VLAN_PUBLIC
-    PrimaryBackendNetworkComponent: $SL_VLAN_PRIVATE
-    VmNamePrefix: baremetal-server
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-worker-
 update:
   canaries: 1
   canary_watch_time: 30000-900000
@@ -56,7 +63,7 @@ networks:
 - name: default
   type: dynamic
   dns:
-  - $DIRECTOR
+  - <%=bosh_ip%>
   - 10.0.80.11
   - 10.0.80.12
   cloud_properties:
@@ -68,30 +75,30 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: stemcell
+    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip: $DIRECTOR
-    Datacenter: $SL_DATACENTER
-    VmNamePrefix: baremetal-ppl
-    baremetal: true
-    bm_stemcell: fake-stemcell
-    bm_netboot_image: fake-baremetal-netboot-image
-
-disk_pools:
-- name: dp_20G
-  disk_size: 20_000
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-core-
+    EphemeralDiskSize: 25
 
 jobs:
 - name: bps
   templates:
+  - name: xcat-server
+    release: baremetal-server-dev-release
   - name: redis
-    release: baremetal-provision-server
+    release: baremetal-server-dev-release
   - name: baremetal-provision-server
-    release: baremetal-provision-server
+    release: baremetal-server-dev-release
   instances: 1
   resource_pool: coreNode
-  persistent_disk_pool: dp_20G
   networks:
   - name: default
     default:
@@ -105,19 +112,17 @@ properties:
     user: admin
     password: admin
     redis:
-      address: 0.bps.default.bps-deployment.microbosh
+      address: 0.bps.default.<%=name%>.microbosh
       password: 123456
       port: 25255
 EOF
 
-cp ./baremetal-server-dev-artifacts/*.tgz ${deployment_dir}/baremetal-server-dev-release.tgz
 echo "uploading baremetal server dev release ..."
-bosh upload release baremetal-server-dev-artifacts/baremetal-server-dev-release.tgz
+bosh upload release ./baremetal-server-dev-artifacts/*.tgz
 bosh releases
 
 echo "uploading stemcell ..."
-cp ./stemcell/*.tgz ${deployment_dir}/stemcell.tgz
-bosh upload stemcell
+bosh upload stemcell ./stemcell/*.tgz
 bosh stemcells
 
 echo "bosh deployment ..."
