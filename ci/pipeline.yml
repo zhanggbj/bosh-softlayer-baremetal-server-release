@@ -72,14 +72,6 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
-- name: bosh-softlayer-cpi
-  type: s3
-  source:
-    bucket: bosh-softlayer-cpi-pipeline
-    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
-    access_key_id: {{s3_access_key_id}}
-    secret_access_key: {{s3_secret_access_key}}
-
 - name: bosh-softlayer-tools
   type: s3
   source:
