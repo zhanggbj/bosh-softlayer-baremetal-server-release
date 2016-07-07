@@ -19,7 +19,7 @@ resources:
 - name: baremetal-server-dev-artifacts
   type: s3
   source:
-    regexp: baremetal-server-dev-release-([0-9.]+)\.tgz
+    regexp: baremetal-server-dev-release-(.*).tgz
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -96,7 +96,7 @@ jobs:
     file: baremetal-server-release/ci/tasks/build-candidate.yml
 
   - put: baremetal-server-dev-artifacts
-    params: {from: candidate/.*\.tgz}
+    params: {file: candidate/baremetal-server-dev-release-*\.tgz}
 
 - name: verify-dev-release
   plan:
@@ -147,4 +147,4 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: baremetal-server-final-artifacts
-    params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
+    params: {file: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
