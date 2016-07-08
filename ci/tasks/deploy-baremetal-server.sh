@@ -6,8 +6,8 @@ source baremetal-server-release/ci/tasks/utils.sh
 
 check_param SL_USERNAME
 check_param SL_API_KEY
-check_param SL_VM_NAME_PREFIX
-check_param SL_VM_DOMAIN
+check_param SL_BM_NAME_PREFIX
+check_param SL_BM_DOMAIN
 check_param SL_DATACENTER
 check_param SL_VLAN_PUBLIC
 check_param SL_VLAN_PRIVATE
