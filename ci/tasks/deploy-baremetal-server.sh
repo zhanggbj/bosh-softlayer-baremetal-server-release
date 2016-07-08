@@ -2,6 +2,19 @@
 
 set -e -x
 
+source baremetal-server-release/ci/tasks/utils.sh
+
+check_param SL_USERNAME
+check_param SL_API_KEY
+check_param SL_VM_NAME_PREFIX
+check_param SL_VM_DOMAIN
+check_param SL_DATACENTER
+check_param SL_VLAN_PUBLIC
+check_param SL_VLAN_PRIVATE
+check_param BOSH_INIT_LOG_LEVEL
+check_param BM_STEMCELL
+check_param BM_NETBOOT_IMAGE
+
 DIRECTOR=`cat ${PWD}/deployment/director-info | awk "NR==1"`
 DIRECTOR_UUID=`cat ${PWD}/deployment/director-info | awk "NR==2"`
 
@@ -28,6 +41,8 @@ bosh_ip=$DIRECTOR
 public_vlan_id=$SL_VLAN_PUBLIC
 private_vlan_id=$SL_VLAN_PRIVATE
 data_center=$SL_DATACENTER
+bm_stemcell=$BM_STEMCELL
+bm_netboot_image=$BM_NETBOOT_IMAGE
 %>
 name: <%=name%>
 director_uuid: $DIRECTOR_UUID
@@ -79,14 +94,11 @@ resource_pools:
     version: latest
   cloud_properties:
     Bosh_ip: <%=bosh_ip%>
-    StartCpus:  4
-    MaxMemory:  8192
-    HourlyBillingFlag: true
-    Datacenter: { Name:  <%=data_center%> }
-    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
-    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
-    VmNamePrefix:  <%=name%>-core-
-    EphemeralDiskSize: 25
+    Datacenter: { Name: <%=data_center%> }
+    VmNamePrefix: baremetal-165
+    baremetal: true
+    bm_stemcell: <%=bm_stemcell%>
+    bm_netboot_image: <%=bm_netboot_image%>
 
 jobs:
 - name: bps

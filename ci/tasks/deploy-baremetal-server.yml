@@ -10,7 +10,8 @@ outputs:
 run:
   path: baremetal-server-release/ci/tasks/setup-director.sh
 params:
-  BASE_OS:                    replace-me
+  BM_STEMCELL:                replace-me
+  NETBOOT_IMAGE:              replace-me
   SL_USERNAME:                replace-me
   SL_API_KEY:                 replace-me
   SL_DATACENTER:              replace-me
