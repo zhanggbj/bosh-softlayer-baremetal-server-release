@@ -8,7 +8,7 @@ inputs:
 outputs:
   - name: deployment
 run:
-  path: baremetal-server-release/ci/tasks/setup-director.sh
+  path: baremetal-server-release/ci/tasks/deploy-baremetal-server.sh
 params:
   BM_STEMCELL:                bosh-stemcell-3232.11-softlayer
   NETBOOT_IMAGE:              bps-netboot-ixgbe-lon02
