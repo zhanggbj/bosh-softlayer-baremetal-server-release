@@ -21,13 +21,13 @@ pushd baremetal-server-release
 #  echo "using bosh CLI version..."
 #  bosh version
 #
-#  bms_release_name="baremetal-server-dev-release"
+  bms_release_name="baremetal-server-dev-release"
 #
 #  cat packages/xcat/spec
 #  echo "building baremetal server dev release..."
 #  bosh create release --name $bms_release_name --version $semver --with-tarball --force
 
-  for debug
+#  for debug
   mkdir -p dev_releases/$bms_release_name/
   wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.215.tgz -P dev_releases/$bms_release_name/
 popd
