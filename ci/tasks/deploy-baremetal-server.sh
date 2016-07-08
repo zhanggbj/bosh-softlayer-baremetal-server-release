@@ -150,7 +150,7 @@ pushd ${deployment_dir}
 
     echo "Baremetal Server:"
     echo "=========================================="
-    cat /etc/hosts | grep "$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN" | awk '{print $1}' | tee baremetal-server-info
+    cat /etc/hosts | grep "$SL_BM_NAME_PREFIX.$SL_BM_DOMAIN" | awk '{print $1}' | tee baremetal-server-info
     echo "=========================================="
 
     cp -r $HOME/.bosh_init ./
