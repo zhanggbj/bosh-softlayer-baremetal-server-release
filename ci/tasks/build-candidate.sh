@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-semver=`cat version-semver/number`
-#semver=0.0.167
+#semver=`cat version-semver/number`
+semver=0.0.215
 echo "pwd is "$PWD
 
 pushd baremetal-server-release
