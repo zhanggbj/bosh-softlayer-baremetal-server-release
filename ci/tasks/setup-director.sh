@@ -4,7 +4,6 @@ set -e
 
 source baremetal-server-release/ci/tasks/utils.sh
 
-check_param BASE_OS
 check_param SL_USERNAME
 check_param SL_API_KEY
 check_param SL_VM_NAME_PREFIX
@@ -194,34 +193,36 @@ cp ./bosh-release/*.tgz ${deployment_dir}/bosh-release.tgz
 
 pushd ${deployment_dir}
 
-  function finish {
-    echo "Final state of director deployment:"
-    echo "=========================================="
-    cat director-manifest-state.json
-    echo "=========================================="
+#  function finish {
+#    echo "Final state of director deployment:"
+#    echo "=========================================="
+#    cat director-manifest-state.json
+#    echo "=========================================="
+#
+#    echo "Director:"
+#    echo "=========================================="
+#    cat /etc/hosts | grep "$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN" | awk '{print $1}' | tee director-info
+#    DIRECTOR=`cat director-info`
+#    bosh -n target $DIRECTOR
+#    bosh status | grep "UUID" | awk '{print $2}'| tee -a director-info
+#    echo "=========================================="
+#
+#
+#    cp -r $HOME/.bosh_init ./
+#  }
+#  trap finish ERR
+#
+#  chmod +x ../bosh-init/bosh-init*
+#  echo "using bosh-init CLI version..."
+#  ../bosh-init/bosh-init* version
+#
+#  echo "deploying BOSH..."
+#  ../bosh-init/bosh-init* deploy ${manifest_filename}
+#
+#  trap - ERR
+#  finish
 
-    echo "Director:"
-    echo "=========================================="
-    cat /etc/hosts | grep "$SL_VM_NAME_PREFIX.$SL_VM_DOMAIN" | awk '{print $1}' | tee director-info
-    DIRECTOR=`cat director-info`
-    bosh -n target $DIRECTOR
-    bosh status | grep "UUID" | awk '{print $2}'| tee -a director-info
-    echo "=========================================="
-    echo "zhgdebug"
-    cat director-info
-
-
-    cp -r $HOME/.bosh_init ./
-  }
-  trap finish ERR
-
-  chmod +x ../bosh-init/bosh-init*
-  echo "using bosh-init CLI version..."
-  ../bosh-init/bosh-init* version
-
-  echo "deploying BOSH..."
-  ../bosh-init/bosh-init* deploy ${manifest_filename}
-
-  trap - ERR
-  finish
+# for debug
+  echo "10.113.205.246" > director-info
+  echo "79d2dfc6-d9da-4d96-a3a9-09d118f7e117" >> director-info
 popd
