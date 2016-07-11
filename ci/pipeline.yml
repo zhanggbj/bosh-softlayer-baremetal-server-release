@@ -92,7 +92,7 @@ resources:
 - name: baremetal-server-manifest
   type: s3
   source:
-    regexp: baremetal-server-manifest.yml
+    regexp: baremetal-server-manifest-(.*).yml
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -124,7 +124,6 @@ jobs:
     - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: false, get: bosh-release}
-    - {trigger: false, resource: baremetal-server-manifest}
 
   - task: setup-director
     file: baremetal-server-release/ci/tasks/setup-director.yml

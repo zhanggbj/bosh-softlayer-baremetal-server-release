@@ -34,7 +34,7 @@ echo "DirectorUUID =" $DIRECTOR_UUID
 #bosh --version
 
 deployment_dir="${PWD}/baremetal-server-deployment"
-manifest_filename="baremetal-server-manifest.yml"
+manifest_filename="baremetal-server-manifest-0.0.1.yml"
 
 mkdir -p $deployment_dir
 
