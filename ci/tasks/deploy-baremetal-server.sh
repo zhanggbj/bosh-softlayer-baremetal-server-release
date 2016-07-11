@@ -135,11 +135,11 @@ properties:
 EOF
 
 echo "uploading baremetal server dev release ..."
-bosh upload release ./baremetal-server-dev-artifacts/*.tgz
+bosh upload release ./baremetal-server-dev-artifacts/*.tgz 
 bosh releases
 
 echo "uploading stemcell ..."
-bosh upload stemcell ./stemcell/*.tgz
+bosh upload stemcell ./stemcell/*.tgz --skip-if-exists
 bosh stemcells
 
 echo "bosh deployment ..."
