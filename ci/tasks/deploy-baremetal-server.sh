@@ -41,7 +41,7 @@ mkdir -p $deployment_dir
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
 name: bps
-director_uuid: $DIRECTOR_UUID
+director_uuid: ${DIRECTOR_UUID}
 releases:
 - name: baremetal-server-dev-release
   version: latest
@@ -54,14 +54,14 @@ compilation:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip:  $DIRECTOR
+    Bosh_ip:  ${DIRECTOR}
     StartCpus:  4
     MaxMemory:  8192
     EphemeralDiskSize: 25
     HourlyBillingFlag: true
-    Datacenter: { Name:  $SL_DATACENTER }
-    PrimaryNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PUBLIC } }
-    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PRIVATE } }
+    Datacenter: { Name:  ${SL_DATACENTER} }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PUBLIC} } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PRIVATE} } }
     VmNamePrefix:  bps-worker-
 update:
   canaries: 1
@@ -89,12 +89,12 @@ resource_pools:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip: $DIRECTOR
-    Datacenter: { Name: $SL_DATACENTER }
+    Bosh_ip: ${DIRECTOR}
+    Datacenter: { Name: ${SL_DATACENTER} }
     VmNamePrefix: baremetal-165
     baremetal: true
-    bm_stemcell: $BM_STEMCELL
-    bm_netboot_image: $BM_NETBOOT_IMAGE
+    bm_stemcell: ${BM_STEMCELL}
+    bm_netboot_image: ${BM_NETBOOT_IMAGE}
 
 jobs:
 - name: bps
@@ -114,8 +114,8 @@ jobs:
     - gateway
 properties:
   bps:
-    sl_user: $SL_USERNAME
-    sl_key: $SL_API_KEY
+    sl_user: ${SL_USERNAME}
+    sl_key: ${SL_API_KEY}
     port: 8080
     user: admin
     password: admin
@@ -127,9 +127,10 @@ EOF
 
 echo "move stemcell, release and manifest to /tmp/build/put"
 mkdir -p /tmp/build/bps-deployment
-cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/bps-deployment/
+#cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/bps-deployment/
 cp $deployment_dir/$manifest_filename /tmp/build/bps-deployment/
-cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/bps-deployment/
+cp $deployment_dir/$manifest_filename candidate/
+#cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/bps-deployment/
 ls /tmp/build/bps-deployment/
 
 #echo "uploading baremetal server dev release ..."

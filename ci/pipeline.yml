@@ -141,13 +141,16 @@ jobs:
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
 
+  - put: baremetal-server-dev-artifacts
+    params: {file: candidate/baremetal-server-manifest.yml}
+
   - put: resource-bosh-deployment
     params:
-      manifest: /tmp/build/bps-deployment/baremetal-server-manifest.yml
+      manifest: baremetal-server-dev-artifacts/baremetal-server-manifest.yml
       stemcells:
-      - /tmp/build/bps-deployment/stemcells-*.tgz
+      - stemcell/stemcells-*.tgz
       releases:
-      - /tmp/build/bps-deployment/baremetal-server-dev-release-*.tgz
+      - baremetal-server-dev-artifacts/baremetal-server-dev-release-*.tgz
 #
 #  - task: verify-baremetal-server
 #    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
