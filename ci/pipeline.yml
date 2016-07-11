@@ -89,6 +89,14 @@ resources:
     password: admin
     deployment: bps-bosh-deployment
 
+- name: baremetal-server-manifest
+  type: s3
+  source:
+    regexp: baremetal-server-manifest.yml
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
 jobs:
 - name: build-candidate
   serial: true
@@ -116,6 +124,7 @@ jobs:
     - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: false, get: bosh-release}
+    - {trigger: false, resource: baremetal-server-manifest}
 
   - task: setup-director
     file: baremetal-server-release/ci/tasks/setup-director.yml
@@ -141,12 +150,12 @@ jobs:
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
 
-  - put: baremetal-server-dev-artifacts
-    params: {file: candidate/baremetal-server-manifest.yml}
+  - put: baremetal-server-manifest
+    params: {file: deployment/baremetal-server-manifest.yml}
 
   - put: resource-bosh-deployment
     params:
-      manifest: baremetal-server-dev-artifacts/baremetal-server-manifest.yml
+      manifest: baremetal-server-manifest/baremetal-server-manifest.yml
       stemcells:
       - stemcell/stemcells-*.tgz
       releases:
