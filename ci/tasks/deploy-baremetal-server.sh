@@ -29,6 +29,7 @@ echo "DirectorIP =" $DIRECTOR
 echo "DirectorUUID =" $DIRECTOR_UUID
 
 bosh -n target $DIRECTOR
+bosh login admin admin
 echo "Using This version of bosh:"
 bosh --version
 
