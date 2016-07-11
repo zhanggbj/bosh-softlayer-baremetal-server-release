@@ -125,6 +125,11 @@ properties:
       port: 25255
 EOF
 
+echo "move stemcell, release and manifest to /tmp/build/put"
+cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put
+cp $deployment_dir/$manifest_filename /tmp/build/put
+cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put
+
 #echo "uploading baremetal server dev release ..."
 #bosh upload release ./baremetal-server-dev-artifacts/*.tgz
 #bosh releases
