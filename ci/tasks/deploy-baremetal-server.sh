@@ -28,10 +28,10 @@ chruby 2.1.2
 echo "DirectorIP =" $DIRECTOR
 echo "DirectorUUID =" $DIRECTOR_UUID
 
-bosh -n target $DIRECTOR
-bosh login admin admin
-echo "Using This version of bosh:"
-bosh --version
+#bosh -n target $DIRECTOR
+#bosh login admin admin
+#echo "Using This version of bosh:"
+#bosh --version
 
 deployment_dir="${PWD}/baremetal-server-deployment"
 manifest_filename="baremetal-server-manifest.yml"
@@ -129,7 +129,7 @@ echo "move stemcell, release and manifest to /tmp/build/put"
 mkdir -p /tmp/build/put/
 cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put/
 cp $deployment_dir/$manifest_filename /tmp/build/put/
-cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put/
+cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/put/
 ls /tmp/build/put/
 
 #echo "uploading baremetal server dev release ..."
