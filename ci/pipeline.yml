@@ -83,7 +83,7 @@ resources:
 - name: resource-bosh-deployment
   type: bosh-deployment
   source:
-    target: https://bosh.example.com:25555
+    target: https://10.113.189.212:25555
     username: admin
     password: admin
     deployment: bps-bosh-deployment
