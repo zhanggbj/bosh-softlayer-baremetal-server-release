@@ -1,3 +1,4 @@
+
 resources:
 - name: baremetal-server-release-in
   type: git
@@ -142,11 +143,11 @@ jobs:
 
   - put: resource-bosh-deployment
     params:
-      manifest: baremetal-server-manifest.yml
+      manifest: /tmp/build/put/baremetal-server-manifest.yml
       stemcells:
-      - stemcells-*.tgz
+      - /tmp/build/put/stemcells-*.tgz
       releases:
-      - baremetal-server-dev-release-*.tgz
+      - /tmp/build/put/baremetal-server-dev-release-*.tgz
 #
 #  - task: verify-baremetal-server
 #    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
