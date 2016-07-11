@@ -40,16 +40,7 @@ mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-<%
-name="bps"
-bosh_ip=$DIRECTOR
-public_vlan_id=$SL_VLAN_PUBLIC
-private_vlan_id=$SL_VLAN_PRIVATE
-data_center=$SL_DATACENTER
-bm_stemcell=$BM_STEMCELL
-bm_netboot_image=$BM_NETBOOT_IMAGE
-%>
-name: <%=name%>
+name: bps
 director_uuid: $DIRECTOR_UUID
 releases:
 - name: baremetal-server-dev-release
@@ -63,14 +54,14 @@ compilation:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip:  <%=bosh_ip%>
+    Bosh_ip:  $DIRECTOR
     StartCpus:  4
     MaxMemory:  8192
     EphemeralDiskSize: 25
     HourlyBillingFlag: true
-    Datacenter: { Name:  <%=data_center%> }
-    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
-    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    Datacenter: { Name:  $SL_DATACENTER }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PUBLIC } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PRIVATE } }
     VmNamePrefix:  <%=name%>-worker-
 update:
   canaries: 1
@@ -83,7 +74,7 @@ networks:
 - name: default
   type: dynamic
   dns:
-  - <%=bosh_ip%>
+  - $DIRECTOR
   - 10.0.80.11
   - 10.0.80.12
   cloud_properties:
@@ -98,12 +89,12 @@ resource_pools:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip: <%=bosh_ip%>
-    Datacenter: { Name: <%=data_center%> }
+    Bosh_ip: $DIRECTOR
+    Datacenter: { Name: $SL_DATACENTER }
     VmNamePrefix: baremetal-165
     baremetal: true
-    bm_stemcell: <%=bm_stemcell%>
-    bm_netboot_image: <%=bm_netboot_image%>
+    bm_stemcell: $BM_STEMCELL
+    bm_netboot_image: $BM_NETBOOT_IMAGE
 
 jobs:
 - name: bps
@@ -135,7 +126,7 @@ properties:
 EOF
 
 echo "uploading baremetal server dev release ..."
-bosh upload release ./baremetal-server-dev-artifacts/*.tgz 
+bosh upload release ./baremetal-server-dev-artifacts/*.tgz
 bosh releases
 
 echo "uploading stemcell ..."
