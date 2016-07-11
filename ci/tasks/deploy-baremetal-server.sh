@@ -129,7 +129,7 @@ echo "move stemcell, release and manifest to /tmp/build/put"
 mkdir -p /tmp/build/bps-deployment
 #cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/bps-deployment/
 cp $deployment_dir/$manifest_filename /tmp/build/bps-deployment/
-cp $deployment_dir/$manifest_filename candidate/
+cp $deployment_dir/$manifest_filename deployment/
 #cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/bps-deployment/
 ls /tmp/build/bps-deployment/
 
