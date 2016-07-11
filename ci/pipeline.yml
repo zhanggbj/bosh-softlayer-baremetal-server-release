@@ -150,7 +150,7 @@ jobs:
         SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
 
   - put: baremetal-server-manifest
-    params: {file: deployment/baremetal-server-manifest.yml}
+    params: {file: deployment/baremetal-server-manifest-*\.yml}
 
   - put: resource-bosh-deployment
     params:
