@@ -143,7 +143,8 @@ bosh upload stemcell ./stemcell/*.tgz
 bosh stemcells
 
 echo "bosh deployment ..."
-bosh deployment $manifest_filename
+bosh deployment $deployment_dir/$manifest_filename
+bosh deployments
 
 pushd ${deployment_dir}
 
