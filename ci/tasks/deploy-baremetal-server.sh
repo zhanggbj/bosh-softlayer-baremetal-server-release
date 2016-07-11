@@ -125,36 +125,36 @@ properties:
       port: 25255
 EOF
 
-echo "uploading baremetal server dev release ..."
-bosh upload release ./baremetal-server-dev-artifacts/*.tgz
-bosh releases
-
-echo "uploading stemcell ..."
-bosh upload stemcell ./stemcell/*.tgz --skip-if-exists
-bosh stemcells
-
-echo "bosh deployment ..."
-bosh deployment $deployment_dir/$manifest_filename
-bosh deployments
-
-pushd ${deployment_dir}
-
-  function finish {
-    echo "Final state of director deployment:"
-    echo "=========================================="
-    cat baremetal-server-manifest-state.json
-    echo "=========================================="
-
-    echo "Baremetal Server:"
-    echo "=========================================="
-    cat /etc/hosts | grep "$SL_BM_NAME_PREFIX.$SL_BM_DOMAIN" | awk '{print $1}' | tee baremetal-server-info
-    echo "=========================================="
-
-    cp -r $HOME/.bosh_init ./
-  }
-  trap finish ERR
-
-  bosh deploy
-  trap - ERR
-  finish
-popd
+#echo "uploading baremetal server dev release ..."
+#bosh upload release ./baremetal-server-dev-artifacts/*.tgz
+#bosh releases
+#
+#echo "uploading stemcell ..."
+#bosh upload stemcell ./stemcell/*.tgz --skip-if-exists
+#bosh stemcells
+#
+#echo "bosh deployment ..."
+#bosh deployment $deployment_dir/$manifest_filename
+#bosh deployments
+#
+#pushd ${deployment_dir}
+#
+#  function finish {
+#    echo "Final state of director deployment:"
+#    echo "=========================================="
+#    cat baremetal-server-manifest-state.json
+#    echo "=========================================="
+#
+#    echo "Baremetal Server:"
+#    echo "=========================================="
+#    cat /etc/hosts | grep "$SL_BM_NAME_PREFIX.$SL_BM_DOMAIN" | awk '{print $1}' | tee baremetal-server-info
+#    echo "=========================================="
+#
+#    cp -r $HOME/.bosh_init ./
+#  }
+#  trap finish ERR
+#
+#  bosh deploy
+#  trap - ERR
+#  finish
+#popd

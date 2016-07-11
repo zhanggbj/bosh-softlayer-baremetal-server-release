@@ -80,6 +80,13 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
+- name: resource-bosh-deployment
+  type: bosh-deployment
+  source:
+    target: https://bosh.example.com:25555
+    username: admin
+    password: admin
+    deployment: bps-bosh-deployment
 
 jobs:
 - name: build-candidate
@@ -133,12 +140,19 @@ jobs:
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
 
-
-  - task: verify-baremetal-server
-    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
-
-  - task: teardown-director
-    file: baremetal-server-release/ci/tasks/teardown-director.yml
+  - put: resource-bosh-deployment
+    params:
+      manifest: baremetal-server-release/baremetal-server-deployment/baremetal-server-manifest.yml
+      stemcells:
+      - baremetal-server-release/stemcells-*.tgz
+      releases:
+      - baremetal-server-release/baremetal-server-dev-artifacts/*.tgz
+#
+#  - task: verify-baremetal-server
+#    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
+#
+#  - task: teardown-director
+#    file: baremetal-server-release/ci/tasks/teardown-director.yml
 
 - name: promote-candidate
   plan:
