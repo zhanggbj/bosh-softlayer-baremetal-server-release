@@ -15,8 +15,12 @@ check_param BOSH_INIT_LOG_LEVEL
 check_param BM_STEMCELL
 check_param BM_NETBOOT_IMAGE
 
-DIRECTOR=`cat ${PWD}/deployment/director-info | awk "NR==1"`
-DIRECTOR_UUID=`cat ${PWD}/deployment/director-info | awk "NR==2"`
+#DIRECTOR=`cat ${PWD}/deployment/director-info | awk "NR==1"`
+#DIRECTOR_UUID=`cat ${PWD}/deployment/director-info | awk "NR==2"`
+
+# for debug
+DIRECTOR=10.113.189.212
+DIRECTOR_UUID=08417c83-b77f-4ab1-9f16-de2f5bd1611d
 
 source /etc/profile.d/chruby.sh
 chruby 2.1.2
