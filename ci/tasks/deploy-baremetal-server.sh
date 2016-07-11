@@ -62,7 +62,7 @@ compilation:
     Datacenter: { Name:  $SL_DATACENTER }
     PrimaryNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PUBLIC } }
     PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  $SL_VLAN_PRIVATE } }
-    VmNamePrefix:  <%=name%>-worker-
+    VmNamePrefix:  bps-worker-
 update:
   canaries: 1
   canary_watch_time: 30000-900000
@@ -120,7 +120,7 @@ properties:
     user: admin
     password: admin
     redis:
-      address: 0.bps.default.<%=name%>.microbosh
+      address: 0.bps.default.bps.microbosh
       password: 123456
       port: 25255
 EOF
