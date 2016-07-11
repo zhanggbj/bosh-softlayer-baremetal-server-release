@@ -126,6 +126,7 @@ properties:
 EOF
 
 echo "move stemcell, release and manifest to /tmp/build/put"
+mkdir -p /tmp/build/put/
 cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put/
 cp $deployment_dir/$manifest_filename /tmp/build/put/
 cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put/
