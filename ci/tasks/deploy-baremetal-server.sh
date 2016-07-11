@@ -126,11 +126,11 @@ properties:
 EOF
 
 echo "move stemcell, release and manifest to /tmp/build/put"
-mkdir -p /tmp/build/put/
-cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/put/
-cp $deployment_dir/$manifest_filename /tmp/build/put/
-cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/put/
-ls /tmp/build/put/
+mkdir -p /tmp/build/bps-deployment
+cp ./baremetal-server-dev-artifacts/*.tgz /tmp/build/bps-deployment/
+cp $deployment_dir/$manifest_filename /tmp/build/bps-deployment/
+cp ./stemcell/light-bosh-stemcell-*.tgz /tmp/build/bps-deployment/
+ls /tmp/build/bps-deployment/
 
 #echo "uploading baremetal server dev release ..."
 #bosh upload release ./baremetal-server-dev-artifacts/*.tgz
