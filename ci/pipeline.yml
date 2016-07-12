@@ -84,7 +84,7 @@ resources:
 - name: resource-bosh-deployment
   type: bosh-deployment
   source:
-    target: https://10.113.189.212:25555
+    target: {{TARGET_URL}}}
     username: admin
     password: admin
     deployment: bps
@@ -152,7 +152,7 @@ jobs:
   - put: resource-bosh-deployment
     params:
       stemcells:
-      - bps-deployment/stemcells-*.tgz
+      - bps-deployment/light-bosh-stemcell-*.tgz
       releases:
       - bps-deployment/baremetal-server-dev-release-*.tgz
       manifest: bps-deployment/baremetal-server-manifest.yml

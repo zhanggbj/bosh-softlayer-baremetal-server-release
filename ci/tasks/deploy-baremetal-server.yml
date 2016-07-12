@@ -10,8 +10,8 @@ outputs:
 run:
   path: baremetal-server-release/ci/tasks/deploy-baremetal-server.sh
 params:
-  BM_STEMCELL:                bosh-stemcell-3232.11-softlayer
-  NETBOOT_IMAGE:              bps-netboot-ixgbe-lon02
+  BM_STEMCELL:                bosh-stemcell-3262-softlayer-baremetal
+  BM_NETBOOT_IMAGE:           bps-netboot-ixgbe-lon02
   SL_USERNAME:                replace-me
   SL_API_KEY:                 replace-me
   SL_DATACENTER:              replace-me
