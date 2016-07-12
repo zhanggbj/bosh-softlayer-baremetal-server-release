@@ -152,11 +152,10 @@ jobs:
   - put: resource-bosh-deployment
     params:
       stemcells:
-      - /tmp/build/bps-deployment/stemcells-*.tgz
+      - ../3ac6d698/bps-deployment/stemcells-*.tgz
       releases:
-      - /tmp/build/bps-deployment/baremetal-server-dev-release-*.tgz
-      manifest: /tmp/build/bps-deployment/baremetal-server-manifest.yml
-      path: /tmp/build/bps-deployment/
+      - ../3ac6d698/bps-deployment/baremetal-server-dev-release-*.tgz
+      manifest: ../3ac6d698/bps-deployment/baremetal-server-manifest.yml
 #
 #  - task: verify-baremetal-server
 #    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
