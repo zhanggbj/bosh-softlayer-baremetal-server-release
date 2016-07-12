@@ -6,7 +6,7 @@ inputs:
   - name: baremetal-server-release
   - name: baremetal-server-dev-artifacts
 outputs:
-  - name: deployment
+  - name: bps-deployment
 run:
   path: baremetal-server-release/ci/tasks/deploy-baremetal-server.sh
 params:
