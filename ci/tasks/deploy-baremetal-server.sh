@@ -130,7 +130,7 @@ mkdir -p ${PWD}/bps-deployment
 cp ./baremetal-server-dev-artifacts/*.tgz ${PWD}/bps-deployment/
 cp $deployment_dir/$manifest_filename ${PWD}/bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz ${PWD}/bps-deployment/
-ls /tmp/build/bps-deployment/
+ls -al ${PWD}/bps-deployment/
 
 #echo "uploading baremetal server dev release ..."
 #bosh upload release ./baremetal-server-dev-artifacts/*.tgz
