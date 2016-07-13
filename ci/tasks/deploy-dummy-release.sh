@@ -34,17 +34,7 @@ manifest_filename="dummy-manifest.yml"
 mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
-<%
-name="gubin-dummy"
-director_uuid="08417c83-b77f-4ab1-9f16-de2f5bd1611d"
-director_ip="10.113.189.212"
-director_pub_ip="159.8.138.213"
-public_vlan_id="524956"
-private_vlan_id="524954"
-data_center="lon02"
-stemcell_name="bosh-softlayer-esxi-ubuntu-trusty-go_agent"
-%>
-
+---
 name: dummy-bm
 director_uuid: ${DIRECTOR_UUID}
 
