@@ -35,7 +35,7 @@ mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-name: dummy-bm
+name: dummy-bm-pipeline
 director_uuid: ${DIRECTOR_UUID}
 
 releases:

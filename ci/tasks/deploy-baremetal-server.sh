@@ -30,7 +30,7 @@ mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-name: bps
+name: bps-bm-pipeline
 director_uuid: ${DIRECTOR_UUID}
 releases:
 - name: baremetal-server-dev-release
@@ -115,8 +115,6 @@ properties:
       port: 25255
 EOF
 
-mkdir -p /tmp/build/bps-deployment
 cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/
-ls -al /tmp/build/bps-deployment/
