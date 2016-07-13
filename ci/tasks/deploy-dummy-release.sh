@@ -23,100 +23,105 @@ DIRECTOR_UUID=$BM_DIRECTOR_UUID
 echo "DirectorIP =" $DIRECTOR
 echo "DirectorUUID =" $DIRECTOR_UUID
 
-deployment_dir="${PWD}/baremetal-server-deployment"
-manifest_filename="baremetal-server-manifest.yml"
+#bosh -n target $DIRECTOR
+#bosh login admin admin
+#echo "Using This version of bosh:"
+#bosh --version
+
+deployment_dir="${PWD}/dummy-release-deployment"
+manifest_filename="dummy-manifest.yml"
 
 mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
----
-name: bps
+<%
+name="gubin-dummy"
+director_uuid="08417c83-b77f-4ab1-9f16-de2f5bd1611d"
+director_ip="10.113.189.212"
+director_pub_ip="159.8.138.213"
+public_vlan_id="524956"
+private_vlan_id="524954"
+data_center="lon02"
+stemcell_name="bosh-softlayer-esxi-ubuntu-trusty-go_agent"
+%>
+
+name: dummy-bm
 director_uuid: ${DIRECTOR_UUID}
+
 releases:
-- name: baremetal-server-dev-release
+- name: dummy
   version: latest
 
 compilation:
-  workers: 5
+  workers: 1
   network: default
   reuse_compilation_vms: true
-  stemcell:
-    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
-    version: latest
   cloud_properties:
     Bosh_ip:  ${DIRECTOR}
-    StartCpus:  4
-    MaxMemory:  8192
-    EphemeralDiskSize: 25
-    HourlyBillingFlag: true
-    Datacenter: { Name:  ${SL_DATACENTER} }
+    Datacenter: { Name:  ${SL_DATACENTER}  }
     PrimaryNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PUBLIC} } }
     PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PRIVATE} } }
-    VmNamePrefix:  bps-worker-
+    VmNamePrefix:  dummy-bm-worker-
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+
 update:
   canaries: 1
-  canary_watch_time: 30000-900000
-  update_watch_time: 30000-900000
-  max_in_flight: 2
+  canary_watch_time: 30000-360000
+  update_watch_time: 30000-360000
+  max_in_flight: 1
   max_errors: 1
   serial: true
+
 networks:
 - name: default
   type: dynamic
   dns:
   - $DIRECTOR
+  - 8.8.8.8
   - 10.0.80.11
   - 10.0.80.12
   cloud_properties:
     security_groups:
     - default
     - cf
+
 resource_pools:
 - name: coreNode
   network: default
   size: 1
   stemcell:
-    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
-    version: latest
+      name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
+      version: latest
   cloud_properties:
-    Bosh_ip: ${DIRECTOR}
-    Datacenter: { Name: ${SL_DATACENTER} }
-    VmNamePrefix: baremetal-165
+    Bosh_ip: $DIRECTOR
+    vmNamePrefix: baremetal-165
     baremetal: true
     bm_stemcell: ${BM_STEMCELL}
     bm_netboot_image: ${BM_NETBOOT_IMAGE}
 
 jobs:
-- name: bps
-  templates:
-  - name: xcat-server
-    release: baremetal-server-dev-release
-  - name: redis
-    release: baremetal-server-dev-release
-  - name: baremetal-provision-server
-    release: baremetal-server-dev-release
+- name: dummy_z1
+  template: dummy
   instances: 1
   resource_pool: coreNode
   networks:
   - name: default
-    default:
-    - dns
-    - gateway
+    default: [dns, gateway]
+  properties:
+    network_name: default
+
 properties:
-  bps:
-    sl_user: ${SL_USERNAME}
-    sl_key: ${SL_API_KEY}
-    port: 8080
-    user: admin
-    password: admin
-    redis:
-      address: 0.bps.default.bps.microbosh
-      password: 123456
-      port: 25255
+  warden:
+    kernel_network_tuning_enabled: true
+
+  dummy_with_properties:
+    echo_value: echo!echo!
 EOF
 
-mkdir -p /tmp/build/bps-deployment
-cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
-cp $deployment_dir/$manifest_filename bps-deployment/
-cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/
-ls -al /tmp/build/bps-deployment/
+mkdir -p /tmp/build/dummy-deployment
+cp ./dummy-release/dummy-*.tgz dummy-deployment/
+cp $deployment_dir/$manifest_filename dummy-deployment/
+cp ./stemcell/light-bosh-stemcell-*.tgz dummy-deployment/
+ls -al /tmp/build/dummy-deployment/
+

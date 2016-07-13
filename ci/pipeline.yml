@@ -84,7 +84,7 @@ resources:
 - name: resource-bosh-deployment
   type: bosh-deployment
   source:
-    target: {{TARGET_URL}}}
+    target: {{TARGET_URL}}
     username: admin
     password: admin
     deployment: bps
@@ -93,6 +93,13 @@ resources:
   type: s3
   source:
     regexp: baremetal-server-manifest-(.*).yml
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: dummy-release
+  type: s3
+    regexp: dummy-0\+dev\.([0-9.]+)\.tgz
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -125,8 +132,20 @@ jobs:
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: false, get: bosh-release}
 
-  - task: setup-director
-    file: baremetal-server-release/ci/tasks/setup-director.yml
+#  - task: setup-director
+#    file: baremetal-server-release/ci/tasks/setup-director.yml
+#    config:
+#      params:
+#        BASE_OS:                    ubuntu
+#        SL_USERNAME:                {{softlayer_username}}
+#        SL_API_KEY:                 {{softlayer_api_key}}
+#        SL_DATACENTER:              {{softlayer_datacenter}}
+#        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+#        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+#        SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
+
+  - task: deploy-dummy-release
+    file: baremetal-server-release/ci/tasks/deploy-dummy-release.yml
     config:
       params:
         BASE_OS:                    ubuntu
@@ -135,7 +154,17 @@ jobs:
         SL_DATACENTER:              {{softlayer_datacenter}}
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-        SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
+        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
+        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+        BM_DIRECTOR_UUID:           {{08417c83-b77f-4ab1-9f16-de2f5bd1611d}}
+
+  - put: resource-bosh-deployment
+    params:
+      stemcells:
+      - dummy-deployment/light-bosh-stemcell-*.tgz
+      releases:
+      - dummy-deployment/dummy-*.tgz
+      manifest: dummy-deployment/baremetal-server-manifest.yml
 
   - task: deploy-baremetal-server
     file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
@@ -148,6 +177,8 @@ jobs:
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
+        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+        BM_DIRECTOR_UUID:           {{08417c83-b77f-4ab1-9f16-de2f5bd1611d}}
 
   - put: resource-bosh-deployment
     params:
