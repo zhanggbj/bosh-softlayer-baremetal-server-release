@@ -29,13 +29,18 @@ case $1 in
       apt-get -y --force-yes update
       apt-get -y --force-yes install xcat
       apt-get -y --force-yes install alien
-      apt-get -y --force-yes install cpanminus
 
       alien -i xCAT-SoftLayer-*.rpm
 
-      export PERL_MM_USE_DEFAULT=1 # Disable the prompt in cpan
-       cpanm App::cpanminus
-       cpanm XML::Hash::LX
+      for name in XML-Hash-LX App-cpanminus
+      do
+       tar zxvf $name-*.tar.gz
+       pushd $name-*
+       perl Makefile.PL
+       make
+       make install
+       popd
+      done
 
       service isc-dhcp-server restart
       service xcatd restart
