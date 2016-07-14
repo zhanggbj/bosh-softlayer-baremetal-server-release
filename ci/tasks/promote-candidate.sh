@@ -2,13 +2,13 @@
 
 set -e -x
 
-#source bosh-cpi-release/ci/tasks/utils.sh
-#
-#check_param S3_ACCESS_KEY_ID
-#check_param S3_SECRET_ACCESS_KEY
-#
-#source /etc/profile.d/chruby.sh
-#chruby 2.1.2
+source baremetal-server-release/ci/tasks/utils.sh
+
+check_param S3_ACCESS_KEY_ID
+check_param S3_SECRET_ACCESS_KEY
+
+source /etc/profile.d/chruby.sh
+chruby 2.1.2
 
 # Creates an integer version number from the semantic version format
 # May be changed when we decide to fully use semantic versions for releases

@@ -195,6 +195,7 @@ jobs:
   plan:
   - aggregate:
     - {trigger: true,  get: baremetal-server-dev-artifacts, passed: [verify-dev-release]}
+    - {trigger: false, get: baremetal-server-release, resource: baremetal-server-release-in}
     - {trigger: false, get: release-version-semver, params: {bump: major}}
 
   - task: promote
@@ -208,4 +209,4 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: baremetal-server-final-artifacts
-    params: {file: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
+    params: {file: promoted/repo/releases/baremetal-server-release/.*\.tgz}
