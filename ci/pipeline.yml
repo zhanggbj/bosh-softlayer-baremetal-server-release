@@ -81,13 +81,13 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
-- name: resource-bosh-deployment
+- name: bosh-deployment-bps
   type: bosh-deployment
   source:
     target: {{TARGET_URL}}
     username: admin
     password: admin
-    deployment: bps
+    deployment: bps-bm-pipeline
 
 - name: baremetal-server-manifest
   type: s3
@@ -104,6 +104,14 @@ resources:
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-deployment-dummy
+  type: bosh-deployment
+  source:
+    target: {{TARGET_URL}}
+    username: admin
+    password: admin
+    deployment: dummy-bm-pipeline
 
 jobs:
 - name: build-candidate
@@ -148,7 +156,7 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-  - put: resource-bosh-deployment
+  - put: bosh-deployment-dummy
     params:
       stemcells:
       - dummy-deployment/light-bosh-stemcell-*.tgz
@@ -170,7 +178,7 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-  - put: resource-bosh-deployment
+  - put: bosh-deployment-bps
     params:
       stemcells:
       - bps-deployment/light-bosh-stemcell-*.tgz

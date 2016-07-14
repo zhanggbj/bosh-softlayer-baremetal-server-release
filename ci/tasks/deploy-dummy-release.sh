@@ -109,9 +109,7 @@ properties:
     echo_value: echo!echo!
 EOF
 
-mkdir -p /tmp/build/dummy-deployment
 cp ./dummy-release/dummy-*.tgz dummy-deployment/
 cp $deployment_dir/$manifest_filename dummy-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz dummy-deployment/
-ls -al /tmp/build/dummy-deployment/
 
