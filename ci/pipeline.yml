@@ -156,13 +156,13 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-  - put: bosh-deployment-dummy
-    params:
-      stemcells:
-      - dummy-deployment/light-bosh-stemcell-*.tgz
-      releases:
-      - dummy-deployment/dummy-*.tgz
-      manifest: dummy-deployment/dummy-manifest.yml
+#  - put: bosh-deployment-dummy
+#    params:
+#      stemcells:
+#      - dummy-deployment/light-bosh-stemcell-*.tgz
+#      releases:
+#      - dummy-deployment/dummy-*.tgz
+#      manifest: dummy-deployment/dummy-manifest.yml
 
   - task: deploy-baremetal-server
     file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml

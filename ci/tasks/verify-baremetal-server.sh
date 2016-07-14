@@ -28,8 +28,8 @@ resource_pools:
 - name: coreNode-bm
   size: 1
   cloud_properties:
-    bosh_ip: $DIRECTOR
-    datacenter: $data_center
+    bosh_ip: ${DIRECTOR}
+    datacenter: ${data_center}
     name_prefix: baremetal-ppl
     server_spec:
       package: 255
@@ -37,12 +37,12 @@ resource_pools:
       ram: 50389
       disk0: 50043
       port_speed: 24713
-      public_vlan_id: $public_vlan_id
-      private_vlan_id: $private_vlan_id
+      public_vlan_id: ${public_vlan_id}
+      private_vlan_id: ${private_vlan_id}
       hourly: false
     baremetal: true
-    bm_stemcell: $bm_stemcell
-    bm_netboot_image: $bm_netboot_image
+    bm_stemcell: ${bm_stemcell}
+    bm_netboot_image: ${bm_netboot_image}
 EOF
 
 tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
