@@ -64,7 +64,7 @@ networks:
 - name: default
   type: dynamic
   dns:
-  - $DIRECTOR
+  - ${DIRECTOR}
   - 10.0.80.11
   - 10.0.80.12
   cloud_properties:
@@ -116,5 +116,6 @@ properties:
 EOF
 
 cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
+cat $deployment_dir/$manifest_filename
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/

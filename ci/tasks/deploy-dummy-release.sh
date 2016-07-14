@@ -67,7 +67,7 @@ networks:
 - name: default
   type: dynamic
   dns:
-  - $DIRECTOR
+  - ${DIRECTOR}
   - 8.8.8.8
   - 10.0.80.11
   - 10.0.80.12
@@ -84,7 +84,7 @@ resource_pools:
       name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
       version: latest
   cloud_properties:
-    Bosh_ip: $DIRECTOR
+    Bosh_ip: ${DIRECTOR}
     vmNamePrefix: baremetal-165
     baremetal: true
     bm_stemcell: ${BM_STEMCELL}
@@ -110,6 +110,7 @@ properties:
 EOF
 
 cp ./dummy-release/dummy-*.tgz dummy-deployment/
+cat $deployment_dir/$manifest_filename
 cp $deployment_dir/$manifest_filename dummy-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz dummy-deployment/
 

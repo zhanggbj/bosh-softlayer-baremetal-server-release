@@ -162,7 +162,7 @@ jobs:
       - dummy-deployment/light-bosh-stemcell-*.tgz
       releases:
       - dummy-deployment/dummy-*.tgz
-      manifest: dummy-deployment/baremetal-server-manifest.yml
+      manifest: dummy-deployment/dummy-manifest.yml
 
   - task: deploy-baremetal-server
     file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
