@@ -116,6 +116,5 @@ properties:
 EOF
 
 cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
-cat $deployment_dir/$manifest_filename
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/

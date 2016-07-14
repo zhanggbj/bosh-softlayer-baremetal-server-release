@@ -23,11 +23,6 @@ DIRECTOR_UUID=$BM_DIRECTOR_UUID
 echo "DirectorIP =" $DIRECTOR
 echo "DirectorUUID =" $DIRECTOR_UUID
 
-#bosh -n target $DIRECTOR
-#bosh login admin admin
-#echo "Using This version of bosh:"
-#bosh --version
-
 deployment_dir="${PWD}/dummy-release-deployment"
 manifest_filename="dummy-manifest.yml"
 
@@ -110,7 +105,6 @@ properties:
 EOF
 
 cp ./dummy-release/dummy-*.tgz dummy-deployment/
-cat $deployment_dir/$manifest_filename
 cp $deployment_dir/$manifest_filename dummy-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz dummy-deployment/
 

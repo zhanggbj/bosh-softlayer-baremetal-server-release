@@ -1,4 +1,3 @@
-
 resources:
 - name: baremetal-server-release-in
   type: git
@@ -108,7 +107,7 @@ resources:
 - name: bosh-deployment-dummy
   type: bosh-deployment
   source:
-    target: {{TARGET_URL}}
+    target: https://{{bmp_director_ip}}:25555
     username: admin
     password: admin
     deployment: dummy-bm-pipeline
@@ -156,35 +155,35 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-#  - put: bosh-deployment-dummy
-#    params:
-#      stemcells:
-#      - dummy-deployment/light-bosh-stemcell-*.tgz
-#      releases:
-#      - dummy-deployment/dummy-*.tgz
-#      manifest: dummy-deployment/dummy-manifest.yml
-
-  - task: deploy-baremetal-server
-    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
-    config:
-      params:
-        BASE_OS:                    ubuntu
-        SL_USERNAME:                {{softlayer_username}}
-        SL_API_KEY:                 {{softlayer_api_key}}
-        SL_DATACENTER:              {{softlayer_datacenter}}
-        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
-        BM_DIRECTOR_IP:             {{bmp_director_ip}}
-        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
-
-  - put: bosh-deployment-bps
+  - put: bosh-deployment-dummy
     params:
       stemcells:
-      - bps-deployment/light-bosh-stemcell-*.tgz
+      - dummy-deployment/light-bosh-stemcell-*.tgz
       releases:
-      - bps-deployment/baremetal-server-dev-release-*.tgz
-      manifest: bps-deployment/baremetal-server-manifest.yml
+      - dummy-deployment/dummy-*.tgz
+      manifest: dummy-deployment/dummy-manifest.yml
+
+#  - task: deploy-baremetal-server
+#    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
+#    config:
+#      params:
+#        BASE_OS:                    ubuntu
+#        SL_USERNAME:                {{softlayer_username}}
+#        SL_API_KEY:                 {{softlayer_api_key}}
+#        SL_DATACENTER:              {{softlayer_datacenter}}
+#        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+#        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+#        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
+#        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+#        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
+#
+#  - put: bosh-deployment-bps
+#    params:
+#      stemcells:
+#      - bps-deployment/light-bosh-stemcell-*.tgz
+#      releases:
+#      - bps-deployment/baremetal-server-dev-release-*.tgz
+#      manifest: bps-deployment/baremetal-server-manifest.yml
 
 #  - task: verify-baremetal-server
 #    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
