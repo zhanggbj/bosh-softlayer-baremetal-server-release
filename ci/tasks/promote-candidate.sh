@@ -29,12 +29,14 @@ blobstore:
     access_key_id: $S3_ACCESS_KEY_ID
     secret_access_key: $S3_SECRET_ACCESS_KEY
 EOF
+  echo "debug"
+  cat config/private.yml
   set -x
 
   echo "using bosh CLI version..."
   bosh version
 
-  echo "finalizing CPI release..."
+  echo "finalizing baremetal server release..."
   bosh finalize release ${dev_release} --version $integer_version
 
   rm config/private.yml

@@ -112,6 +112,13 @@ resources:
     password: admin
     deployment: dummy-bm-pipeline
 
+- name: baremetal-server-release-out
+  type: git
+  source:
+    uri: git@github.com:jianqiu/bosh-softlayer-baremetal-server-release.git
+    branch: master
+    private_key: {{github_promote_private_key}}
+
 jobs:
 - name: build-candidate
   serial: true
@@ -204,6 +211,9 @@ jobs:
       params:
         S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
         S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
+
+  - put: baremetal-server-release-out
+    params: {repository: promoted/repo, rebase: true, tag_prefix: "v", tag: promoted/integer_version}
 
   - put: release-version-semver
     params: {file: release-version-semver/number}
