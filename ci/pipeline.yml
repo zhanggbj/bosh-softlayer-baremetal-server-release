@@ -60,7 +60,7 @@ resources:
   type: semver
   source:
     key:               release-current-version
-    bucket:            {{s3_pipeline_bucket}}
+    bucket:            {{s3_bosh_softlayer_tools_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
@@ -68,7 +68,7 @@ resources:
   type: s3
   source:
     regexp: baremetal-server-([0-9.]+)\.tgz
-    bucket: {{s3_pipeline_bucket}}
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
@@ -219,4 +219,4 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: baremetal-server-final-artifacts
-    params: {file: promoted/repo/releases/baremetal-server-release/.*\.tgz}
+    params: {file: promoted/repo/releases/baremetal-provision-server/.*\.tgz}
