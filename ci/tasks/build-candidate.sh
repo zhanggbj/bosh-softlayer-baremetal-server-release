@@ -15,11 +15,11 @@ pushd baremetal-server-release
 #  popd
 #  git submodule update --init --recursive --force
 #
-#  echo "installing bosh CLI"
-#  gem install bosh_cli --no-ri --no-rdoc
+  echo "installing bosh CLI"
+  gem install bosh_cli --no-ri --no-rdoc
 #
-#  echo "using bosh CLI version..."
-#  bosh version
+  echo "using bosh CLI version..."
+  bosh version
 #
   bms_release_name="baremetal-provision-server"
 #
