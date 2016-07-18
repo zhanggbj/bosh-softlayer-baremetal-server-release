@@ -16,7 +16,7 @@ pushd baremetal-server-release
   git submodule update --init --recursive --force
 
   echo "installing bosh CLI"
-  gem install bosh_cli --no-ri --no-rdoc
+  gem install bosh_cli --no-ri --no-rdo c
 
   echo "using bosh CLI version..."
   bosh version
