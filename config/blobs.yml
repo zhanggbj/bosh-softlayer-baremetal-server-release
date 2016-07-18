@@ -19,7 +19,3 @@ redis/redis-3.0.2.tar.gz:
   object_id: 033ba3ad-dea6-4a18-910f-e7d0f244d8ef
   sha: a38755fe9a669896f7c5d8cd3ebbf76d59712002
   size: 1360182
-xcat/App-cpanminus-1.7042.tar.gz:
-  object_id: 33345690-1e24-438f-9775-9adf08fe1731
-  sha: 5966ca7cb89155899afad47b845c13801a555152
-  size: 317681

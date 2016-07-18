@@ -25,7 +25,7 @@ echo "DirectorUUID =" $DIRECTOR_UUID
 
 deployment_dir="${PWD}/baremetal-server-deployment"
 manifest_filename="baremetal-server-manifest.yml"
-
+release_name=baremetal-server-dev-release
 mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
@@ -40,7 +40,7 @@ data_center="lon02"
 name: bps-pipeline
 director_uuid: ${DIRECTOR_UUID}
 releases:
-- name: baremetal-provision-server
+- name: ${release_name}
   version: latest
 
 compilation:
@@ -100,11 +100,11 @@ jobs:
 - name: bmp-server
   templates:
   - name: xcat-server
-    release: baremetal-provision-server
+    release: ${release_name}
   - name: redis
-    release: baremetal-provision-server
+    release: ${release_name}
   - name: baremetal-provision-server
-    release: baremetal-provision-server
+    release: ${release_name}
   instances: 1
   resource_pool: coreNode
   networks:
