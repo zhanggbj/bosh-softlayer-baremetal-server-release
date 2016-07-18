@@ -14,6 +14,8 @@ check_param SL_VLAN_PRIVATE
 check_param BOSH_INIT_LOG_LEVEL
 check_param BM_STEMCELL
 check_param BM_NETBOOT_IMAGE
+check_param BM_DIRECTOR_IP
+check_param BM_DIRECTOR_UUID
 
 source /etc/profile.d/chruby.sh
 chruby 2.1.2
@@ -25,18 +27,11 @@ echo "DirectorUUID =" $DIRECTOR_UUID
 
 deployment_dir="${PWD}/baremetal-server-deployment"
 manifest_filename="baremetal-server-manifest.yml"
-release_name=baremetal-server-dev-release
+release_name=baremetal-provision-server
 mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-<%
-name="bps-bosh"
-bosh_ip="10.113.189.212"
-public_vlan_id="524956"
-private_vlan_id="524954"
-data_center="lon02"
-%>
 name: bps-pipeline
 director_uuid: ${DIRECTOR_UUID}
 releases:
@@ -124,7 +119,8 @@ properties:
       password: 123456
       port: 25255
 EOF
-
+# debug
+cat $deployment_dir/$manifest_filename
 cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/

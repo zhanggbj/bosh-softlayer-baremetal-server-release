@@ -12,6 +12,8 @@ run:
 params:
   BM_STEMCELL:                bosh-stemcell-3262-softlayer-baremetal
   BM_NETBOOT_IMAGE:           bps-netboot-ixgbe-lon02
+  BM_DIRECTOR_IP:             replace-me
+  BM_DIRECTOR_UUID:           replace-me
   SL_USERNAME:                replace-me
   SL_API_KEY:                 replace-me
   SL_DATACENTER:              replace-me
