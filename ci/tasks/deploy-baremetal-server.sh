@@ -125,4 +125,5 @@ cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/
 ls -al
-ls baremetal-server-release/ci/tasks
+ls -al baremetal-server-release/ci/tasks
+cat baremetal-server-release/ci/tasks/config-baremetal-server.sh
