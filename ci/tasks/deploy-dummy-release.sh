@@ -86,7 +86,7 @@ resource_pools:
     bm_netboot_image: ${BM_NETBOOT_IMAGE}
 
 jobs:
-- name: dummy_z1
+- name: dummy_bm
   template: dummy
   instances: 1
   resource_pool: coreNode

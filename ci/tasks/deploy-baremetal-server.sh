@@ -30,10 +30,17 @@ mkdir -p $deployment_dir
 
 cat > "${deployment_dir}/${manifest_filename}"<<EOF
 ---
-name: bps-bm-pipeline
+<%
+name="bps-bosh"
+bosh_ip="10.113.189.212"
+public_vlan_id="524956"
+private_vlan_id="524954"
+data_center="lon02"
+%>
+name: bps-pipeline
 director_uuid: ${DIRECTOR_UUID}
 releases:
-- name: baremetal-server-dev-release
+- name: baremetal-provision-server
   version: latest
 
 compilation:
@@ -44,7 +51,7 @@ compilation:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip:  ${DIRECTOR}
+    Bosh_ip:  ${DIRECTOR_IP}
     StartCpus:  4
     MaxMemory:  8192
     EphemeralDiskSize: 25
@@ -52,7 +59,7 @@ compilation:
     Datacenter: { Name:  ${SL_DATACENTER} }
     PrimaryNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PUBLIC} } }
     PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PRIVATE} } }
-    VmNamePrefix:  bps-worker-
+    VmNamePrefix:  bps-pipeline
 update:
   canaries: 1
   canary_watch_time: 30000-900000
@@ -64,7 +71,7 @@ networks:
 - name: default
   type: dynamic
   dns:
-  - ${DIRECTOR}
+  - ${DIRECTOR_IP}
   - 10.0.80.11
   - 10.0.80.12
   cloud_properties:
@@ -79,22 +86,25 @@ resource_pools:
     name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    Bosh_ip: ${DIRECTOR}
-    Datacenter: { Name: ${SL_DATACENTER} }
-    VmNamePrefix: baremetal-165
-    baremetal: true
-    bm_stemcell: ${BM_STEMCELL}
-    bm_netboot_image: ${BM_NETBOOT_IMAGE}
+    Bosh_ip: ${DIRECTOR_IP}
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  ${SL_DATACENTER} }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PUBLIC} } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  ${SL_VLAN_PRIVATE} } }
+    VmNamePrefix:  bps-pipeline
+    EphemeralDiskSize: 25
 
 jobs:
-- name: bps
+- name: bmp-server
   templates:
   - name: xcat-server
-    release: baremetal-server-dev-release
+    release: baremetal-provision-server
   - name: redis
-    release: baremetal-server-dev-release
+    release: baremetal-provision-server
   - name: baremetal-provision-server
-    release: baremetal-server-dev-release
+    release: baremetal-provision-server
   instances: 1
   resource_pool: coreNode
   networks:
@@ -110,7 +120,7 @@ properties:
     user: admin
     password: admin
     redis:
-      address: 0.bps.default.bps-bm-pipeline.microbosh
+      address: 0.bps.default.bps-pipeline.microbosh
       password: 123456
       port: 25255
 EOF
