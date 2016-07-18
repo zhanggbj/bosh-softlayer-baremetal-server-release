@@ -20,9 +20,9 @@ check_param BM_DIRECTOR_UUID
 source /etc/profile.d/chruby.sh
 chruby 2.1.2
 
-DIRECTOR=$BM_DIRECTOR_IP
+DIRECTOR_IP=$BM_DIRECTOR_IP
 DIRECTOR_UUID=$BM_DIRECTOR_UUID
-echo "DirectorIP =" $DIRECTOR
+echo "DirectorIP =" $DIRECTOR_IP
 echo "DirectorUUID =" $DIRECTOR_UUID
 
 deployment_dir="${PWD}/baremetal-server-deployment"
@@ -124,3 +124,5 @@ cat $deployment_dir/$manifest_filename
 cp ./baremetal-server-dev-artifacts/*.tgz bps-deployment/
 cp $deployment_dir/$manifest_filename bps-deployment/
 cp ./stemcell/light-bosh-stemcell-*.tgz bps-deployment/
+ls -al
+ls baremetal-server-release/ci/tasks
