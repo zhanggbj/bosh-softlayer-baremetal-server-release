@@ -1,6 +1,8 @@
 ---
 platform: linux
 image: docker:///boshcpi/azure-cpi-release
+inputs:
+  - name: baremetal-server-release
 run:
   path: baremetal-server-release/ci/tasks/config-baremetal-server.sh
 params:
