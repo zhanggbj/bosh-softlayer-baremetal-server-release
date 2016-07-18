@@ -19,7 +19,7 @@ resources:
 - name: baremetal-server-dev-artifacts
   type: s3
   source:
-    regexp: baremetal-server-dev-release-(.*).tgz
+    regexp: baremetal-provision-server-(.*).tgz
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -27,18 +27,18 @@ resources:
 - name: bosh-release
   type: s3
   source:
-      bucket: bosh-softlayer-cpi-stemcells
+      bucket: {{s3_tmp_bucket}}
       regexp: bosh-236\+dev\.([0-9.]+)\.tgz
       access_key_id: {{s3_access_key_id}}
       secret_access_key: {{s3_secret_access_key}}
 
-- name: bosh-init
-  type: s3
-  source:
-    regexp: bosh-init-([0-9.]+)-linux-amd64
-    bucket: bosh-softlayer-cpi-stemcells
-    access_key_id: {{s3_access_key_id}}
-    secret_access_key: {{s3_secret_access_key}}
+#- name: bosh-init
+#  type: s3
+#  source:
+#    regexp: bosh-init-([0-9.]+)-linux-amd64
+#    bucket: bosh-softlayer-cpi-stemcells
+#    access_key_id: {{s3_access_key_id}}
+#    secret_access_key: {{s3_secret_access_key}}
 
 - name: softlayer-ubuntu-stemcell
   type: s3
@@ -134,7 +134,7 @@ jobs:
     file: baremetal-server-release/ci/tasks/build-candidate.yml
 
   - put: baremetal-server-dev-artifacts
-    params: {file: candidate/baremetal-server-dev-release-*\.tgz}
+    params: {file: candidate/*}
 
 - name: verify-dev-release
   plan:
@@ -143,7 +143,6 @@ jobs:
     - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false, get: baremetal-server-release, resource: baremetal-server-release-in}
     - {trigger: false, get: bosh-softlayer-cpi}
-    - {trigger: false, get: bosh-init}
     - {trigger: false, get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: false, get: bosh-release}
     - {trigger: false, get: dummy-release}
@@ -167,7 +166,7 @@ jobs:
 #      stemcells:
 #      - bps-deployment/light-bosh-stemcell-*.tgz
 #      releases:
-#      - bps-deployment/baremetal-server-dev-release-*.tgz
+#      - bps-deployment/baremetal-provision-server-*.tgz
 #      manifest: bps-deployment/baremetal-server-manifest.yml
 
   - task: config-baremetal-server
@@ -176,6 +175,8 @@ jobs:
       params:
         SL_USERNAME:                {{softlayer_username}}
         SL_API_KEY:                 {{softlayer_api_key}}
+        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+
 
   - task: deploy-dummy-release
     file: baremetal-server-release/ci/tasks/deploy-dummy-release.yml
@@ -191,13 +192,13 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-#  - put: bosh-deployment-dummy
-#    params:
-#      stemcells:
-#      - dummy-deployment/light-bosh-stemcell-*.tgz
-#      releases:
-#      - dummy-deployment/dummy-*.tgz
-#      manifest: dummy-deployment/dummy-manifest.yml
+  - put: bosh-deployment-dummy
+    params:
+      stemcells:
+      - dummy-deployment/light-bosh-stemcell-*.tgz
+      releases:
+      - dummy-deployment/dummy-*.tgz
+      manifest: dummy-deployment/dummy-manifest.yml
 
 #  - task: verify-baremetal-server
 #    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
