@@ -15,6 +15,10 @@ pushd baremetal-server-release
   popd
   git submodule update --init --recursive --force
 
+  pushd src/baremetal-provision-server
+    git pull origin master
+  popd
+
   echo "installing bosh CLI"
   gem install bosh_cli --no-ri --no-rdo c
 
