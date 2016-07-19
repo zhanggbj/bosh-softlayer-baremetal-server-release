@@ -161,13 +161,13 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-#  - put: bosh-deployment-bps
-#    params:
-#      stemcells:
-#      - bps-deployment/light-bosh-stemcell-*.tgz
-#      releases:
-#      - bps-deployment/baremetal-provision-server-*.tgz
-#      manifest: bps-deployment/baremetal-server-manifest.yml
+  - put: bosh-deployment-bps
+    params:
+      stemcells:
+      - bps-deployment/light-bosh-stemcell-*.tgz
+      releases:
+      - bps-deployment/baremetal-provision-server-*.tgz
+      manifest: bps-deployment/baremetal-server-manifest.yml
 
   - task: config-baremetal-server
     file: baremetal-server-release/ci/tasks/config-baremetal-server.yml
