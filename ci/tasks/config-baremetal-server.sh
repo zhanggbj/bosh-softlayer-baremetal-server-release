@@ -2,11 +2,11 @@
 set -e -x
 
 # Config bosh with bmp server
-#echo "installing bosh CLI"
-#gem install bosh_cli --no-ri --no-rdo c
-#
-#echo "using bosh CLI version..."
-#bosh version
+echo "installing bosh CLI"
+gem install bosh_cli --no-ri --no-rdo c
+
+echo "using bosh CLI version..."
+bosh version
 
 echo "login director..."
 bosh -n target ${BM_DIRECTOR_IP}
