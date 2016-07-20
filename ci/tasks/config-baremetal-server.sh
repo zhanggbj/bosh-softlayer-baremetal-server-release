@@ -15,8 +15,8 @@ publicIp=`bosh vms|grep 'bmp-server/0' | awk '{print $11}'`
 #publicIp=169.50.65.46
 echo "public ip is" $publicIp
 #SL_USERNAME=cuixuex%40cn.ibm.com
-SL_USERNAME=${SL_USERNAME/@/%40}
-url='https://'"${SL_USERNAME}"':'"${SL_API_KEY}"'@api.softlayer.com/rest/v3/SoftLayer_Account/getVirtualGuests?objectMask=mask[primaryBackendIpAddress,operatingSystem.passwords.password]&objectFilter={"virtualGuests":{"primaryIpAddress":{"operation":"'"${publicIp}"'"}}}'
+USERNAME=${SL_USERNAME/@/%40}
+url='https://'"${USERNAME}"':'"${SL_API_KEY}"'@api.softlayer.com/rest/v3/SoftLayer_Account/getVirtualGuests?objectMask=mask[primaryBackendIpAddress,operatingSystem.passwords.password]&objectFilter={"virtualGuests":{"primaryIpAddress":{"operation":"'"${publicIp}"'"}}}'
 result_file=result.file
 curl -g $url > $result_file
 privateIp=`grep -oP '(?<="primaryBackendIpAddress":")[^"]*' $result_file`
@@ -44,9 +44,9 @@ cp /var/vcap/packages/baremetal-provision-server/scripts/stemcell_template/* .
 EOF
 
 sudo apt-get -y install expect
-set timeout 60
+set timeout 30
 /usr/bin/env expect<<EOF
-spawn scp $create_image_file root@$privateIp:/root/
+spawn scp -o StrictHostKeyChecking=no $create_image_file root@$privateIp:/root/
 expect "*?assword:*"
 exp_send "$password\r"
 
@@ -55,20 +55,19 @@ expect "*?assword:*"
 exp_send "$password\r"
 sleep 5
 send "./$create_image_file | tee ${create_image_file}.log\r"
-sleep 600
+sleep 1200
 expect eof
 EOF
 
 # config director with bmp server
 cpi_file=cpi.json
-SL_USERNAME=${SL_USERNAME/%40/@}
 cat > "${cpi_file}" << EOF
 {"cloud":{"plugin":"softlayer","properties":{"softlayer":{"username":"${SL_USERNAME}","apiKey":"${SL_API_KEY}"},"agent":{"ntp":[],"blobstore":{"provider":"dav","options":{"endpoint":"http://127.0.0.1:25250","user":"agent","password":"agent"}},"mbus":"nats://nats:nats@127.0.0.1:4222"},"baremetal":{"username":"admin","password":"admin","endpoint":"http://${privateIp}:8080"}}}}
 EOF
 cat ${cpi_file}
 
 /usr/bin/env expect<<EOF
-spawn scp $cpi_file root@${BM_DIRECTOR_IP}:/var/vcap/data/jobs/softlayer_cpi/a53b4520362228e32052e95f1cb1a5d8bfd06059-52c1fc5bca79f647ee29f87cf658b6d5843d5656/config/
+spawn scp -o StrictHostKeyChecking=no $cpi_file root@${BM_DIRECTOR_IP}:/var/vcap/data/jobs/softlayer_cpi/a53b4520362228e32052e95f1cb1a5d8bfd06059-52c1fc5bca79f647ee29f87cf658b6d5843d5656/config/
 expect "*?assword:*"
 exp_send "$password\r"
 expect eof

@@ -7,4 +7,4 @@ inputs:
 run:
   path: baremetal-server-release/ci/tasks/cleanup.sh
 params:
-  BOSH_INIT_LOG_LEVEL:        warn
+  SL_USERNAME:                replace-me
