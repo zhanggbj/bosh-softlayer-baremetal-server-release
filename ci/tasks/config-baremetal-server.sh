@@ -69,7 +69,7 @@ cat ${cpi_file}
 /usr/bin/env expect<<EOF
 spawn scp -o StrictHostKeyChecking=no $cpi_file root@${BM_DIRECTOR_IP}:/var/vcap/data/jobs/softlayer_cpi/a53b4520362228e32052e95f1cb1a5d8bfd06059-52c1fc5bca79f647ee29f87cf658b6d5843d5656/config/
 expect "*?assword:*"
-exp_send "$password\r"
+exp_send "${BM_DIRECTOR_PASSWORD}\r"
 expect eof
 EOF
 

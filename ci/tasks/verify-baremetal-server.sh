@@ -12,34 +12,33 @@ function verify_return_val() {
     fi
 }
 
-BPS=`cat ${PWD}/baremetal-server-deployment/baremetal-server-info`
-DIRECTOR=`cat ${PWD}/deployment/director-info | awk "NR==1"`
+bmp_server=`cat ${PWD}/bmp-server-info | sed -n '1p'`
+director=$BM_DIRECTOR_IP
 data_center=$SL_DATACENTER
-deployment_file=deployment.yml
+bm_deployment_file=deployment.yml
 public_vlan_id=$SL_VLAN_PUBLIC
 private_vlan_id=$SL_VLAN_PRIVATE
 bm_netboot_image=$BM_NETBOOT_IMAGE
 bm_stemcell=$BM_STEMCELL
-cat > "$deployment_file"<<EOF
+cat > "$bm_deployment_file"<<EOF
 ---
-name: bps
+name: bps-pipeline
 resource_pools:
 
 - name: coreNode-bm
   size: 1
   cloud_properties:
-    bosh_ip: ${DIRECTOR}
+    bosh_ip: ${dirctor}
     datacenter: ${data_center}
-    name_prefix: baremetal-ppl
+    domain: bluemix.com
+    name_prefix: bm-pipeline
     server_spec:
-      package: 255
-      server: 50399
-      ram: 50389
-      disk0: 50043
-      port_speed: 24713
-      public_vlan_id: ${public_vlan_id}
-      private_vlan_id: ${private_vlan_id}
-      hourly: false
+      cores: 4
+      memory: 4
+      max_port_speed: 100
+      public_vlan_id: 524956
+      private_vlan_id: 524954
+      hourly: true
     baremetal: true
     bm_stemcell: ${bm_stemcell}
     bm_netboot_image: ${bm_netboot_image}
@@ -49,7 +48,7 @@ tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
 mv bosh-softlayer-tools/bmp /usr/local/bin
 echo "{}" > $HOME/.bmp_config
 export NON_VERBOSE=true
-bmp target -t http://$BPS:8080
+bmp target -t http://$bmp_server:8080
 verify_return_val "target" $? 0
 
 bmp login -u admin -p admin

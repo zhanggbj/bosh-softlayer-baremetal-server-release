@@ -7,4 +7,4 @@ inputs:
 run:
   path: baremetal-server-release/ci/tasks/cleanup.sh
 params:
-  SL_USERNAME:                replace-me
+  BM_DIRECTOR_IP:                replace-me
