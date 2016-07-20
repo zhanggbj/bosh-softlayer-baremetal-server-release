@@ -51,22 +51,28 @@ echo "{}" > $HOME/.bmp_config
 export NON_VERBOSE=true
 bmp target -t http://$BPS:8080
 verify_return_val "target" $? 0
+
 bmp login -u admin -p admin
 verify_return_val "login" $? 0
+
 bmp status
 verify_return_val "status" $? 0
+
 bmp bms
 verify_return_val "bms" $? 0
+
 bmp stemcells
 verify_return_val "stemcells" $? 0
-bmp create-baremetals --dryrun -d $deployment_file
-verify_return_val "create-baremetals" $? 0
+
 bmp tasks
 verify_return_val "tasks" $? 0
+
 bmp task --task_id=1
 verify_return_val "task --task_id" $? 0
+
 bmp sl --packages
 verify_return_val "sl --packages" $? 0
+
 bmp sl --package-options=255
 verify_return_val "sl --package-options" $? 0
 

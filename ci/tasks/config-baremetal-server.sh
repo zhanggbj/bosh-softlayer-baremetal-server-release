@@ -32,25 +32,45 @@ cat > "${create_image_file}"<<EOF
 #create default netboot image
 lsdef -t osimage -z ubuntu14.04.3-x86_64-netboot-compute | sed 's/^[^ ]\+:/bps-netboot-ixgbe:/' | mkdef -z
 genimage -n ixgbe bps-netboot-ixgbe
+sleep 10
 packimage bps-netboot-ixgbe
 
 #create baremetal stemcell
 cd /var/vcap/store/baremetal-provision-server/stemcells/
-mkdir bosh-stemcell-3262.2-softlayer-baremetal
-cd bosh-stemcell-3262.2-softlayer-baremetal
-wget https://s3.amazonaws.com/dev-bosh-softlayer-cpi-stemcells/bosh-stemcell-3262.2-softlayer-baremetal.fsa
+mkdir bosh-stemcell-0.3-softlayer-baremetal
+cd bosh-stemcell-0.3-softlayer-baremetal
+wget https://s3.amazonaws.com/dev-bosh-softlayer-cpi-stemcells/bosh-stemcell-0.3-softlayer-baremetal.fsa
 cp /var/vcap/packages/baremetal-provision-server/scripts/stemcell_template/* .
 EOF
 
 sudo apt-get -y install expect
-set timeout -1
+set timeout 60
 /usr/bin/env expect<<EOF
 spawn scp $create_image_file root@$privateIp:/root/
 expect "*?assword:*"
 exp_send "$password\r"
 
-spawn ssh root@$privateIp "./$create_image_file"
+spawn ssh -o StrictHostKeyChecking=no root@$privateIp
+expect "*?assword:*"
+exp_send "$password\r"
+sleep 5
+send "./$create_image_file | tee ${create_image_file}.log\r"
+sleep 600
+expect eof
+EOF
+
+# config director with bmp server
+cpi_file=cpi.json
+SL_USERNAME=${SL_USERNAME/%40/@}
+cat > "${cpi_file}" << EOF
+{"cloud":{"plugin":"softlayer","properties":{"softlayer":{"username":"${SL_USERNAME}","apiKey":"${SL_API_KEY}"},"agent":{"ntp":[],"blobstore":{"provider":"dav","options":{"endpoint":"http://127.0.0.1:25250","user":"agent","password":"agent"}},"mbus":"nats://nats:nats@127.0.0.1:4222"},"baremetal":{"username":"admin","password":"admin","endpoint":"http://${privateIp}:8080"}}}}
+EOF
+cat ${cpi_file}
+
+/usr/bin/env expect<<EOF
+spawn scp $cpi_file root@${BM_DIRECTOR_IP}:/var/vcap/data/jobs/softlayer_cpi/a53b4520362228e32052e95f1cb1a5d8bfd06059-52c1fc5bca79f647ee29f87cf658b6d5843d5656/config/
 expect "*?assword:*"
 exp_send "$password\r"
 expect eof
 EOF
+
