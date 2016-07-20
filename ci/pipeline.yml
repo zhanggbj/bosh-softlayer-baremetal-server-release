@@ -176,6 +176,7 @@ jobs:
         SL_USERNAME:                {{softlayer_username}}
         SL_API_KEY:                 {{softlayer_api_key}}
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
+        BM_DIRECTOR_PASSWORD:       {{bmp_director_password}}
 
 
   - task: deploy-dummy-release

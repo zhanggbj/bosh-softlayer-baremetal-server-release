@@ -115,7 +115,7 @@ properties:
     user: admin
     password: admin
     redis:
-      address: 0.bps.default.bps-pipeline.microbosh
+      address: 0.bmp-server.default.bps-pipeline.microbosh
       password: 123456
       port: 25255
 EOF
