@@ -45,7 +45,7 @@ resource_pools:
 EOF
 
 tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
-mv bosh-softlayer-tools/bmp /usr/local/bin
+mv bmp /usr/local/bin
 echo "{}" > $HOME/.bmp_config
 export NON_VERBOSE=true
 bmp target -t http://$bmp_server:8080
