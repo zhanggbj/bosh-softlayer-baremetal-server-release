@@ -74,16 +74,7 @@ cat $deployment_dir/bmp-server-info
 #expect eof
 #EOF
 
-function verify_return_val() {
-    local cmd=$1
-    local ret=$2
-    local expt=$3
-    if [ $ret -ne $expt ]; then
-       echo "command bmp" $cmd "failed"
-       exit 1
-    fi
-}
-
+# verify bmp server using bmp client tool
 bmp_server=`cat ${PWD}/bps-deployment/bmp-server-info | sed -n '1p'`
 bm_deployment_file=deployment.yml
 cat > "$bm_deployment_file"<<EOF
@@ -114,29 +105,31 @@ tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
 mv bmp /usr/local/bin
 echo "{}" > $HOME/.bmp_config
 export NON_VERBOSE=true
+
+echo "set bmp target to bmp server..."
 bmp target -t http://$bmp_server:8080
-verify_return_val "target" $? 0
 
+echo "login bmp server..."
 bmp login -u admin -p admin
-verify_return_val "login" $? 0
 
+echo "check bmp server status..."
 bmp status
-verify_return_val "status" $? 0
 
+echo "return available baremetals..."
 bmp bms -d $bm_deployment_file
-verify_return_val "bms" $? 0
 
+echo "return stemcells..."
 bmp stemcells
-verify_return_val "stemcells" $? 0
 
+echo "return tasks..."
 bmp tasks
-verify_return_val "tasks" $? 0
 
+echo "return task log..."
 bmp task --task_id=1
-verify_return_val "task --task_id" $? 0
 
+echo "return all packages..."
 bmp sl --packages
-verify_return_val "sl --packages" $? 0
 
+echo "return options of one package..."
 bmp sl --package-options=255
-verify_return_val "sl --package-options" $? 0
+

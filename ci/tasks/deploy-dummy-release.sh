@@ -80,7 +80,7 @@ resource_pools:
       version: latest
   cloud_properties:
     Bosh_ip: ${DIRECTOR}
-    vmNamePrefix: baremetal-165
+    vmNamePrefix: bm-pipeline
     baremetal: true
     bm_stemcell: ${BM_STEMCELL}
     bm_netboot_image: ${BM_NETBOOT_IMAGE}
