@@ -3,6 +3,7 @@ platform: linux
 image: docker:///cloudfoundry/bosh-lite-ci
 inputs:
   - name: baremetal-server-release
+  - name: bosh-softlayer-tools
 run:
   path: baremetal-server-release/ci/tasks/config-baremetal-server.sh
 outputs:
@@ -10,5 +11,8 @@ outputs:
 params:
   SL_USERNAME:                replace-me
   SL_API_KEY:                 replace-me
+  SL_DATACENTER:              replace-me
   BM_DIRECTOR_IP:             replace-me
   BM_DIRECTOR_PASSWORD:       replace-me
+  BM_STEMCELL:                bosh-stemcell-0.3-softlayer-baremetal
+  BM_NETBOOT_IMAGE:           bps-netboot-ixgbe
