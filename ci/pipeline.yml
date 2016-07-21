@@ -146,19 +146,19 @@ jobs:
     - {trigger: false, get: dummy-release}
     - {trigger: false, get: bosh-softlayer-tools}
 
-  - task: deploy-baremetal-server
-    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
-    config:
-      params:
-        BASE_OS:                    ubuntu
-        SL_USERNAME:                {{softlayer_username}}
-        SL_API_KEY:                 {{softlayer_api_key}}
-        SL_DATACENTER:              {{softlayer_datacenter}}
-        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
-        BM_DIRECTOR_IP:             {{bmp_director_ip}}
-        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
+#  - task: deploy-baremetal-server
+#    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
+#    config:
+#      params:
+#        BASE_OS:                    ubuntu
+#        SL_USERNAME:                {{softlayer_username}}
+#        SL_API_KEY:                 {{softlayer_api_key}}
+#        SL_DATACENTER:              {{softlayer_datacenter}}
+#        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+#        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+#        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
+#        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+#        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
 #  - put: bosh-deployment-bps
 #    params:
@@ -184,7 +184,7 @@ jobs:
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         SL_DATACENTER:              {{softlayer_datacenter}}
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}
+        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
 
   - task: deploy-dummy-release
     file: baremetal-server-release/ci/tasks/deploy-dummy-release.yml

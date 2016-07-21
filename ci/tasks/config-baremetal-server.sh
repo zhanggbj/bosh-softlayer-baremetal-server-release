@@ -55,7 +55,7 @@ expect "*?assword:*"
 exp_send "$password\r"
 sleep 5
 send "./$create_image_file | tee ${create_image_file}.log\r"
-sleep 1200
+sleep 900
 expect eof
 EOF
 
