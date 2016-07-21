@@ -123,9 +123,6 @@ bmp stemcells
 echo "return tasks..."
 bmp tasks
 
-echo "return task log..."
-bmp task --task_id=1
-
 echo "return all packages..."
 bmp sl --packages
 
