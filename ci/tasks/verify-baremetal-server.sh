@@ -12,7 +12,7 @@ function verify_return_val() {
     fi
 }
 
-bmp_server=`cat ${PWD}/bmp-server-info | sed -n '1p'`
+bmp_server=`cat ${PWD}/bps-deployment/bmp-server-info | sed -n '1p'`
 director=$BM_DIRECTOR_IP
 data_center=$SL_DATACENTER
 bm_deployment_file=deployment.yml

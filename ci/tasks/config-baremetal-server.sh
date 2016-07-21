@@ -21,9 +21,10 @@ result_file=result.file
 curl -g $url > $result_file
 privateIp=`grep -oP '(?<="primaryBackendIpAddress":")[^"]*' $result_file`
 password=`grep -oP '(?<="password":")[^"]*' $result_file`
-echo $privateIp > bmp-server-info
-echo $password > bmp-server-info
-cat bmp-server-info
+deployment_dir="${PWD}/bps-deployment"
+echo $privateIp > $deployment_dir/bmp-server-info
+echo $password >> $deployment_dir/bmp-server-info
+cat $deployment_dir/bmp-server-info
 
 ## create netboot image and stemcell for bmp server
 #create_image_file=create_bmp_server_image.sh

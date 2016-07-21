@@ -5,6 +5,8 @@ inputs:
   - name: baremetal-server-release
 run:
   path: baremetal-server-release/ci/tasks/config-baremetal-server.sh
+outputs:
+  - name: bps-deployment
 params:
   SL_USERNAME:                replace-me
   SL_API_KEY:                 replace-me
