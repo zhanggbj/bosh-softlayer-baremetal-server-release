@@ -15,4 +15,4 @@ params:
   BM_DIRECTOR_IP:             replace-me
   BM_DIRECTOR_PASSWORD:       replace-me
   BM_STEMCELL:                bosh-stemcell-0.3-softlayer-baremetal
-  BM_NETBOOT_IMAGE:           bps-netboot-ixgbe
+  BM_NETBOOT_IMAGE:           bps-netboot-ixgbe-lon02
