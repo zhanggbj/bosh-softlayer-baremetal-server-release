@@ -63,6 +63,17 @@ sleep 1200
 expect eof
 EOF
 
+# modify hostname
+/usr/bin/env expect<<EOF
+spawn ssh -o StrictHostKeyChecking=no root@$privateIp
+expect "*?assword:*"
+exp_send "$password\r"
+sleep 5
+send "sed -i '/127.0.0.1/s/$/.softlayer.com/' /etc/hosts\r"
+sleep 3
+expect eof
+EOF
+
 # config director with bmp server
 cpi_file=cpi.json
 cat > "${cpi_file}" << EOF

@@ -16,7 +16,7 @@ check_param BM_STEMCELL
 check_param BM_NETBOOT_IMAGE
 
 source /etc/profile.d/chruby.sh
-chruby 2.1.2
+chruby 2.2.4
 
 DIRECTOR=$BM_DIRECTOR_IP
 DIRECTOR_UUID=$BM_DIRECTOR_UUID
