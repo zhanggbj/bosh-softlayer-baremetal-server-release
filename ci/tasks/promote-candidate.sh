@@ -39,12 +39,12 @@ EOF
 
   rm config/private.yml
 
-  git diff | cat
-  git add .
-
-  git config --global user.email wangjq@cn.ibm.com
-  git config --global user.name wangjq
-  git commit -m "New final release v $integer_version"
+#  git diff | cat
+#  git add .
+#
+#  git config --global user.email wangjq@cn.ibm.com
+#  git config --global user.name wangjq
+#  git commit -m "New final release v $integer_version"
 popd
 
 
