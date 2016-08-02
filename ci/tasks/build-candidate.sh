@@ -2,8 +2,6 @@
 set -e
 
 semver=`cat version-semver/number`
-#semver=0.0.248
-echo "pwd is "$PWD
 
 pushd baremetal-server-release
   mkdir -p blobs/xcat/
@@ -26,10 +24,6 @@ pushd baremetal-server-release
   cat packages/xcat/spec
   echo "building baremetal server dev release..."
   bosh create release --name $bms_release_name --version $semver --with-tarball --force
-
-#  for debug
-#  mkdir -p dev_releases/$bms_release_name/
-#  wget https://s3.amazonaws.com/bosh-softlayer-tools/baremetal-server-dev-release-0.0.248.tgz -P dev_releases/$bms_release_name/
 popd
 
 mv baremetal-server-release/dev_releases/$bms_release_name/$bms_release_name-$semver.tgz candidate/

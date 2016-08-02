@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e -x
+set -e
 
 source baremetal-server-release/ci/tasks/utils.sh
 

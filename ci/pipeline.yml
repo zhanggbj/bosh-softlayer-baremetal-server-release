@@ -32,14 +32,6 @@ resources:
       access_key_id: {{s3_access_key_id}}
       secret_access_key: {{s3_secret_access_key}}
 
-#- name: bosh-init
-#  type: s3
-#  source:
-#    regexp: bosh-init-([0-9.]+)-linux-amd64
-#    bucket: bosh-softlayer-cpi-stemcells
-#    access_key_id: {{s3_access_key_id}}
-#    secret_access_key: {{s3_secret_access_key}}
-
 - name: softlayer-ubuntu-stemcell
   type: s3
   source:
@@ -47,14 +39,6 @@ resources:
     regexp: light-bosh-stemcell-([0-9.]+)-softlayer-esxi-ubuntu-trusty-go_agent\.tgz
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
-
-#- name: bosh-softlayer-cpi
-#  type: s3
-#  source:
-#    bucket: bosh-softlayer-cpi-pipeline
-#    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
-#    access_key_id: {{s3_access_key_id}}
-#    secret_access_key: {{s3_secret_access_key}}
 
 - name: release-version-semver
   type: semver
@@ -67,7 +51,7 @@ resources:
 - name: baremetal-server-final-artifacts
   type: s3
   source:
-    regexp: baremetal-server-([0-9.]+)\.tgz
+    regexp: baremetal-provision-server-([0-9.]+)\.tgz
     bucket: {{s3_bosh_softlayer_tools_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -146,27 +130,27 @@ jobs:
     - {trigger: false, get: dummy-release}
     - {trigger: false, get: bosh-softlayer-tools}
 
-#  - task: deploy-baremetal-server
-#    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
-#    config:
-#      params:
-#        BASE_OS:                    ubuntu
-#        SL_USERNAME:                {{softlayer_username}}
-#        SL_API_KEY:                 {{softlayer_api_key}}
-#        SL_DATACENTER:              {{softlayer_datacenter}}
-#        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-#        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-#        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
-#        BM_DIRECTOR_IP:             {{bmp_director_ip}}
-#        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
+  - task: deploy-baremetal-server
+    file: baremetal-server-release/ci/tasks/deploy-baremetal-server.yml
+    config:
+      params:
+        BASE_OS:                    ubuntu
+        SL_USERNAME:                {{softlayer_username}}
+        SL_API_KEY:                 {{softlayer_api_key}}
+        SL_DATACENTER:              {{softlayer_datacenter}}
+        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+        SL_BM_NAME_PREFIX:          {{softlayer_bamemetal_name_prefix}}
+        BM_DIRECTOR_IP:             {{bmp_director_ip}}
+        BM_DIRECTOR_UUID:           {{bmp_director_uuid}}
 
-#  - put: bosh-deployment-bps
-#    params:
-#      stemcells:
-#      - bps-deployment/light-bosh-stemcell-*.tgz
-#      releases:
-#      - bps-deployment/baremetal-provision-server-*.tgz
-#      manifest: bps-deployment/baremetal-server-manifest.yml
+  - put: bosh-deployment-bps
+    params:
+      stemcells:
+      - bps-deployment/light-bosh-stemcell-*.tgz
+      releases:
+      - bps-deployment/baremetal-provision-server-*.tgz
+      manifest: bps-deployment/baremetal-server-manifest.yml
 
   - task: config-baremetal-server
     file: baremetal-server-release/ci/tasks/config-baremetal-server.yml
@@ -174,17 +158,9 @@ jobs:
       params:
         SL_USERNAME:                {{softlayer_username}}
         SL_API_KEY:                 {{softlayer_api_key}}
+        SL_DATACENTER:              {{softlayer_datacenter}}
         BM_DIRECTOR_IP:             {{bmp_director_ip}}
         BM_DIRECTOR_PASSWORD:       {{bmp_director_password}}
-
-  - task: verify-baremetal-server
-    file: baremetal-server-release/ci/tasks/verify-baremetal-server.yml
-    config:
-      params:
-        BM_DIRECTOR_IP:             {{bmp_director_ip}}
-        SL_DATACENTER:              {{softlayer_datacenter}}
-        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
 
   - task: deploy-dummy-release
     file: baremetal-server-release/ci/tasks/deploy-dummy-release.yml
@@ -228,11 +204,8 @@ jobs:
         S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
         S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
 
-#  - put: baremetal-server-release-out
-#    params: {repository: promoted/repo, rebase: true, tag_prefix: "v", tag: promoted/integer_version}
-
   - put: release-version-semver
     params: {file: release-version-semver/number}
 
   - put: baremetal-server-final-artifacts
-    params: {file: promoted/repo/releases/baremetal-provision-server/.*\.tgz}
+    params: {file: promoted/repo/releases/baremetal-provision-server/baremetal-provision-server-*\.tgz}
