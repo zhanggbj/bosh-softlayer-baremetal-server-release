@@ -1,0 +1,10 @@
+---
+platform: linux
+image: docker:///cloudfoundry/bosh-lite-ci
+inputs:
+  - name: baremetal-server-release
+  - name: version-semver
+outputs:
+  - name: candidate
+run:
+  path: baremetal-server-release/ci/tasks/build-candidate.sh
