@@ -63,7 +63,7 @@ sleep 1200
 expect eof
 EOF
 
-# update hostname
+# update bmp server hostname and xcat site
 /usr/bin/env expect<<EOF
 spawn ssh -o StrictHostKeyChecking=no root@$privateIp
 expect "*?assword:*"
@@ -71,6 +71,8 @@ exp_send "$password\r"
 sleep 5
 send "sed -i '/127.0.0.1/s/$/.softlayer.com/' /etc/hosts\r"
 sleep 3
+send "chtab key=system passwd.username=root passwd.password=$password\r"
+sleep 5
 expect eof
 EOF
 
