@@ -62,12 +62,13 @@ cat > "${create_image_file}"<<EOF
 #!/bin/bash
 set -e
 #create default netboot image
-lsdef -t osimage -z ubuntu14.04.3-x86_64-netboot-compute | sed 's/^[^ ]\+:/bps-netboot-ixgbe-lon02:/' | mkdef -z
-sleep 10
+lsdef -t osimage -z ubuntu14.04.3-x86_64-netboot-compute | tee osimage.log
+cat osimage.log | sed 's/^[^ ]\+:/bps-netboot-ixgbe-lon02:/' | mkdef -z
+sleep 3
 genimage -n ixgbe bps-netboot-ixgbe-lon02
-sleep 10
+sleep 3
 packimage bps-netboot-ixgbe-lon02
-sleep 10
+sleep 3
 
 #create baremetal stemcell
 cd /var/vcap/store/baremetal-provision-server/stemcells/
