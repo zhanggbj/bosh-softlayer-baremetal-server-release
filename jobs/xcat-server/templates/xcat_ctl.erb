@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -ex 
 
 RUN_DIR=/var/vcap/sys/run/xcat
 LOG_DIR=/var/vcap/sys/log/xcat
@@ -21,7 +21,7 @@ case $1 in
       cd $XCAT_PKG_FOLDER
 
       tar jxvf xcat-core-*.tar.bz2
-      tar jxvf xcat-dep-*.tar.bz
+      tar jxvf xcat-dep-*.tar.bz2
 
       xcat-core/mklocalrepo.sh
       xcat-dep/mklocalrepo.sh
