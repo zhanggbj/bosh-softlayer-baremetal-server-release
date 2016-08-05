@@ -25,6 +25,37 @@ echo $privateIp > $deployment_dir/bmp-server-info
 echo $password >> $deployment_dir/bmp-server-info
 cat $deployment_dir/bmp-server-info
 
+# temporary: reinstall perl lib dependency
+reinstall_file=reinstall.sh
+cat > "${reinstall_file}"<<EOF
+#!/bin/bash
+set -e
+wget http://search.cpan.org/CPAN/authors/id/M/MO/MONS/XML-Hash-LX-0.0603.tar.gz
+tar zxvf XML-Hash-LX-*.tar.gz
+pushd XML-Hash-LX-*
+  perl Makefile.PL
+  make
+  make install
+popd
+EOF
+chmod +x $reinstall_file
+
+sudo apt-get -y install expect
+set timeout 30
+/usr/bin/env expect<<EOF
+spawn scp -o StrictHostKeyChecking=no $reinstall_file root@$privateIp:/root/
+expect "*?assword:*"
+exp_send "$password\r"
+
+spawn ssh -o StrictHostKeyChecking=no root@$privateIp
+expect "*?assword:*"
+exp_send "$password\r"
+sleep 5
+send "./$reinstall_file | tee ${reinstall_file}.log\r"
+sleep 120
+expect eof
+EOF
+
 # create netboot image and stemcell for bmp server
 create_image_file=create_bmp_server_image.sh
 cat > "${create_image_file}"<<EOF
@@ -47,7 +78,6 @@ cp /var/vcap/packages/baremetal-provision-server/scripts/stemcell_template/* .
 EOF
 chmod +x $create_image_file
 
-sudo apt-get -y install expect
 set timeout 30
 /usr/bin/env expect<<EOF
 spawn scp -o StrictHostKeyChecking=no $create_image_file root@$privateIp:/root/
@@ -71,6 +101,8 @@ exp_send "$password\r"
 sleep 5
 send "sed -i '/127.0.0.1/s/$/.softlayer.com/' /etc/hosts\r"
 sleep 3
+send "chtab key=system passwd.username=root passwd.password=$password\r"
+sleep 5
 expect eof
 EOF
 

@@ -96,13 +96,6 @@ resources:
     password: admin
     deployment: dummy-bm-pipeline
 
-- name: baremetal-server-release-out
-  type: git
-  source:
-    uri: git@github.com:jianqiu/bosh-softlayer-baremetal-server-release.git
-    branch: master
-    private_key: {{github_promote_private_key}}
-
 jobs:
 - name: build-candidate
   serial: true
