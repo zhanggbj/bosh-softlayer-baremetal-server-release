@@ -28,7 +28,7 @@ export NON_VERBOSE=true
 bmp_server=`cat bmp-server-info | sed -n '1p'`
 bmp target -t http://$bmp_server:8080
 bmp login -u admin -p admin
-server_id="311048"
+server_id="311806"
 bmp update-state --server $server_id --state=bm.state.new
 
 echo "done!"
