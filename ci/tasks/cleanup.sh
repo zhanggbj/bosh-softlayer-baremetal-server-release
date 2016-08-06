@@ -14,18 +14,19 @@ bosh login admin admin
 
 echo "delete bps-deployment"
 bps_deployment="bps-pipeline"
-echo "yes" | bosh delete $bps_deployment
+echo "yes" | bosh delete deployment $bps_deployment
 
 echo "delete dummy-deployment"
 dummy_deployment="dummy-bm-pipeline"
-echo "yes" | bosh delete $dummy_deployment
+echo "yes" | bosh delete deployment $dummy_deployment
 
 echo "update baremetal state in pool"
 tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
-mv bosh-softlayer-tools/bmp /usr/local/bin
+mv bmp /usr/local/bin
 echo "{}" > $HOME/.bmp_config
 export NON_VERBOSE=true
-bmp_server=`cat bmp-server-info | sed -n '1p'`
+bmp_server_info="${PWD}/bps-deployment/bmp-server-info"
+bmp_server=`cat ${bmp_server_info} | sed -n '1p'`
 bmp target -t http://$bmp_server:8080
 bmp login -u admin -p admin
 server_id="311806"
