@@ -12,13 +12,13 @@ echo "login director..."
 bosh -n target ${BM_DIRECTOR_IP}
 bosh login admin admin
 
-echo "delete bps-deployment"
-bps_deployment="bps-pipeline"
-echo "yes" | bosh delete deployment $bps_deployment
-
 echo "delete dummy-deployment"
 dummy_deployment="dummy-bm-pipeline"
-echo "yes" | bosh delete deployment $dummy_deployment
+echo "yes" | bosh delete deployment $dummy_deployment --force
+
+echo "delete bps-deployment"
+bps_deployment="bps-pipeline"
+echo "yes" | bosh delete deployment $bps_deployment --force
 
 echo "update baremetal state in pool"
 tar -zxvf bosh-softlayer-tools/bosh-softlayer-tools-*.tgz
