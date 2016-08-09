@@ -1,21 +1,21 @@
---- 
+---
 libyaml/yaml-0.1.6.tgz:
-  object_id: 222e4627-f3f5-4c83-aae6-3c6460aae248
+  object_id: b2429a64-ef22-4760-8288-e4384ed223dd
   sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
   size: 503012
-ruby/bundler-1.10.6.gem:
-  object_id: 5070dbdd-41b0-4653-a4ff-4fa617daeb97
-  sha: 55a37fccd1c0cb5542d468e35d3be46dd0667f73
-  size: 251392
+redis/redis-3.0.2.tar.gz:
+  object_id: ee06331f-3802-47b2-80a6-3d547b9138b3
+  sha: a38755fe9a669896f7c5d8cd3ebbf76d59712002
+  size: 1360182
 ruby/ruby-2.2.3.tar.gz:
-  object_id: d56c6fa3-b168-4422-8194-22b75d063302
+  object_id: 76ca8b08-2516-45ee-8ead-8b2543ef31c2
   sha: 0d9e158534cb31e72740138b8f697b57b448e5c3
   size: 16626772
 ruby/rubygems-2.4.8.tgz:
-  object_id: 5c360f37-0e25-4092-aacd-bb6411fb0f81
+  object_id: 67c7cf7c-1279-4e3f-a656-8d4025988cc6
   sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
   size: 447712
-redis/redis-3.0.2.tar.gz:
-  object_id: 033ba3ad-dea6-4a18-910f-e7d0f244d8ef
-  sha: a38755fe9a669896f7c5d8cd3ebbf76d59712002
-  size: 1360182
+ruby/bundler-1.10.6.gem:
+  object_id: 579fc709-aa8e-4e91-a9f1-fd6b8accdcd4
+  sha: 55a37fccd1c0cb5542d468e35d3be46dd0667f73
+  size: 251392
