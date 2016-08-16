@@ -6,8 +6,8 @@ bosh_ip="replace-me"
 public_vlan_id="replace-me"
 private_vlan_id="replace-me"
 data_center="replace-me"
-sl_user="replace-me"
-sl_key="replace-me"
+sl_username="replace-me"
+sl_api_key="replace-me"
 %>
 name: <%=name%>
 director_uuid: <%=director_uuid%>
@@ -86,8 +86,8 @@ jobs:
     - gateway
 properties:
   bps:
-    sl_user: <%=sl_user%>
-    sl_key: <%=sl_key%>
+    sl_username: <%=sl_username%>
+    sl_api_key: <%=sl_api_key%>
     port: 8080
     user: admin
     password: admin

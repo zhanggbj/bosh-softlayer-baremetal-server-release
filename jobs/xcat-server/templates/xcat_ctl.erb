@@ -56,8 +56,8 @@ case $1 in
     fi
 
     cat << EOF > /home/vcap/.slconfig
-userid = <%= p("bps.sl_user") %>
-apikey = <%= p("bps.sl_key") %>
+userid = <%= p("bps.sl_username") %>
+apikey = <%= p("bps.sl_api_key") %>
 apidir = /var/vcap/packages/xcat/softlayer-api-perl-client
 EOF
 
