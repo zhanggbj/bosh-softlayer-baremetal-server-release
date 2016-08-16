@@ -1,0 +1,97 @@
+---
+<%
+name="replace-me"
+director_uuid="replace-me"
+bosh_ip="replace-me"
+public_vlan_id="replace-me"
+private_vlan_id="replace-me"
+data_center="replace-me"
+sl_username="replace-me"
+sl_api_key="replace-me"
+%>
+name: <%=name%>
+director_uuid: <%=director_uuid%>
+releases:
+- name: baremetal-provision-server
+  version: latest
+
+compilation:
+  workers: 5
+  network: default
+  reuse_compilation_vms: true
+  stemcell:
+    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip:  <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 25
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-
+update:
+  canaries: 1
+  canary_watch_time: 30000-900000
+  update_watch_time: 30000-900000
+  max_in_flight: 2
+  max_errors: 1
+  serial: true
+networks:
+- name: default
+  type: dynamic
+  dns:
+  - <%=bosh_ip%>
+  - 10.0.80.11
+  - 10.0.80.12
+  cloud_properties:
+    security_groups:
+    - default
+    - cf
+resource_pools:
+- name: coreNode
+  network: default
+  size: 1
+  stemcell:
+    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-core-
+    EphemeralDiskSize: 25
+
+jobs:
+- name: bps
+  templates:
+  - name: xcat-server
+    release: baremetal-provision-server
+  - name: redis
+    release: baremetal-provision-server
+  - name: baremetal-provision-server
+    release: baremetal-provision-server
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+    default:
+    - dns
+    - gateway
+properties:
+  bps:
+    sl_username: <%=sl_username%>
+    sl_api_key: <%=sl_api_key%>
+    port: 8080
+    user: admin
+    password: admin
+    redis:
+      address: 0.bps.default.<%=name%>.microbosh
+      password: 123456
+      port: 25255

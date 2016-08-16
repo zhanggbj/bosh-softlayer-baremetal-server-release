@@ -7,7 +7,7 @@ packages:
   - xcat
 
 properties:
-  bps.sl_user:
+  bps.sl_username:
     description: "The SoftLayer username"
-  bps.sl_key:
+  bps.sl_api_key:
     description: "The SoftLayer API Key"
