@@ -21,7 +21,7 @@ case $1 in
       cd $XCAT_PKG_FOLDER
 
       tar jxvf xcat-core-*.tar.bz2
-      tar jxvf xcat-dep-*.tar.bz
+      tar jxvf xcat-dep-*.tar.bz2
 
       xcat-core/mklocalrepo.sh
       xcat-dep/mklocalrepo.sh
@@ -48,16 +48,20 @@ case $1 in
       source /etc/profile.d/xcat.sh
       private_ip=`ifconfig eth0 | grep "inet addr" | cut -d ":" -f 2 | cut -d " " -f 1`
       chdef -t site master=$private_ip nameservers=$private_ip forwarders=$private_ip domain=softlayer.com
-      sed -i '/127.0.0.1/s/$/.softlayer.com/' /etc/hosts
-      chdef -t site  useflowcontrol=no
-      sl_username=<%= p("bps.sl_username") %>
-      sl_api_key=<%= p("bps.sl_api_key") %>
-      username=${sl_username/@/%40}
-      url='https://'"${username}"':'"${sl_api_key}"'@api.softlayer.com/rest/v3/SoftLayer_Account/getVirtualGuests?objectMask=mask[operatingSystem.passwords.password]&objectFilter={"virtualGuests":{"primaryBackendIpAddress":{"operation":"'"${private_ip}"'"}}}'
-      result_file=result.file
-      curl -g $url > $result_file
+      if [[ $(head -n1 /etc/hosts) != *"softlayer.com"* ]]; then
+        sed -i '/127.0.0.1/s/$/.softlayer.com/' /etc/hosts;
+      fi
+      result_file="result.file"
+      if [ ! -f "$result_file" ]; then
+        sl_username=<%= p("bps.sl_username") %>
+        sl_api_key=<%= p("bps.sl_api_key") %>
+        username=${sl_username/@/%40}
+        url='https://'"${username}"':'"${sl_api_key}"'@api.softlayer.com/rest/v3/SoftLayer_Account/getVirtualGuests?objectMask=mask[operatingSystem.passwords.password]&objectFilter={"virtualGuests":{"primaryBackendIpAddress":{"operation":"'"${private_ip}"'"}}}'
+        curl -g $url > $result_file
+      fi
       password=`grep -oP '(?<="password":")[^"]*' $result_file`
       chtab key=system passwd.username=root passwd.password=$password
+      chdef -t site  useflowcontrol=no
       makedns -n
       makehosts
       makedhcp -n

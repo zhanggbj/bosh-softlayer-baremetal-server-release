@@ -8,6 +8,8 @@ pushd baremetal-server-release
   pushd blobs/xcat/
     wget https://xcat.org/files/xcat/xcat-core/2.12.x_Ubuntu/xcat-core/xcat-core-2.12.1-ubuntu.tar.bz2
     wget https://xcat.org/files/xcat/xcat-dep/2.x_Ubuntu/xcat-dep-2.12.1-ubuntu.tar.bz2
+    wget http://search.cpan.org/CPAN/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7042.tar.gz
+    wget http://search.cpan.org/CPAN/authors/id/M/MO/MONS/XML-Hash-LX-0.0603.tar.gz
     wget http://sourceforge.net/projects/xcat/files/yum/devel/core-snap/xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm/download -O xCAT-SoftLayer-2.10-snap201507240527.noarch.rpm
     wget https://s3.amazonaws.com/bosh-softlayer-tools/ubuntu-14.04.3-server-amd64.iso
   popd
