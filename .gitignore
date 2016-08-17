@@ -18,7 +18,6 @@ build/
 ## Documentation cache and generated files:
 /.yardoc/
 /_yardoc/
-/doc/
 /rdoc/
 
 ## Environment normalization:
@@ -34,3 +33,6 @@ build/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
+
+# file
+credentials.yml

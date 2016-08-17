@@ -1,0 +1,10 @@
+---
+platform: linux
+image: docker:///cloudfoundry/bosh-lite-ci
+inputs:
+  - name: bosh-softlayer-tools
+  - name: baremetal-server-release
+run:
+  path: baremetal-server-release/ci/tasks/cleanup.sh
+params:
+  BM_DIRECTOR_IP:                replace-me
