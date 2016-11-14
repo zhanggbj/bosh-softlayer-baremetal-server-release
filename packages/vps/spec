@@ -1,0 +1,29 @@
+---
+name: vps
+
+dependencies:
+  - golang_1.7
+
+files:
+  - github.com/cloudfoundry-community/vps/swagger-with-auth.json
+  - github.com/cloudfoundry-community/vps/swagger-with-auth.yml
+  - github.com/cloudfoundry-community/vps/swagger.json
+  - github.com/cloudfoundry-community/vps/swagger.yaml
+  - github.com/cloudfoundry-community/vps/cmd/soft-layer-vm-pool-server/*.go
+  - github.com/cloudfoundry-community/vps/controllers/*.go
+  - github.com/cloudfoundry-community/vps/db/*.go
+  - github.com/cloudfoundry-community/vps/db/sqldb/*.go
+  - github.com/cloudfoundry-community/vps/migration/*.go
+  - github.com/cloudfoundry-community/vps/models/*.go
+  - github.com/cloudfoundry-community/vps/models/*.go
+  - github.com/cloudfoundry-community/vps/restapi/*.go
+  - github.com/cloudfoundry-community/vps/restapi/handlers/*.go
+  - github.com/cloudfoundry-community/vps/restapi/operations/*.go
+  - github.com/cloudfoundry-community/vps/restapi/operations/vm/*.go
+  - github.com/cloudfoundry-community/vps/test_helpers/*.go
+  - github.com/cloudfoundry-community/vps/test_helpers/sqlrunner/*.go
+  - github.com/cloudfoundry-community/vps/vpslager/*.go
+  - github.com/cloudfoundry-community/vps/vendor/**/*
+
+
+

@@ -1,0 +1,114 @@
+resources:
+- name: vps-release-in
+  type: git
+  source:
+    uri: https://github.com/zhanggbj/bosh-softlayer-baremetal-server-release.git
+    branch: WIP-consolidate-project
+    ignore_paths:
+        - .final_builds/**/*.yml
+        - releases/**/*.yml
+
+- name: version-semver
+  type: semver
+  source:
+    key:               current-version
+    bucket:            {{s3_pipeline_bucket}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: vps-dev-artifacts
+  type: s3
+  source:
+    regexp: vps-(.*).tgz
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-release
+  type: s3
+  source:
+      bucket: {{s3_tmp_bucket}}
+      regexp: bosh-236\+dev\.([0-9.]+)\.tgz
+      access_key_id: {{s3_access_key_id}}
+      secret_access_key: {{s3_secret_access_key}}
+
+- name: softlayer-ubuntu-stemcell
+  type: s3
+  source:
+    bucket: dev-bosh-softlayer-cpi-stemcells
+    regexp: light-bosh-stemcell-([0-9.]+)-softlayer-esxi-ubuntu-trusty-go_agent\.tgz
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: release-version-semver
+  type: semver
+  source:
+    key:               release-current-version
+    bucket:            {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: baremetal-server-final-artifacts
+  type: s3
+  source:
+    regexp: baremetal-provision-server-([0-9.]+)\.tgz
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-softlayer-tools
+  type: s3
+  source:
+    bucket: bosh-softlayer-tools
+    regexp: bosh-softlayer-tools-([0-9.]+)\.tgz
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-deployment-bps
+  type: bosh-deployment
+  source:
+    target: https://{{bmp_director_ip}}:25555
+    username: admin
+    password: admin
+    deployment: bps-pipeline
+
+- name: baremetal-server-manifest
+  type: s3
+  source:
+    regexp: baremetal-server-manifest-(.*).yml
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: dummy-release
+  type: s3
+  source:
+    regexp: dummy-0\+dev\.([0-9.]+)\.tgz
+    bucket: {{s3_bosh_softlayer_tools_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: bosh-deployment-dummy
+  type: bosh-deployment
+  source:
+    target: https://{{bmp_director_ip}}:25555
+    username: admin
+    password: admin
+    deployment: dummy-bm-pipeline
+
+jobs:
+- name: build-candidate
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: false, get: vps-release, resource: vps-release-in}
+    - {trigger: false, get: version-semver, params: {bump: patch}, resource: version-semver}
+
+  - put: version-semver
+    params: {file: version-semver/number}
+
+  - task: build-candidate
+    file: vps/ci/tasks/build-vps-candidate.yml
+
+  - put: vps-dev-artifacts
+    params: {file: candidate/*}
