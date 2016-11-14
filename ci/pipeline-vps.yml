@@ -3,7 +3,7 @@ resources:
   type: git
   source:
     uri: https://github.com/zhanggbj/bosh-softlayer-baremetal-server-release.git
-    branch: WIP-consolidate-project
+    branch: vps-pipeline
     ignore_paths:
         - .final_builds/**/*.yml
         - releases/**/*.yml
