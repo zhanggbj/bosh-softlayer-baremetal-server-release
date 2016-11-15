@@ -1,13 +1,17 @@
+set -e -x
 
-set -e
+if [ -z "$BOSH_PACKAGES_DIR" ]; then
+	pkg_dir=$(readlink -nf /var/vcap/packages/golang_1.7)
+else
+	pkg_dir=$BOSH_PACKAGES_DIR/golang_1.7
+fi
 
-mkdir -p ${BOSH_INSTALL_TARGET}/src
-cp -a . ${BOSH_INSTALL_TARGET}/src
-export GOPATH=$BOSH_INSTALL_TARGET:$BOSH_INSTALL_TARGET/src/github.com/cloudfoundry-community/vps/vendor
-
-export GOROOT=$(readlink -nf /var/vcap/packages/golang_1.7)
+export GOROOT=$pkg_dir
+export GOPATH=$PWD
 export PATH=$GOROOT/bin:$PATH
-go install github.com/cloudfoundry-community/vps/cmd/soft-layer-vm-pool-server/main.go
 
-# clean up source artifacts
-rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
+mkdir ../src && cp -a * ../src/ && mv ../src ./src
+
+mkdir $BOSH_INSTALL_TARGET/bin
+
+go build -o $BOSH_INSTALL_TARGET/bin/vps src/github.com/cloudfoundry-community/vps/cmd/soft-layer-vm-pool-server/main.go
