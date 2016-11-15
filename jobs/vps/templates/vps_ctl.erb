@@ -9,7 +9,7 @@
 
  PIDFILE=$RUN_DIR/vps.pid
 
- source JOB_DIR/bin/pid_utils.sh
+ source $JOB_DIR/bin/pid_utils.sh
 
  case $1 in
 
@@ -32,17 +32,13 @@
          echo "Not setting /proc/sys/net/ipv4 parameters, since I'm running inside a linux container"
      else
          # TCP_FIN_TIMEOUT
-         # This setting determines the time that must elapse before TCP/IP can release a closed connection and reuse
-         # its resources. During this TIME_WAIT state, reopening the connection to the client costs less than establishing
-         # a new connection. By reducing the value of this entry, TCP/IP can release closed connections faster, making more
-         # resources available for new connections. Addjust this in the presense of many connections sitting in the
-         # TIME_WAIT state:
+         # By reducing the value of this entry, TCP/IP can release closed connections faster, making more
+         # resources available for new connections.
 
          echo 10 > /proc/sys/net/ipv4/tcp_fin_timeout
 
          # TCP_TW_REUSE
          # This allows reusing sockets in TIME_WAIT state for new connections when it is safe from protocol viewpoint.
-         # Default value is 0 (disabled). It is generally a safer alternative to tcp_tw_recycle
 
          echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
      fi

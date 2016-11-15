@@ -20,22 +20,22 @@ properties:
     default: "8889"
   vps.sql.db_host:
     description: "Host for SQL backend"
-    default: ""
+    default: "127.0.0.1"
   vps.sql.db_port:
     description: "Port for SQL backend"
-    default: ""
+    default: "5432"
   vps.sql.db_schema:
     description: "Database name to use for connecting to SQL backend"
     default: ""
   vps.sql.db_username:
     description: "Username to use for connecting to SQL backend"
-    default: ""
+    default: "postgres"
   vps.sql.db_password:
     description: "Password to use for connecting to SQL backend"
-    default: ""
+    default: "postges"
   vps.sql.db_driver:
     description: "Database driver to use for SQL backend (for example: mysql,postgres)"
-    default: mysql
+    default: postgres
   vps.sql.db_connection_string:
     description: "Connection string to use for SQL backend. DEPRECATED, use db_{host,port,schema,username,password} instead"
     default: ""
