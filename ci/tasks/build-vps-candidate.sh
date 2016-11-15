@@ -33,4 +33,4 @@ pushd vps-release
   bosh create release --name $vps_release_name --version $semver --with-tarball --force
 popd
 
-mv vps-release/dev_releases/$bms_release_name/$vps_release_name-$semver.tgz candidate/
+mv vps-release/dev_releases/$vps_release_name/$vps_release_name-$semver.tgz candidate/
