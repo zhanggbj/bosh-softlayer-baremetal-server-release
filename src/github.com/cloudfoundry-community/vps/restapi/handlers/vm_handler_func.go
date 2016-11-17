@@ -97,7 +97,6 @@ func (h *VMHandler) DeleteVM(params vm.DeleteVMParams)  middleware.Responder {
 	return vm.NewDeleteVMNoContent().WithPayload("vm removed")
 }
 
-
 func (h *VMHandler) GetVMByCid(params vm.GetVMByCidParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.Session("get-vm-by-cid")
@@ -150,12 +149,12 @@ func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams) middlew
 	updateData := params.Body
 	err = h.controller.UpdateVMWithState(h.logger, vmId, &updateData.State)
 	if err != nil {
-		unExpectedResponse := vm.NewListVMDefault(500)
+		unExpectedResponse := vm.NewUpdateVMWithStateDefault(500)
 		unExpectedResponse.SetPayload(models.ConvertError(err))
 		return unExpectedResponse
 	}
 
-	return vm.NewUpdateVMOK().WithPayload("updated successfully")
+	return vm.NewUpdateVMWithStateOK().WithPayload("updated successfully")
 }
 
 func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams) middleware.Responder {
