@@ -124,16 +124,29 @@ var _ = Describe("VmHandlerFunc", func() {
 
 		})
 
-		Context("when ordering a VM by filter fails", func() {
+		Context("when ordering a VM by filter fails due to an unexpected reason", func() {
 			BeforeEach(func() {
 				controller.OrderVirtualGuestReturns(nil, models.ErrUnknownError)
 			})
 
-			It("responds with an error", func() {
+			It("responds with an unExpected error", func() {
 				orderVMByFilterDefault, ok := responseResponder.(*vm.OrderVMByFilterDefault)
 				Expect(ok).To(BeTrue())
 				Expect(orderVMByFilterDefault.GetStatusCode()).To(Equal(500))
 				Expect(orderVMByFilterDefault.GetPayload()).To(Equal(models.ErrUnknownError))
+			})
+
+		})
+
+		Context("when ordering a VM by filter fails due to resource not found", func() {
+			BeforeEach(func() {
+				controller.OrderVirtualGuestReturns(nil, models.ErrResourceNotFound)
+			})
+
+			It("responds with a notFound error", func() {
+				orderVMByFilterNotFound, ok := responseResponder.(*vm.OrderVMByFilterNotFound)
+				Expect(ok).To(BeTrue())
+				Expect(orderVMByFilterNotFound.GetStatusCode()).To(Equal(404))
 			})
 
 		})
