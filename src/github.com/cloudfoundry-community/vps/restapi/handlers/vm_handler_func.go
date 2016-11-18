@@ -4,7 +4,6 @@ import (
 	"github.com/cloudfoundry-community/vps/models"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/cloudfoundry-community/vps/restapi/operations/vm"
-
 	"code.cloudfoundry.org/lager"
 )
 //go:generate counterfeiter -o fake_controllers/fake_virtualguest_controller.go . VirtualGuestController
@@ -60,9 +59,13 @@ func (h *VMHandler) OrderVmByFilter(params vm.OrderVMByFilterParams) middleware.
 
 	response.VM, err = h.controller.OrderVirtualGuest(h.logger, request)
 	if err != nil {
-		unExpectedResponse := vm.NewOrderVMByFilterDefault(500)
-		unExpectedResponse.SetPayload(models.ConvertError(err))
-		return unExpectedResponse
+		if models.ConvertError(err).Equal(models.ErrResourceNotFound){
+			return vm.NewOrderVMByFilterNotFound()
+		} else {
+			unExpectedResponse := vm.NewOrderVMByFilterDefault(500)
+			unExpectedResponse.SetPayload(models.ConvertError(err))
+			return unExpectedResponse
+		}
 	}
 
 	return vm.NewOrderVMByFilterOK().WithPayload(response)
@@ -96,7 +99,6 @@ func (h *VMHandler) DeleteVM(params vm.DeleteVMParams)  middleware.Responder {
 
 	return vm.NewDeleteVMNoContent().WithPayload("vm removed")
 }
-
 
 func (h *VMHandler) GetVMByCid(params vm.GetVMByCidParams) middleware.Responder {
 	var err error
@@ -150,12 +152,12 @@ func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams) middlew
 	updateData := params.Body
 	err = h.controller.UpdateVMWithState(h.logger, vmId, &updateData.State)
 	if err != nil {
-		unExpectedResponse := vm.NewListVMDefault(500)
+		unExpectedResponse := vm.NewUpdateVMWithStateDefault(500)
 		unExpectedResponse.SetPayload(models.ConvertError(err))
 		return unExpectedResponse
 	}
 
-	return vm.NewUpdateVMOK().WithPayload("updated successfully")
+	return vm.NewUpdateVMWithStateOK().WithPayload("updated successfully")
 }
 
 func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams) middleware.Responder {
