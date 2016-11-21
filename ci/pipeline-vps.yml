@@ -2,8 +2,8 @@ resources:
 - name: vps-release-in
   type: git
   source:
-    uri: https://github.com/zhanggbj/bosh-softlayer-baremetal-server-release.git
-    branch: vps-pipeline
+    uri: https://github.com/cloudfoundry-community/bosh-softlayer-baremetal-server-release.git
+    branch: develop
     ignore_paths:
         - .final_builds/**/*.yml
         - releases/**/*.yml
