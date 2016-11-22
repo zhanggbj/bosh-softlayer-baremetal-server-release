@@ -16,5 +16,6 @@
   go get github.com/onsi/gomega
 
   echo "Start running unit test for main..."
-  ginkgo -p src/github.com/cloudfoundry-community/vps/cmd/vps
+  cd src/github.com/cloudfoundry-community/vps
+  ginkgo -r -p --noisyPendings
 )
