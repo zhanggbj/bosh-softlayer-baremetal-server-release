@@ -1,0 +1,12 @@
+sudo: false
+
+language: go
+go:
+  - 1.7.3
+
+install:
+  - export GOPATH="${TRAVIS_BUILD_DIR}"
+
+branches:
+  only:
+  - develop
