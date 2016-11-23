@@ -1,6 +1,5 @@
 sudo: false
 
 branches:
-  only:
-  - master
-  - develop 
+only:
+- develop
