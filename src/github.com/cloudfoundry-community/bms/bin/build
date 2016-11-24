@@ -1,5 +1,0 @@
-set -e
-
-bin=$(dirname $0)
-
-go build -o $bin/bms github.com/cloudfoundry-community/bms/cmd/soft-layer-baremetal-provisioning-server/main.go
