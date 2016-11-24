@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/cloudfoundry-community/vps/models"
+	"github.com/cloudfoundry-community/vps/generated/models"
 )
 
 /*ListVMOK successful operation

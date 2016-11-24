@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/cloudfoundry-community/vps/models"
+	"github.com/cloudfoundry-community/vps/generated/models"
 )
 
 // NewUpdateVMWithStateParams creates a new UpdateVMWithStateParams object

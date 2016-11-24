@@ -10,7 +10,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/cloudfoundry-community/vps/models"
+	"github.com/cloudfoundry-community/vps/generated/models"
 )
 
 // NewOrderVMByFilterParams creates a new OrderVMByFilterParams object
