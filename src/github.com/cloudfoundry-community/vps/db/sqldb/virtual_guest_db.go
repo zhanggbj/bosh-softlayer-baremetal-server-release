@@ -296,6 +296,19 @@ func (db *SQLDB) UpdateVirtualGuestInPool(logger lager.Logger, virtualGuest *mod
 		defer logger.Info("complete")
 		now := db.clock.Now().UnixNano()
 
+		var stateString string
+
+		switch virtualGuest.State {
+		case models.StateUsing:
+			stateString = "using"
+		case models.StateProvisioning:
+			stateString = "provisioning"
+		case models.StateFree:
+			stateString = "free"
+		default:
+			stateString = "unknown"
+		}
+
 		_, err = db.update(logger, tx, virtualGuests,
 			SQLAttributes{
 				"hostname": virtualGuest.Hostname,
@@ -305,6 +318,7 @@ func (db *SQLDB) UpdateVirtualGuestInPool(logger lager.Logger, virtualGuest *mod
 				"deployment_name":  virtualGuest.DeploymentName,
 				"public_vlan":  virtualGuest.PublicVlan,
 				"private_vlan":  virtualGuest.PrivateVlan,
+				"state":         stateString,
 				"updated_at": now,
 			},
 			"cid = ?", virtualGuest.Cid,
@@ -502,7 +516,7 @@ func (db *SQLDB) fetchOneVMWithFilter(logger lager.Logger, filter models.VMFilte
 	default:
 	}
 
-	row := db.one(logger, db.db, virtualGuests,
+	row := db.one(logger, tx, virtualGuests,
 		virtualGuestColumns, LockRow,
 		strings.Join(wheres, " AND "), values...,
 	)

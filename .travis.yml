@@ -1,0 +1,23 @@
+sudo: false
+
+language: go
+go:
+  - 1.7.3
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "9.4"
+
+before_install:
+  - psql -c 'create database bosh;' -U postgres
+
+install:
+  - export GOPATH="${TRAVIS_BUILD_DIR}"
+
+script: bin/ci
+branches:
+  only:
+  - master
+  - develop

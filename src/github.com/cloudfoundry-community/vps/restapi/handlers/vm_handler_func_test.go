@@ -230,6 +230,19 @@ var _ = Describe("VmHandlerFunc", func() {
 				})
 			})
 
+			Context("when deleting the vm fails due to resource not found", func() {
+				BeforeEach(func() {
+					controller.DeleteVMReturns(models.ErrResourceNotFound)
+				})
+
+				It("responds with a notFound error", func() {
+					deleteVMNotFound, ok := responseResponder.(*vm.DeleteVMNotFound)
+					Expect(ok).To(BeTrue())
+					Expect(deleteVMNotFound.GetStatusCode()).To(Equal(404))
+				})
+
+			})
+
 			Context("when the controller returns an error", func() {
 				BeforeEach(func() {
 					controller.DeleteVMReturns(models.ErrUnknownError)
@@ -282,7 +295,7 @@ var _ = Describe("VmHandlerFunc", func() {
 
 		Context("when the controller returns no virtual guest", func() {
 			BeforeEach(func() {
-				controller.VirtualGuestByCidReturns(nil, nil)
+				controller.VirtualGuestByCidReturns(nil, models.ErrResourceNotFound)
 			})
 
 			It("returns 404 status code", func() {
@@ -386,9 +399,9 @@ var _ = Describe("VmHandlerFunc", func() {
 			responseResponder = handler.UpdateVMWithState(params)
 		})
 
-		Context("when VM ID isn't spedified", func() {
+		Context("when updating VM state fails due to the resource not found", func() {
 			BeforeEach(func() {
-				controller.UpdateVMWithStateReturns(models.ErrUnknownError)
+				controller.UpdateVMWithStateReturns(models.ErrResourceNotFound)
 			})
 
 			It("responds with an error", func() {

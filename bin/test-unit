@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+(
+  set -e
+
+  base=$( cd "$( dirname "$( dirname "$0" )")" && pwd )
+  base_gopath=$( cd $base/../../../.. && pwd )
+  export GOPATH=$base:$base_gopath
+
+  function printStatus {
+      if [ $? -eq 0 ]; then
+          echo -e "\nSWEET SUITE SUCCESS"
+      else
+          echo -e "\nSUITE FAILURE"
+      fi
+  }
+
+  trap printStatus EXIT
+
+  echo -e "\n Cleaning build artifacts..."
+  go clean
+
+  echo "Start running unit test..."
+  cd src/github.com/cloudfoundry-community/vps
+  ginkgo -r -p --noisyPendings --skipPackage=cmd
+
+  echo -e "\n Vetting packages for potential issues..."
+  go tool vet cmd db models restapi controllers vpslager
+)
