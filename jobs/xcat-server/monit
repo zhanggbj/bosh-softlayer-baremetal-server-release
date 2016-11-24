@@ -1,5 +1,0 @@
-check process xcat-server
-  with pidfile /var/vcap/sys/run/xcat/xcat.pid
-  start program "/var/vcap/jobs/xcat-server/bin/xcat_ctl start" with timeout 360 seconds
-  stop program "/var/vcap/jobs/xcat-server/bin/xcat_ctl stop"
-  group vcap
