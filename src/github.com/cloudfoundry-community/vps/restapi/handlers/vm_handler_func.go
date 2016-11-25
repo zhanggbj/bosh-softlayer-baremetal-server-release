@@ -163,7 +163,7 @@ func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams) middlew
 		}
 	}
 
-	return vm.NewUpdateVMOK().WithPayload("updated successfully")
+	return vm.NewUpdateVMWithStateOK().WithPayload("updated successfully")
 }
 
 func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams) middleware.Responder {
