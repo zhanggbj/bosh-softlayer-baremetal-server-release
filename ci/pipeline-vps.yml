@@ -10,6 +10,7 @@ resources:
 
 - name: version-semver
   type: semver
+  initial_version: 0.0.0
   source:
     key:               current-version
     bucket:            {{s3_pipeline_bucket}}
@@ -26,6 +27,7 @@ resources:
 
 - name: release-version-semver
   type: semver
+  initial_version: 1.0.0
   source:
     key:               release-current-version
     bucket:            {{s3_bosh_softlayer_tools_bucket}}
@@ -49,7 +51,7 @@ jobs:
     - {trigger: false, get: version-semver, params: {bump: patch}, resource: version-semver}
 
   - put: version-semver
-    params: {file: version-semver/number}
+    params: {file: version-semver/vps-number}
 
   - task: build-candidate
     file: vps-release/ci/tasks/build-vps-candidate.yml
@@ -73,7 +75,7 @@ jobs:
         S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
 
   - put: release-version-semver
-    params: {file: release-version-semver/number}
+    params: {file: release-version-semver/vps-number}
 
   - put: vps-final-artifacts
     params: {file: promoted/repo/releases/vps/vps-*\.tgz}
