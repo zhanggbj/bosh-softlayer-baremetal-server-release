@@ -7,7 +7,7 @@ pushd vps-release
 
   mkdir -p blobs/golang_1.7/
   pushd blobs/golang_1.7/
-    wget http://golangtc.com/static/go/1.7/go1.7.linux-amd64.tar.gz
+    wget https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz
   popd
 
 # for debug, remove other jobs and packages
