@@ -1,0 +1,14 @@
+---
+platform: linux
+image: docker:///boshcpi/azure-cpi-release
+inputs:
+  - name: vps-release
+  - name: vps-dev-artifacts
+  - name: release-version-semver
+outputs:
+  - name: promoted
+run:
+  path: vps-release/ci/tasks/promote-vps-candidate.sh
+params:
+  S3_ACCESS_KEY_ID:     replace-me
+  S3_SECRET_ACCESS_KEY: replace-me
