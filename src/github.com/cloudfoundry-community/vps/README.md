@@ -79,5 +79,6 @@ System 'system_localhost'   running
 > **Note:**
 > If any job is not running, run `monit restart` <job-name> to restart it. If this doesn't work out, you can check logs under /var/vcap/sys/log and do further investigation.
 
-- To fully enable virtual guest pooling on SoftLayer, except deploying a VPS, you also need to make director to connect to VPS and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release)
+- To fully enable virtual guest pooling on SoftLayer, except deploying a VPS, you also need to make director to connect to VPS and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release).
+
 
