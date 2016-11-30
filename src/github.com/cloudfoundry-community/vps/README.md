@@ -81,3 +81,4 @@ System 'system_localhost'   running
 
 - To fully enable virtual guest pooling on SoftLayer, except deploying a VPS, you also need to make director to connect to VPS and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release).
 
+
