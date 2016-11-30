@@ -32,6 +32,9 @@ type VMFilter struct {
 	// public vlan
 	PublicVlan int32 `json:"public_vlan,omitempty"`
 
+	// deployment name
+	DeploymentName string `json:"deployment_name,omitempty"`
+
 	// state
 	State State `json:"state,omitempty"`
 }

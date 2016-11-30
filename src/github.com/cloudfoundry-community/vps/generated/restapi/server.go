@@ -14,7 +14,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	graceful "github.com/tylerb/graceful"
 
-	"github.com/cloudfoundry-community/vps/restapi/operations"
+	"github.com/cloudfoundry-community/vps/generated/restapi/operations"
 )
 
 const (

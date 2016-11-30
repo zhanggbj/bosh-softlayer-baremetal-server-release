@@ -8,8 +8,8 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	"github.com/cloudfoundry-community/vps/restapi/operations"
-	"github.com/cloudfoundry-community/vps/restapi/operations/vm"
+	"github.com/cloudfoundry-community/vps/generated/restapi/operations"
+	"github.com/cloudfoundry-community/vps/generated/restapi/operations/vm"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
