@@ -1,6 +1,0 @@
-## Baremetal Provision Server
-
-### Steps to build BPS release
-
- * run: pre_create_release.sh
- * run: bosh create release --force
