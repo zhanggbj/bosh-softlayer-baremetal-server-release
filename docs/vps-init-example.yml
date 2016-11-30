@@ -3,33 +3,37 @@ name: vps
 
 releases:
 - name: postgres
-  url: file://./postgres-release-8.tgz
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=8
+  sha1: 2fa36c58f53318ad3eb2d2c43908ed5275584b6e
 - name: vps
-  url: file://./vps-1.tgz
+  url: https://s3.amazonaws.com/bosh-softlayer-pooling/vps-6.tgz
+  sha1: 5a50dfa6c019221a5fdb3f44c158af6cecfb12ed
 - name: bosh-softlayer-cpi
-  url: file://./bosh-softlayer-cpi-2.3.22.tgz
-  
+  url: https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-0.0.307.tgz
+  sha1: ef17ded2975c40fc08cffdeddf46901a1c49753c
+
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3169.1-softlayer-esxi-ubuntu-trusty-go_agent.tgz
+    url: https://s3.amazonaws.com/bosh-softlayer-stemcells-bluemix/light-bosh-stemcell-3263.10.3-softlayer-xen-ubuntu-trusty-go_agent.tgz
+    sha1: e79079ca9a1aca910fb346d8ae0d02fcc8b688cd
   cloud_properties:
     Domain: softlayer.com
-    VmNamePrefix: vps-test
+    VmNamePrefix: vps-server
     EphemeralDiskSize: 100
     StartCpus: 4
     MaxMemory: 8192
     Datacenter:
-       Name: lon02
+       Name: <datacenter_name>
     HourlyBillingFlag: true
     LocalDiskFlag: true
     PrimaryNetworkComponent:
        NetworkVlan:
-          Id: 524956
+          Id: <public_vlan_id>
     PrimaryBackendNetworkComponent:
        NetworkVlan:
-          Id: 524954
+          Id: <private_vlan_id>
     NetworkComponents:
     - MaxSpeed: 1000
 disk_pools:
@@ -40,7 +44,7 @@ disk_pools:
 networks:
 - name: default
   type: dynamic
-  dns: 
+  dns:
   - 8.8.8.8
 
 jobs:
@@ -48,7 +52,7 @@ jobs:
   instances: 1
 
   templates:
-  - {name: postgres-9.4, release: postgres}
+  - {name: postgres, release: postgres}
   - {name: vps, release: vps}
 
   resource_pool: vms
@@ -57,12 +61,14 @@ jobs:
   - name: default
 
   properties:
-    postgres: &20585760
-      user: postgres
+    databases: &20585760
+      roles:
+      - name: postgres
       password: postgres
-      host: 127.0.0.1
-      database: bosh
-      adapter: postgres
+      address: 127.0.0.1
+      port: 5432
+      databases:
+      - name: bosh
     vps:
       host: 127.0.0.1
       port: 8889
@@ -74,7 +80,7 @@ jobs:
         db_port: 5432
         db_schema: bosh
         db_driver: postgres
-        
+
     softlayer: &softlayer
       username: <username>   <Please replace it with your username>
       apiKey: <apikey>   <Please replace it with your apikey>
@@ -82,18 +88,18 @@ jobs:
     agent: {mbus: "nats://nats:nats@127.0.0.1:4222"}
 
     ntp: &ntp []
- 
+
 cloud_provider:
   template: {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
   # Tells bosh-init how to contact remote agent
-  mbus: https://admin:admin@vps-test.softlayer.com:6868   <Please be consistent with the VmNamePrefix in hostname>
+  mbus: https://admin:admin@vps-server.softlayer.com:6868   <Please be consistent with the VmNamePrefix in hostname>
 
   properties:
     softlayer: *softlayer
 
     # Tells CPI how agent should listen for bosh-init requests
-    agent: {mbus: "https://admin:admin@vps-test.softlayer.com:6868"}   <Please be consistent with the VmNamePrefix in hostname>
+    agent: {mbus: "https://admin:admin@vps-server.softlayer.com:6868"}   <Please be consistent with the VmNamePrefix in hostname>
 
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
 
