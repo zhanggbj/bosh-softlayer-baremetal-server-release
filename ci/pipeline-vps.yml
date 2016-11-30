@@ -1,0 +1,81 @@
+resources:
+- name: vps-release-in
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry-community/bosh-softlayer-baremetal-server-release.git
+    branch: master
+    ignore_paths:
+        - .final_builds/**/*.yml
+        - releases/**/*.yml
+
+- name: version-semver
+  type: semver
+  initial_version: 0.0.0
+  source:
+    key:               current-version
+    bucket:            {{s3_bosh_softlayer_pooling_bucket}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: vps-dev-artifacts
+  type: s3
+  source:
+    regexp: vps-(.*).tgz
+    bucket: {{s3_bosh_softlayer_pooling_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: release-version-semver
+  type: semver
+  initial_version: 0.0.0
+  source:
+    key:               release-current-version
+    bucket:            {{s3_bosh_softlayer_pooling_bucket}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: vps-final-artifacts
+  type: s3
+  source:
+    regexp: vps-([0-9.]+)\.tgz
+    bucket: {{s3_bosh_softlayer_pooling_bucket}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+jobs:
+- name: build-vps-candidate
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: true, get: vps-release, resource: vps-release-in}
+    - {trigger: false, get: version-semver, params: {bump: patch}, resource: version-semver}
+
+  - put: version-semver
+    params: {file: version-semver/number}
+
+  - task: build-candidate
+    file: vps-release/ci/tasks/build-vps-candidate.yml
+
+  - put: vps-dev-artifacts
+    params: {file: candidate/*}
+
+- name: promote-vps-candidate
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: true,  get: vps-dev-artifacts, passed: [build-vps-candidate]}
+    - {trigger: false, get: vps-release, resource: vps-release-in}
+    - {trigger: false, get: release-version-semver, params: {bump: major} }
+
+  - task: promote
+    file: vps-release/ci/tasks/promote-vps-candidate.yml
+    config:
+      params:
+        S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
+        S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
+
+  - put: release-version-semver
+    params: {file: release-version-semver/number}
+
+  - put: vps-final-artifacts
+    params: {file: promoted/repo/releases/vps/vps-*\.tgz}
