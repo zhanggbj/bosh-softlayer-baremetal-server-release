@@ -35,16 +35,6 @@ export GOMAXPROCS=$(nproc)
         raise "unknown driver #{driver}"
       end
     end
-
-    connection_string = p('vps.sql.db_connection_string')
-
-    if connection_string != "" && connection_string_from_db_params != ""
-       raise "You can only specify 'vps.sql.db_connection_string' or '#{db_params.join(",")}'"
-    end
-
-    if connection_string == ""
-       connection_string = connection_string_from_db_params
-    end
 %>
 
 /var/vcap/packages/vps/bin/vps \
@@ -52,6 +42,6 @@ export GOMAXPROCS=$(nproc)
   --host=<%= p("vps.host") %> \
   --port=<%= p("vps.port") %> \
   --databaseDriver=<%= p("vps.sql.db_driver") %> \
-  --databaseConnectionString=<%= Shellwords.shellescape(connection_string) %> \
+  --databaseConnectionString=<%= Shellwords.shellescape(connection_string_from_db_params) %> \
   2> >(tee -a $LOG_DIR/vps.stderr.log | logger -p user.error -t vcap.vps) \
   1> >(tee -a $LOG_DIR/vps.stdout.log | logger -p user.info -t vcap.vps) & echo $! > $PIDFILE

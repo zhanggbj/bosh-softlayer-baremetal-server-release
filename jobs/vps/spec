@@ -36,7 +36,4 @@ properties:
   vps.sql.db_driver:
     description: "Database driver to use for SQL backend (for example: mysql,postgres)"
     default: postgres
-  vps.sql.db_connection_string:
-    description: "Connection string to use for SQL backend. DEPRECATED, use db_{host,port,schema,username,password} instead"
-    default: ""
 
