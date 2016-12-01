@@ -15,7 +15,7 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/cloudfoundry-community/vps/restapi/operations/vm"
+	"github.com/cloudfoundry-community/vps/generated/restapi/operations/vm"
 )
 
 // NewSoftLayerVMPoolAPI creates a new SoftLayerVMPool instance
