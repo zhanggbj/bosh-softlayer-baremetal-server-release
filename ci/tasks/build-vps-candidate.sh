@@ -16,7 +16,7 @@ pushd vps-release
   echo "using bosh CLI version..."
   bosh version
 
-  vps_release_name="bosh-softlayer-pool-server-release"
+  vps_release_name="bosh-softlayer-pool-server"
 
 
   echo "building baremetal server dev release..."
