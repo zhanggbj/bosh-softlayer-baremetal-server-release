@@ -18,7 +18,6 @@ pushd vps-release
 
   vps_release_name="bosh-softlayer-pool-server"
 
-
   echo "building baremetal server dev release..."
   bosh create release --name $vps_release_name --version $semver --with-tarball --force
 popd

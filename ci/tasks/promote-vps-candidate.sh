@@ -19,6 +19,7 @@ cp -r vps-release promoted/repo
 
 dev_release=$(echo $PWD/vps-dev-artifacts/*.tgz)
 final_release_name="bosh-softlayer-pool-server"
+
 pushd promoted/repo
   set +x
   echo creating config/private.yml with blobstore secrets
