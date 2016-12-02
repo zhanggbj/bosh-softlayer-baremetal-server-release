@@ -20,11 +20,7 @@ resources:
 - name: vps-dev-artifacts
   type: s3
   source:
-<<<<<<< HEAD
     regexp: bosh-softlayer-pool-server-(.*).tgz
-=======
-    regexp: bosh-softlayer-pool-server-release-(.*).tgz
->>>>>>> upstream/develop
     bucket: {{s3_bosh_softlayer_pooling_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
