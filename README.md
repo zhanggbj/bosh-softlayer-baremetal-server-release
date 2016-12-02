@@ -43,6 +43,7 @@ jobs:
   - {name: vps, release: bosh-softlayer-pool-server}
 
   resource_pool: vms
+  persistent_disk_pool: disks
 
   networks:
   - name: default
