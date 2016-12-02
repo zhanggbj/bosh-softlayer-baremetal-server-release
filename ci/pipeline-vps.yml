@@ -20,7 +20,7 @@ resources:
 - name: vps-dev-artifacts
   type: s3
   source:
-    regexp: vps-(.*).tgz
+    regexp: bosh-softlayer-pool-server-release-(.*).tgz
     bucket: {{s3_bosh_softlayer_pooling_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -37,7 +37,7 @@ resources:
 - name: vps-final-artifacts
   type: s3
   source:
-    regexp: vps-([0-9.]+)\.tgz
+    regexp: bosh-softlayer-pool-server-release-([0-9.]+)\.tgz
     bucket: {{s3_bosh_softlayer_pooling_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -78,4 +78,4 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: vps-final-artifacts
-    params: {file: promoted/repo/releases/vps/vps-*\.tgz}
+    params: {file: promoted/repo/releases/bosh-softlayer-pool-server-release/bosh-softlayer-pool-server-release-*\.tgz}

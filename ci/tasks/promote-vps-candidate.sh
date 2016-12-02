@@ -18,7 +18,7 @@ echo $integer_version > promoted/integer_version
 cp -r vps-release promoted/repo
 
 dev_release=$(echo $PWD/vps-dev-artifacts/*.tgz)
-
+final_release_name="bosh-softlayer-pool-server-release"
 pushd promoted/repo
   set +x
   echo creating config/private.yml with blobstore secrets
@@ -35,7 +35,7 @@ EOF
   bosh version
 
   echo "finalizing vps release..."
-  bosh finalize release ${dev_release} --version $integer_version
+  bosh finalize release ${dev_release} --version $integer_version --name ${final_release_name}
 
   rm config/private.yml
 popd
