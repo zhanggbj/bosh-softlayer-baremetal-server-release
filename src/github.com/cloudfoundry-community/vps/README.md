@@ -1,20 +1,21 @@
-**BOSH VPS release**
+	
+**BOSH SoftLayer Pool Server Release**
 -------------
 
-VPS(Virtual guests Pooling Server) provides APIs to utilize virtual guests pooling on SoftLayer. This is a BOSH release for VPS.
+BOSH SoftLayer pool server provides APIs to utilize virtual guests pooling on SoftLayer. This is a BOSH release for it.
 
 **Releases and stemcells**
 -------------
-Except VPS release,  following releases are also required.
+Except this release,  following releases are also required.
 
 - [postgres](http://bosh.io/releases/github.com/cloudfoundry/postgres-release) 
 - [bosh-softlayer-cpi](http://bosh.io/releases/github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release) 
 
 SoftLayer light stemcell is needed for deployment and can be found in [bosh.io](http://bosh.io/)
 
-**Bootstrap a VPS on SoftLayer**
+**Bootstrap on SoftLayer**
 -------------
-You can use bosh-init from BOSH community to bootstrap a VPS on SoftLayer.
+You can use bosh-init from BOSH community to bootstrap a pool server on SoftLayer.
 
 - To install bosh-init, please refer to [install-bosh-init](http://bosh.io/docs/install-bosh-init.html) and its usage can be found in [using-bosh-init](http://bosh.io/docs/using-bosh-init.html).
 > **Note:**
@@ -22,13 +23,13 @@ You can use bosh-init from BOSH community to bootstrap a VPS on SoftLayer.
 
 - Prepare a deployment manifest
 
-You can find a deployment manifest example under docs named `vps-init-example.yml` and please replace release, stemcell, resource and credential information accordingly.
+You can find a deployment manifest example under docs named `vps-init-example.yml` which can deploy a virtual guest pooling server and please replace release, stemcell, resource and credential information accordingly.
 > **Note:**
 >  For releases and stemcells, please either use url like the example manifest does or download them to your local machine and specify its location.
 >  
->  - VPS release
->  - postgres release
->  - bosh-softlayer-cpi release
+>  - bosh-softlayer-pool-server-release
+>  - postgres-release
+>  - bosh-softlayer-cpi-release
 >  - SoftLayer light stemcell
 
 Here is an example for key properties of jobs.
@@ -39,7 +40,7 @@ jobs:
 
   templates:
   - {name: postgres, release: postgres}
-  - {name: vps, release: vps}
+  - {name: vps, release: bosh-softlayer-pool-server}
 
   resource_pool: vms
 
@@ -86,4 +87,4 @@ System 'system_localhost'           running
 > **Note:**
 > If any job is not running, run `monit restart` <job-name> to restart it. If this doesn't work out, you can check logs under /var/vcap/sys/log and do further investigation.
 
-- To fully enable virtual guest pooling on SoftLayer, except deploying a VPS, you also need to make director to connect to VPS and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release).
+- To fully enable virtual guest pooling on SoftLayer, except deploying a pool server, you also need to make director to connect to it and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release).
