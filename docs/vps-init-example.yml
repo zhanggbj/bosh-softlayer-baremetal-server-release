@@ -6,8 +6,8 @@ releases:
   url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=8
   sha1: 2fa36c58f53318ad3eb2d2c43908ed5275584b6e
 - name: vps
-  url: https://s3.amazonaws.com/bosh-softlayer-pooling/vps-6.tgz
-  sha1: 5a50dfa6c019221a5fdb3f44c158af6cecfb12ed
+  url: https://s3.amazonaws.com/bosh-softlayer-pooling/bosh-softlayer-pool-server-1.tgz
+  sha1: 487BAFD708111323FA4DB1E7F3CC3A05BB096157
 - name: bosh-softlayer-cpi
   url: https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-0.0.307.tgz
   sha1: ef17ded2975c40fc08cffdeddf46901a1c49753c
@@ -53,9 +53,10 @@ jobs:
 
   templates:
   - {name: postgres, release: postgres}
-  - {name: vps, release: vps}
+  - {name: vps, release: bosh-softlayer-pool-server}
 
   resource_pool: vms
+  persistent_disk_pool: disks
 
   networks:
   - name: default
