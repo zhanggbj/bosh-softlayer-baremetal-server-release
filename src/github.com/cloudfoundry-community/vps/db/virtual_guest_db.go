@@ -1,7 +1,11 @@
 package db
 
 import (
+<<<<<<< HEAD
 	"github.com/cloudfoundry-community/vps/generated/models"
+=======
+	"github.com/cloudfoundry-community/vps/models"
+>>>>>>> upstream/develop
 	"code.cloudfoundry.org/lager"
 )
 

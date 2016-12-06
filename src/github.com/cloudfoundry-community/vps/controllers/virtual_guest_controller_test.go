@@ -8,7 +8,11 @@ import (
 
 	"github.com/cloudfoundry-community/vps/db/dbfakes"
 	"github.com/cloudfoundry-community/vps/controllers"
+<<<<<<< HEAD
 	"github.com/cloudfoundry-community/vps/generated/models"
+=======
+	"github.com/cloudfoundry-community/vps/models"
+>>>>>>> upstream/develop
 
 	"code.cloudfoundry.org/lager/lagertest"
 )

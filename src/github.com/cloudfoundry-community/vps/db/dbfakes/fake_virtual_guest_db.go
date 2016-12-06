@@ -6,7 +6,11 @@ import (
 
 	"code.cloudfoundry.org/lager"
 	"github.com/cloudfoundry-community/vps/db"
+<<<<<<< HEAD
 	"github.com/cloudfoundry-community/vps/generated/models"
+=======
+	"github.com/cloudfoundry-community/vps/models"
+>>>>>>> upstream/develop
 )
 
 type FakeVirtualGuestDB struct {
