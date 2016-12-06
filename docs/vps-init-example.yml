@@ -62,7 +62,7 @@ jobs:
   - name: default
 
   properties:
-    databases: &20585760
+    databases:
       roles:
       - name: postgres
       password: postgres
