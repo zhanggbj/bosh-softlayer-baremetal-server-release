@@ -16,28 +16,30 @@ SoftLayer light stemcell is needed for deployment and can be found the [latest v
 -------------
 You can use bosh-init from BOSH community to bootstrap a pool server on SoftLayer. 
 
-> **Warning:** To fully enable virtual guest pooling on SoftLayer, except deploying a pool server, you also need to make director to connect to it and enable pooling feature. Please refer to guide on [bosh-softlayer-cpi-release](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release).
-
-
-
+> **Warning:** To fully enable virtual guest pooling on SoftLayer, except deploying a pool server, you also need to make director to connect to it and enable pooling feature. Please refer to release note of [bosh-softlayer-cpi-release v3.0.1](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release/releases/tag/v3.0.1).
 
 > **Note:** 
-> In bosh CLI v2, bosh-init is deprecated and use `bosh create-env` instead.
+> In BOSH CLI v2, bosh-init is deprecated and use `bosh create-env` instead(We'll update when BOSH CLI v2 releases).
 
 - To install bosh-init, please refer to [install-bosh-init](http://bosh.io/docs/install-bosh-init.html) and its usage can be found in [using-bosh-init](http://bosh.io/docs/using-bosh-init.html).
 > **Note:**
->  Please make sure the machine installed bosh-init can access SoftLayer private network and you can enable SoftLayer VPN if it is outside of SoftLayer data center. This is because it need to communicate with the target VM over SoftLayer private network to accomplish a successful deployment.
+>  Please make sure the machine installed bosh-init can access SoftLayer private network and you can enable SoftLayer VPN if it is outside of SoftLayer data center. This is because it needs to communicate with the target VM over SoftLayer private network to accomplish a successful deployment.
 
 - Prepare a deployment manifest
 
 You can find a deployment manifest example under docs named [vps-init-example.yml](https://github.com/cloudfoundry-community/bosh-softlayer-pool-server-release/tree/develop/docs) which can deploy a virtual guest pooling server and please replace release, stemcell, resource and credential information accordingly.
 > **Note:**
 >  For releases and stemcells, please either use url like the example manifest does or download them to your local machine and specify its location.
->  
->  - bosh-softlayer-pool-server-release
->  - postgres-release
->  - bosh-softlayer-cpi-release
->  - SoftLayer light stemcell
+```
+# Download BOSH SoftLayer Pool Server Release v1
+$ wget https://s3.amazonaws.com/bosh-softlayer-pooling/bosh-softlayer-pool-server-1.tgz
+# Download the latest postgres
+$ wget https://bosh.io/d/github.com/cloudfoundry/postgres-release
+# Download the latest BOSH SoftLayer CPI release
+$ wget https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release
+# Download the latest BOSH softlayer ligh stemcell
+$ wget https://bosh.io/d/stemcells/bosh-softlayer-xen-ubuntu-trusty-go_agent
+```
 
 Here is an example for key properties of jobs.
 ```
@@ -58,29 +60,29 @@ jobs:
   properties:
     databases:
       roles:
-      - name: postgres
+      - name: postgres              
       password: postgres
       address: 127.0.0.1
-      port: 5432
+      port: 5432                  # <-- Port of postgres. Default is 5432.
       databases:
       - name: bosh
     vps:
       host: 0.0.0.0
-      port: 8889
+      port: 8889                  # <-- Port of vm pool server. Default is 8889.
       log_level: debug
       sql:
-        db_username: postgres
-        db_password: postgres
-        db_host: 127.0.0.1
-        db_port: 5432
-        db_schema: bosh
+        db_username: postgres     # <-- keep it consistent with postgres databases:roles:name
+        db_password: postgres     # <-- keep it consistent with postgres databases:roles:password
+        db_host: 127.0.0.1        # <-- keep it consistent with postgres databases:roles:address
+        db_port: 5432             # <-- keep it consistent with postgres databases:roles:port
+        db_schema: bosh           # <-- keep it consistent with postgres databases:databases:name
         db_driver: postgres
 
 ```
 - Kick-off deployment. You will got an output during deploying as below.
 
 ```
-bosh-init deploy <your-manifest.yml>
+$ bosh-init deploy <your-manifest.yml>
 
 Started validating
   Validating release 'postgres'... Finished (00:00:00)
