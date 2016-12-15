@@ -13,6 +13,7 @@ import (
 type Args struct {
 	LogLevel                 string
 	Host                     string
+	Scheme 			 string
 	Port                     string
 	DatabaseDriver           string
 	DatabaseConnectionString string
@@ -35,6 +36,7 @@ var _ = Describe("Virtual Pool Server", func() {
 		It("start virtual pool server and query all vms", func() {
 			vpsArgs = Args{
 				LogLevel:                 "debug",
+				Scheme:			  "http",
 				Host:                     "127.0.0.1",
 				Port:                     "8889",
 				DatabaseDriver:           "postgres",
@@ -47,7 +49,7 @@ var _ = Describe("Virtual Pool Server", func() {
 			Ω(err).ShouldNot(HaveOccurred())
 
 			time.Sleep(20*time.Second)
-			resp, err := http.Get(fmt.Sprintf("http://%s:%s/v2/vms", vpsArgs.Host, vpsArgs.Port))
+			resp, err := http.Get(fmt.Sprintf("http://admin:pass@%s:%s/v2/vms", vpsArgs.Host, vpsArgs.Port))
 			if err != nil {
 				fmt.Println(err.Error())
 			}
@@ -67,6 +69,7 @@ var _ = Describe("Virtual Pool Server", func() {
 func (args Args) argSlice() []string {
 	arguments := []string{
 		"--logLevel", args.LogLevel,
+		"--scheme",  args.Scheme,
 		"--host", args.Host,
 		"--port", args.Port,
 		"--databaseDriver", args.DatabaseDriver,
