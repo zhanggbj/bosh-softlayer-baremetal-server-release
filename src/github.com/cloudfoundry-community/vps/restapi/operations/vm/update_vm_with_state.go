@@ -6,21 +6,20 @@ package vm
 import (
 	"net/http"
 
-	"github.com/cloudfoundry-community/vps/models"
 	middleware "github.com/go-openapi/runtime/middleware"
 )
 
 // UpdateVMWithStateHandlerFunc turns a function with the right signature into a update Vm with state handler
-type UpdateVMWithStateHandlerFunc func(UpdateVMWithStateParams, *models.User) middleware.Responder
+type UpdateVMWithStateHandlerFunc func(UpdateVMWithStateParams) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn UpdateVMWithStateHandlerFunc) Handle(params UpdateVMWithStateParams, principal *models.User) middleware.Responder {
-	return fn(params, principal)
+func (fn UpdateVMWithStateHandlerFunc) Handle(params UpdateVMWithStateParams) middleware.Responder {
+	return fn(params)
 }
 
 // UpdateVMWithStateHandler interface for that can handle valid update Vm with state params
 type UpdateVMWithStateHandler interface {
-	Handle(UpdateVMWithStateParams, *models.User) middleware.Responder
+	Handle(UpdateVMWithStateParams) middleware.Responder
 }
 
 // NewUpdateVMWithState creates a new http.Handler for the update Vm with state operation
@@ -42,22 +41,12 @@ func (o *UpdateVMWithState) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, _ := o.Context.RouteInfo(r)
 	var Params = NewUpdateVMWithStateParams()
 
-	uprinc, err := o.Context.Authorize(r, route)
-	if err != nil {
-		o.Context.Respond(rw, r, route.Produces, route, err)
-		return
-	}
-	var principal *models.User
-	if uprinc != nil {
-		principal = uprinc.(*models.User) // this is really a models.User, I promise
-	}
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
-	res := o.Handler.Handle(Params, principal) // actually handle the request
+	res := o.Handler.Handle(Params) // actually handle the request
 
 	o.Context.Respond(rw, r, route.Produces, route, res)
 

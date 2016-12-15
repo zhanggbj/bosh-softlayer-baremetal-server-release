@@ -15,7 +15,6 @@ host: vps.swagger.io
 basePath: /v2
 schemes:
   - http
-  - https
 securityDefinitions:
   basicAuth:
     type: basic
@@ -23,8 +22,6 @@ securityDefinitions:
 paths:
   /vms:
     post:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Add a new vm to the pool
@@ -51,8 +48,6 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     get:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: List vms of the pool
@@ -72,8 +67,6 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     put:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Update an existing vm
@@ -103,8 +96,6 @@ paths:
             $ref: "#/definitions/Error"
   /vms/findByFilters:
     post:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Finds Vms by filters (cpu, memory, private_vlan, public_vlan, state)
@@ -134,8 +125,6 @@ paths:
             $ref: "#/definitions/Error"
   /vms/order:
     post:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Order a free vm by filters (cpu, memory, private_vlan, public_vlan, state)
@@ -165,8 +154,6 @@ paths:
             $ref: "#/definitions/Error"
   /vms/findByDeployment:
     get:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Finds Vms by deployment name
@@ -196,8 +183,6 @@ paths:
             $ref: "#/definitions/Error"
   /vms/findByState:
     get:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Finds Vms by states
@@ -227,8 +212,6 @@ paths:
             $ref: "#/definitions/Error"
   /vms/{cid}:
     get:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Find vm by ID
@@ -255,8 +238,6 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     put:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Updates a vm in the pool with state
@@ -291,8 +272,6 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     delete:
-      security:
-       - basicAuth: []
       tags:
         - vm
       summary: Deletes a vm from pool

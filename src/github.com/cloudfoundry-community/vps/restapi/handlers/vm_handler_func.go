@@ -36,7 +36,7 @@ type VMHandler struct {
 	controller VirtualGuestController
 }
 
-func (h *VMHandler) AddVM (params vm.AddVMParams, user *models.User) middleware.Responder {
+func (h *VMHandler) AddVM (params vm.AddVMParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("add-vm")
 
@@ -51,7 +51,7 @@ func (h *VMHandler) AddVM (params vm.AddVMParams, user *models.User) middleware.
 	return vm.NewAddVMOK().WithPayload("added successfully")
 }
 
-func (h *VMHandler) OrderVmByFilter(params vm.OrderVMByFilterParams, user *models.User) middleware.Responder {
+func (h *VMHandler) OrderVmByFilter(params vm.OrderVMByFilterParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("order-vm-by-filter")
 
@@ -72,7 +72,7 @@ func (h *VMHandler) OrderVmByFilter(params vm.OrderVMByFilterParams, user *model
 	return vm.NewOrderVMByFilterOK().WithPayload(response)
 }
 
-func (h *VMHandler) UpdateVM (params vm.UpdateVMParams, user *models.User) middleware.Responder {
+func (h *VMHandler) UpdateVM (params vm.UpdateVMParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("update-vm")
 
@@ -87,7 +87,7 @@ func (h *VMHandler) UpdateVM (params vm.UpdateVMParams, user *models.User) middl
 	return vm.NewUpdateVMOK().WithPayload("updated successfully")
 }
 
-func (h *VMHandler) DeleteVM(params vm.DeleteVMParams, user *models.User)  middleware.Responder {
+func (h *VMHandler) DeleteVM(params vm.DeleteVMParams)  middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("delete-vm")
 
@@ -106,7 +106,7 @@ func (h *VMHandler) DeleteVM(params vm.DeleteVMParams, user *models.User)  middl
 }
 
 
-func (h *VMHandler) GetVMByCid(params vm.GetVMByCidParams, user *models.User) middleware.Responder {
+func (h *VMHandler) GetVMByCid(params vm.GetVMByCidParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("get-vm-by-cid")
 
@@ -126,7 +126,7 @@ func (h *VMHandler) GetVMByCid(params vm.GetVMByCidParams, user *models.User) mi
 	return vm.NewGetVMByCidOK().WithPayload(response)
 }
 
-func (h *VMHandler) ListVM(params vm.ListVMParams, user *models.User) middleware.Responder {
+func (h *VMHandler) ListVM(params vm.ListVMParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("list-vms")
 
@@ -146,7 +146,7 @@ func (h *VMHandler) ListVM(params vm.ListVMParams, user *models.User) middleware
 	return vm.NewListVMOK().WithPayload(response)
 }
 
-func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams, user *models.User) middleware.Responder {
+func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("update-vm-with-state")
 
@@ -166,7 +166,7 @@ func (h *VMHandler) UpdateVMWithState(params vm.UpdateVMWithStateParams, user *m
 	return vm.NewUpdateVMWithStateOK().WithPayload("updated successfully")
 }
 
-func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams, user *models.User) middleware.Responder {
+func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("find-vms-by-filter")
 
@@ -187,7 +187,7 @@ func (h *VMHandler) FindVmsByFilters(params vm.FindVmsByFiltersParams, user *mod
 	return vm.NewFindVmsByFiltersOK().WithPayload(response)
 }
 
-func (h *VMHandler) FindVmsByDeployment(params vm.FindVmsByDeploymentParams, user *models.User) middleware.Responder {
+func (h *VMHandler) FindVmsByDeployment(params vm.FindVmsByDeploymentParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("find-vms-by-deployment")
 
@@ -204,7 +204,7 @@ func (h *VMHandler) FindVmsByDeployment(params vm.FindVmsByDeploymentParams, use
 	return vm.NewFindVmsByDeploymentOK().WithPayload(response)
 }
 
-func (h *VMHandler) FindVmsByStates(params vm.FindVmsByStatesParams, user *models.User) middleware.Responder {
+func (h *VMHandler) FindVmsByStates(params vm.FindVmsByStatesParams) middleware.Responder {
 	var err error
 	h.logger = h.logger.ReSession("find-vms-by-state")
 

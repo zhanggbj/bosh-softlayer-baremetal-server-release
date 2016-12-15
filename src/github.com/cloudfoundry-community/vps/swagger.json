@@ -16,8 +16,7 @@
     "host": "vps.swagger.io",
     "basePath": "/v2",
     "schemes": [
-        "http",
-        "https"
+        "http"
     ],
     "securityDefinitions": {
         "basicAuth": {
@@ -28,11 +27,6 @@
     "paths": {
         "/vms": {
             "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -72,11 +66,6 @@
                 }
             },
             "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -105,11 +94,6 @@
                 }
             },
             "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -154,11 +138,6 @@
         },
         "/vms/findByFilters": {
             "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -203,11 +182,6 @@
         },
         "/vms/order": {
             "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -252,11 +226,6 @@
         },
         "/vms/findByDeployment": {
             "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -300,11 +269,6 @@
         },
         "/vms/findByState": {
             "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -348,11 +312,6 @@
         },
         "/vms/{cid}": {
             "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -391,11 +350,6 @@
                 }
             },
             "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],
@@ -446,11 +400,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "tags": [
                     "vm"
                 ],

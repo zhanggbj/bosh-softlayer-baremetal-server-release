@@ -21,14 +21,12 @@ var _ = Describe("VmHandlerFunc", func() {
 
 		handler *handlers.VMHandler
 
-		principal *models.User
 	)
 
 	BeforeEach(func() {
 		logger = lagertest.NewTestLogger("test")
 		controller = &fake_controllers.FakeVirtualGuestController{}
 		handler = handlers.NewVmHandler(logger, controller)
-		principal = &models.User{}
 	})
 
 	Describe("AddVM", func() {
@@ -52,7 +50,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.AddVM(params, principal)
+			responseResponder = handler.AddVM(params)
 		})
 
 		Context("when the virtual guest is added successful", func() {
@@ -100,7 +98,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.OrderVmByFilter(params, principal)
+			responseResponder = handler.OrderVmByFilter(params)
 		})
 
 		Context("when ordering a VM by filter succeeds", func() {
@@ -177,7 +175,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.UpdateVM(params, principal)
+			responseResponder = handler.UpdateVM(params)
 		})
 
 		Context("when updating virtual guests fails with an unexpected error", func() {
@@ -218,7 +216,7 @@ var _ = Describe("VmHandlerFunc", func() {
 			})
 
 			JustBeforeEach(func() {
-				responseResponder = handler.DeleteVM(params, principal)
+				responseResponder = handler.DeleteVM(params)
 			})
 
 			Context("when deleting the virtual guest succeeds", func() {
@@ -272,7 +270,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.GetVMByCid(params, principal)
+			responseResponder = handler.GetVMByCid(params)
 		})
 
 		Context("when reading a virtual guest from the controller succeeds", func() {
@@ -336,7 +334,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.ListVM(params, principal)
+			responseResponder = handler.ListVM(params)
 		})
 
 		Context("when reading virtual guests from controller succeeds", func() {
@@ -399,7 +397,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.UpdateVMWithState(params, principal)
+			responseResponder = handler.UpdateVMWithState(params)
 		})
 
 		Context("when updating VM state fails due to the resource not found", func() {
@@ -461,7 +459,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.FindVmsByFilters(params, principal)
+			responseResponder = handler.FindVmsByFilters(params)
 		})
 
 		Context("when filter is empty and finding VMs by filter succeeds", func() {
@@ -549,7 +547,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.FindVmsByDeployment(params, principal)
+			responseResponder = handler.FindVmsByDeployment(params)
 		})
 
 		Context("when finding VMs by deployments succeeds", func() {
@@ -605,7 +603,7 @@ var _ = Describe("VmHandlerFunc", func() {
 		})
 
 		JustBeforeEach(func() {
-			responseResponder = handler.FindVmsByStates(params, principal)
+			responseResponder = handler.FindVmsByStates(params)
 		})
 
 		Context("when finding VMs by states succeeds", func() {

@@ -11,11 +11,9 @@ import (
 	"github.com/cloudfoundry-community/vps/restapi/operations/vm"
 	"github.com/cloudfoundry-community/vps/restapi/handlers"
 	"github.com/cloudfoundry-community/vps/db"
-	"github.com/cloudfoundry-community/vps/models"
 	"github.com/cloudfoundry-community/vps/controllers"
 
 	"code.cloudfoundry.org/lager"
-	"strings"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
@@ -41,16 +39,6 @@ db db.DB,
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
-
-	api.BasicAuthAuth = func(user string, pass string) (*models.User, error) {
-		if strings.EqualFold(user, "admin") && strings.EqualFold(pass, "pass"){
-			return &models.User{
-				Username: user,
-				Password: pass,
-			}, nil
-		}
-		return nil, errors.Unauthenticated(user)
-	}
 
 	vmController := controllers.NewVirtualGuestController(db)
 	vmHandler := handlers.NewVmHandler(logger,vmController)
