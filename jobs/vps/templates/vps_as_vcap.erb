@@ -10,16 +10,6 @@ PIDFILE=$RUN_DIR/vps.pid
 
 export GOMAXPROCS=$(nproc)
 
-<% if p("vps.tls.required") %>
-  url_scheme="https"
-  vps_sec_flags=" \
-   --scheme https \
-   --tls-host=<%= p("vps.tls.host") %> \
-   --tls-port=<%= p("vps.tls.port") %> \
-   --tls-certificate=${CONF_DIR}/certs/server.pem \
-   --tls-key=${CONF_DIR}/certs/server.key"
-<% end %>
-
 <%
     def db_params
       ['username', 'password', 'host', 'port', 'schema'].map {|name| "vps.sql.db_#{name}"}
@@ -49,12 +39,16 @@ export GOMAXPROCS=$(nproc)
 
 /var/vcap/packages/vps/bin/vps \
   --logLevel=<%= p("vps.log_level") %> \
-  <% if p("vps.tls.required") %>
-    ${vps_sec_flags}
-  <% else %>
+  <% if p("vps.tls.required") %> \
+   --scheme https \
+   --tls-host=<%= p("vps.tls.host") %> \
+   --tls-port=<%= p("vps.tls.port") %> \
+   --tls-certificate=${CONF_DIR}/certs/server.pem \
+   --tls-key=${CONF_DIR}/certs/server.key"
+  <% else %> \
     --host=<%= p("vps.host") %> \
     --port=<%= p("vps.port") %> \
-  <% end %>
+  <% end %> \
   --databaseDriver=<%= p("vps.sql.db_driver") %> \
   --databaseConnectionString=<%= Shellwords.shellescape(connection_string_from_db_params) %> \
   2> >(tee -a $LOG_DIR/vps.stderr.log | logger -p user.error -t vcap.vps) \
