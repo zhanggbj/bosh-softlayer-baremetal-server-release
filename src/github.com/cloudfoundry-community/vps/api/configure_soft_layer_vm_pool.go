@@ -62,6 +62,7 @@ db db.DB,
 // The TLS configuration before HTTPS server starts.
 func configureTLS(tlsConfig *tls.Config) {
 	// Make all necessary changes to the TLS configuration here.
+	tlsConfig.InsecureSkipVerify = true
 }
 
 // The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
