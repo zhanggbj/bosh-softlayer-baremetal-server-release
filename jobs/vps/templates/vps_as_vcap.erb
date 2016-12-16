@@ -44,7 +44,7 @@ export GOMAXPROCS=$(nproc)
    --tls-host=<%= p("vps.tls.host") %> \
    --tls-port=<%= p("vps.tls.port") %> \
    --tls-certificate=${CONF_DIR}/certs/server.pem \
-   --tls-key=${CONF_DIR}/certs/server.key"
+   --tls-key=${CONF_DIR}/certs/server.key \
   <% else %> \
     --host=<%= p("vps.host") %> \
     --port=<%= p("vps.port") %> \
