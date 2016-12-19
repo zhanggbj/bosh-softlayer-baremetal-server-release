@@ -40,7 +40,7 @@ export GOMAXPROCS=$(nproc)
 /var/vcap/packages/vps/bin/vps \
   --logLevel=<%= p("vps.log_level") %> \
   <% if p("vps.tls.required") %> \
-   --scheme https \
+   --scheme=https \
    --tls-host=<%= p("vps.tls.host") %> \
    --tls-port=<%= p("vps.tls.port") %> \
    --tls-certificate=${CONF_DIR}/certs/server.pem \
