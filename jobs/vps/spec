@@ -4,6 +4,8 @@ templates:
   vps_ctl.erb: bin/vps_ctl
   vps_as_vcap.erb: bin/vps_as_vcap
   pid_utils.sh.erb: bin/pid_utils.sh
+  vps_server.pem.erb: config/certs/server.pem
+  vps_server.key.erb: config/certs/server.key
 
 packages:
   - vps
@@ -39,4 +41,16 @@ properties:
   vps.sql.db_connection_string:
     description: "Connection string to use for SQL backend. DEPRECATED, use db_{host,port,schema,username,password} instead"
     default: ""
-
+  vps.tls.required:
+    description: "require ssl for all communication in vps"
+    default: true
+  vps.tls.host:
+    description: "host at which to serve secure API requests"
+    default: "0.0.0.0"
+  vps.tls.port:
+    description: "port at which to serve secure API requests"
+    default: "443"
+  vps.tls.server_pem:
+    description: "PEM-encoded CA certificate"
+  vps.tls.server_key:
+    description: "PEM-encoded client key"
