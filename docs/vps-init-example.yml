@@ -62,7 +62,7 @@ jobs:
   - name: default
 
   properties:
-    databases: &20585760
+    databases:
       roles:
       - name: postgres
       password: postgres
@@ -81,6 +81,12 @@ jobs:
         db_port: 5432
         db_schema: bosh
         db_driver: postgres
+      tls:
+        required: true         <Please set to 'true' if you need to enable https>
+        host: 0.0.0.0          <Host at which to serve secure API requests>
+        port: 443              <Port at which to serve secure API requests>
+        server_pem:            <Please provide server certificate >
+        server_key:            <Please provide server key>
 
     softlayer: &softlayer
       username: <username>   <Please replace it with your username>
