@@ -77,6 +77,12 @@ jobs:
         db_port: 5432             # <-- keep it consistent with postgres databases:roles:port
         db_schema: bosh           # <-- keep it consistent with postgres databases:databases:name
         db_driver: postgres
+      tls:
+        required: true            # <-- Please set to 'true' if you need to enable https.
+        host: 0.0.0.0             # <-- Host at which to serve secure API requests. Default is 0.0.0.0.
+        port: 443                 # <-- Port at which to serve secure API requests. Default is 443.
+        server_pem:               # <-- Please provide server certificate.
+        server_key:               # <-- Please provide server key.
 
 ```
 - Kick-off deployment. You will got an output during deploying as below.
