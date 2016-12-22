@@ -27,7 +27,7 @@ resources:
 
 - name: release-version-semver
   type: semver
-  initial_version: 0.0.0
+  initial_version: 1.0.0
   source:
     key:               release-current-version
     bucket:            {{s3_bosh_softlayer_pooling_bucket}}
@@ -42,12 +42,19 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
+- name: vps-final-release-out
+  type: git
+  source:
+    uri: git@github.com:zhanggbj/bosh-softlayer-pool-server-release.git
+    branch: develop
+    private_key: {{github_private_key_zhanggbj}}
+
 jobs:
 - name: build-vps-candidate
   serial: true
   plan:
   - aggregate:
-    - {trigger: true, get: vps-release, resource: vps-release-in}
+    - {trigger: false, get: vps-release, resource: vps-release-in}
     - {trigger: false, get: version-semver, params: {bump: patch}, resource: version-semver}
 
   - put: version-semver
@@ -63,7 +70,7 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {trigger: true,  get: vps-dev-artifacts, passed: [build-vps-candidate]}
+    - {trigger: false,  get: vps-dev-artifacts, passed: [build-vps-candidate]}
     - {trigger: false, get: vps-release, resource: vps-release-in}
     - {trigger: false, get: release-version-semver, params: {bump: major} }
 
@@ -76,6 +83,9 @@ jobs:
 
   - put: release-version-semver
     params: {file: release-version-semver/number}
+
+  - put: vps-final-release-out
+    params: {repository: promoted/repo, rebase: true, tag_prefix: "v", tag: promoted/integer_version}
 
   - put: vps-final-artifacts
     params: {file: promoted/repo/releases/bosh-softlayer-pool-server/bosh-softlayer-pool-server-*\.tgz}
