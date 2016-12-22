@@ -39,6 +39,13 @@ EOF
   bosh finalize release ${dev_release} --version $integer_version --name ${final_release_name}
 
   rm config/private.yml
+
+  git diff | cat
+  git add .
+
+  git config --global user.email zhanggbj@cn.ibm.com
+  git config --global user.name zhanggbj
+  git commit -m "New final release v $integer_version"
 popd
 
 
