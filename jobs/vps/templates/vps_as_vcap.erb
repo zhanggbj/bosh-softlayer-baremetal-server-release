@@ -39,8 +39,16 @@ export GOMAXPROCS=$(nproc)
 
 /var/vcap/packages/vps/bin/vps \
   --logLevel=<%= p("vps.log_level") %> \
-  --host=<%= p("vps.host") %> \
-  --port=<%= p("vps.port") %> \
+  <% if p("vps.tls.required") %> \
+   --scheme=https \
+   --tls-host=<%= p("vps.tls.host") %> \
+   --tls-port=<%= p("vps.tls.port") %> \
+   --tls-certificate=${CONF_DIR}/certs/server.pem \
+   --tls-key=${CONF_DIR}/certs/server.key \
+  <% else %> \
+    --host=<%= p("vps.host") %> \
+    --port=<%= p("vps.port") %> \
+  <% end %> \
   --databaseDriver=<%= p("vps.sql.db_driver") %> \
   --databaseConnectionString=<%= Shellwords.shellescape(connection_string_from_db_params) %> \
   2> >(tee -a $LOG_DIR/vps.stderr.log | logger -p user.error -t vcap.vps) \
